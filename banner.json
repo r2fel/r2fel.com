@@ -1,0 +1,20 @@
+{
+  "phone": {
+    "on": false,
+    "video": "https://r2fel.com/ads/phone-1793265390751.mp4",
+    "image": "",
+    "link": "https://klops.ru",
+    "seconds": 5,
+    "skipAfter": 3,
+    "skippable": true
+  },
+  "desktop": {
+    "on": false,
+    "video": "https://r2fel.com/ads/desktop-1793266389758.mp4",
+    "image": "",
+    "link": "https://nasa.gov",
+    "seconds": 5,
+    "skipAfter": 3,
+    "skippable": true
+  }
+}

@@ -1,0 +1,1147 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="google-site-verification" content="dubu0DjmE4Dn9UgI40hFgIibc6vJgqlARsd6HaOOG-U" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>R2FEL HamLog — free ham radio logbook for Mac and Windows</title>
+<link rel="canonical" href="https://r2fel.com/">
+<link rel="alternate" hreflang="en" href="https://r2fel.com/">
+<link rel="alternate" hreflang="ru" href="https://r2fel.com/ru/">
+<link rel="alternate" hreflang="x-default" href="https://r2fel.com/">
+<meta name="description" content="Free ham radio logbook for macOS and Windows: callsign lookup (QRZ.RU, HamQTH, QRZ.com), weather, local time and bearing, DX cluster, Morse (CW) decoder, pileups, contests, LoTW, eQSL, award.srr.ru, ADIF, Cabrillo. Бесплатный аппаратный журнал для Mac и Windows.">
+<meta property="og:title" content="R2FEL HamLog">
+<meta property="og:description" content="A free ham radio logbook that looks up the station you're working. macOS and Windows.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://r2fel.com/img/og-en.jpg">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:url" content="https://r2fel.com/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "R2FEL HamLog",
+  "alternateName": ["R2FEL-LOG", "R2FEL Ham Log"],
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "macOS, Windows 7, Windows 8, Windows 10, Windows 11",
+  "description": "Free ham radio logbook: callsign lookup, weather and local time, DX cluster, Morse decoder, LoTW, eQSL, ADIF, Cabrillo.",
+  "url": "https://r2fel.com/",
+  "downloadUrl": "https://github.com/r2fel/hamlog/releases/latest",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Person", "name": "Aleksei Aleksandrov", "alternateName": "R2FEL" },
+  "sameAs": ["https://github.com/r2fel/hamlog"]
+}
+</script>
+<link rel="icon" type="image/png" href="img/icon-192.png">
+<link rel="apple-touch-icon" href="img/icon-180.png">
+<link rel="stylesheet" href="fonts/fonts.css">
+<script>
+  // Russian for anyone whose browser speaks Russian (or chose it here before).
+  (function () {
+    var l = null;
+    try { l = localStorage.getItem('lang'); } catch (e) {}
+    if (!l) l = /^(ru|be|kk)\b/i.test(navigator.language || '') ? 'ru' : 'en';
+    document.documentElement.setAttribute('data-lang', l);
+    document.documentElement.lang = l;
+  })();
+</script>
+<style>
+  /* The program's own palette (public/index.html, #qso-root) — no new colours here. */
+  :root {
+    --chassis: #1c1b19;
+    --panel: #26241f;
+    --panel-raised: #2f2c26;
+    --line: #443f37;
+    --paper: #ece7d8;
+    --text: #ece7d8;
+    --text-dim: #9c9587;
+    --ink: #14130f;
+    --amber: #e8a23d;
+    --amber-dim: #a97a3a;
+    --green: #7ea36b;
+    --green-line: #4a6340;
+    --radius-s: 4px;
+    --radius-m: 8px;
+    --radius-l: 14px;
+    --radius-pill: 999px;
+    --font-cond: 'Roboto Condensed', 'Arial Narrow', sans-serif;
+    --font-label: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    --font-text: 'IBM Plex Sans', -apple-system, 'Segoe UI', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--chassis); color-scheme: dark; overflow-x: clip; }
+  body {
+    margin: 0;
+    background: var(--chassis);
+    color: var(--text);
+    font-family: var(--font-text);
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  html[data-lang="en"] .ru, html[data-lang="ru"] .en { display: none !important; }
+  a { color: var(--amber); text-decoration-color: var(--amber-dim); text-underline-offset: 3px; }
+  a:hover { text-decoration-color: var(--amber); }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+  /* Header */
+  header { border-bottom: 1px solid var(--line); }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+  .mark { display: flex; align-items: center; gap: 9px; text-decoration: none; }
+  .mark-call {
+    font-family: var(--font-mono); font-weight: 700; font-size: 15px; line-height: 1;
+    letter-spacing: .16em; color: var(--ink); background: var(--amber);
+    border-radius: var(--radius-s); padding: 5px 8px 4px; padding-left: calc(8px + .16em);
+  }
+  .mark-name {
+    font-family: var(--font-label); font-weight: 700; font-size: 30px; line-height: 1;
+    letter-spacing: .06em; color: var(--paper);
+  }
+  .langs { display: flex; gap: 4px; }
+  .langs button {
+    font-family: var(--font-label); font-weight: 600; font-size: 15px; letter-spacing: .08em;
+    background: none; border: 1px solid var(--line); color: var(--text-dim);
+    border-radius: var(--radius-s); padding: 4px 10px; cursor: pointer;
+  }
+  .langs button[aria-pressed="true"] { color: var(--amber); border-color: var(--amber-dim); }
+
+  /* Hero */
+  .hero { padding: 64px 0 40px; }
+  .eyebrow {
+    font-family: var(--font-label); font-weight: 600; font-size: 15px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--amber); margin: 0 0 14px;
+  }
+  h1 {
+    font-family: var(--font-cond); font-weight: 700; font-size: clamp(34px, 5.4vw, 54px);
+    line-height: 1.08; margin: 0 0 20px;
+  }
+  h1 em { font-style: normal; color: var(--amber); }
+  .lead { font-size: 19px; color: var(--text); max-width: 60ch; margin: 0 0 12px; }
+  .lead-dim { color: var(--text-dim); max-width: 60ch; margin: 0; }
+  .hero-top { display: flex; gap: 40px; align-items: center; justify-content: space-between; }
+  .banner {
+    width: 300px; height: auto; flex: none; border: 1px solid var(--line);
+    border-radius: var(--radius-m); transform: rotate(2deg);
+  }
+
+  /* Downloads */
+  .dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 36px 0 14px; }
+  .dl a {
+    display: flex; flex-direction: column; gap: 2px; text-decoration: none;
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-m);
+    padding: 16px 18px; color: var(--text); transition: border-color .15s, background .15s;
+  }
+  .dl a:hover { border-color: var(--amber-dim); background: var(--panel-raised); }
+  .dl a.primary { background: var(--amber); border-color: var(--amber); color: var(--ink); }
+  .dl a.primary:hover { background: #f0ad4a; }
+  .dl .os {
+    font-family: var(--font-label); font-weight: 700; font-size: 24px; letter-spacing: .04em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .dl .os::before { content: "⬇"; font-size: 18px; }
+  .dl .for { font-size: 14px; color: var(--text-dim); }
+  .dl a.primary .for { color: var(--ink); opacity: .75; }
+  .dl .file { font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); margin-top: 6px; word-break: break-all; }
+  .dl a.primary .file { color: var(--ink); opacity: .6; }
+  .dl.two { grid-template-columns: repeat(2, 1fr); margin: 18px 0 14px; }
+  .why { margin: 0 0 18px; }
+  .why summary { cursor: pointer; font-family: var(--font-cond); font-weight: 700; font-size: 20px; }
+  .why[open] summary { margin-bottom: 10px; }
+  .steps { margin: 0 0 12px 20px; padding: 0; color: var(--text-dim); }
+  .steps li { margin: 0 0 6px; }
+  .steps b { color: var(--text); font-weight: 600; }
+  .heart { margin: 56px 0; }
+  .heart-in { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 28px; padding: 34px 36px; border-radius: var(--radius-l); overflow: hidden;
+    background: radial-gradient(120% 160% at 0% 0%, rgba(232,162,61,.28), transparent 55%), linear-gradient(135deg, #2f2a20, #211f1a);
+    border: 1px solid var(--amber-dim); box-shadow: 0 0 0 1px rgba(232,162,61,.12), 0 18px 60px rgba(232,162,61,.12); }
+  .heart-ic { width: 64px; height: 64px; fill: var(--amber); filter: drop-shadow(0 0 14px rgba(232,162,61,.65)); animation: heart-b 2.6s ease-in-out infinite; }
+  @keyframes heart-b { 0%, 100% { transform: scale(1); } 12% { transform: scale(1.14); } 24% { transform: scale(1); } 36% { transform: scale(1.1); } 48% { transform: scale(1); } }
+  .heart-tx { min-width: 0; }
+  .heart .heart-tx h2 { text-transform: none; letter-spacing: 0; border: 0; padding: 0; color: var(--paper); margin: 0 0 8px; font-size: clamp(24px, 3.2vw, 34px); text-wrap: balance; }
+  .heart-tx p { margin: 0; color: var(--text-dim); max-width: 60ch; }
+  .heart-btn { box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 16px 28px; border-radius: var(--radius-m); background: var(--amber); color: var(--ink);
+    font-family: var(--font-cond); font-weight: 700; font-size: 22px; text-decoration: none; white-space: nowrap; box-shadow: 0 0 0 0 rgba(232,162,61,.6); animation: heart-p 2.8s ease-out infinite; }
+  .heart-btn small { font-family: var(--font-text, system-ui); font-weight: 500; font-size: 13px; opacity: .75; }
+  .heart-btn:hover { background: #f4b24f; }
+  @keyframes heart-p { 0% { box-shadow: 0 0 0 0 rgba(232,162,61,.55); } 70%, 100% { box-shadow: 0 0 0 16px rgba(232,162,61,0); } }
+  @media (max-width: 760px) { .heart-in { grid-template-columns: minmax(0, 1fr); justify-items: start; padding: 26px 20px; gap: 18px; } .heart-btn { align-self: stretch; white-space: normal; text-align: center; box-sizing: border-box; max-width: 100%; } }
+  @media (prefers-reduced-motion: reduce) { .heart-ic, .heart-btn { animation: none; } }
+  .nav-heart { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; margin-left: auto; margin-right: 10px; align-self: center; padding: 6px 14px; border-radius: var(--radius-pill); border: 1px solid var(--amber-dim); color: var(--amber); text-decoration: none; font-weight: 600; font-size: 14px; }
+  .nav-mail { margin-left: auto; } .nav-mail + .nav-heart { margin-left: 0; }
+  .nav-heart .ni { width: 16px; height: 16px; flex: none; }
+  @media (max-width: 640px) {
+    .nav-heart { padding: 7px 9px; margin-right: 6px; }
+    .nav-heart .nt { display: none; }
+    .nav-heart .ni { width: 18px; height: 18px; }
+    header .wrap { gap: 0; }
+    .mark-name { font-size: 26px; }
+  }
+  html, body { overflow-x: hidden; }
+  .nav-heart:hover { background: rgba(232,162,61,.12); }
+  /* "How to install" window: shown when the Android or iPhone download is pressed, so nobody has to scroll for the steps */
+  dialog.inst { max-width: 520px; width: calc(100% - 32px); padding: 26px 26px 22px; border: 1px solid var(--amber-dim); border-radius: var(--radius-l);
+    background: var(--panel); color: var(--text); box-shadow: 0 30px 90px rgba(0,0,0,.6); }
+  dialog.inst::backdrop { background: rgba(10,9,8,.72); }
+  dialog.inst h3 { margin: 0 0 4px; font-family: var(--font-cond); font-size: 26px; }
+  dialog.inst .sub { margin: 0 0 14px; color: var(--green); font-size: 14px; }
+  dialog.inst ol { margin: 0 0 16px 20px; padding: 0; } dialog.inst li { margin: 0 0 8px; }
+  dialog.inst .warn { margin: 0 0 16px; padding: 10px 12px; border-radius: var(--radius-s); background: rgba(232,162,61,.1); border: 1px solid var(--amber-dim); font-size: 14px; }
+  dialog.inst .acts { display: flex; gap: 10px; flex-wrap: wrap; }
+  dialog.inst .acts button, dialog.inst .acts a { padding: 10px 18px; border-radius: var(--radius-m); font: inherit; font-weight: 700; cursor: pointer; text-decoration: none; text-align: center; }
+  dialog.inst .acts .ok { background: var(--amber); color: var(--ink); border: 0; }
+  dialog.inst .acts .more { background: none; color: var(--text); border: 1px solid var(--line); }
+  dialog.inst [data-os] { display: none; } dialog.inst[data-os="apk"] [data-os="apk"], dialog.inst[data-os="ipa"] [data-os="ipa"] { display: block; }
+  dialog.inst[data-os="apk"] ol[data-os="apk"], dialog.inst[data-os="ipa"] ol[data-os="ipa"] { display: block; }
+  /* Write to the author: a form on the page, no mail address to type */
+  .contact { margin: 40px 0; }
+  .contact .lead-dim { margin-bottom: 16px; }
+  .contact form { display: grid; gap: 12px; max-width: 640px; }
+  .contact label { font-size: 14px; color: var(--text-dim); display: grid; gap: 6px; }
+  .contact textarea, .contact input[type=text] { width: 100%; box-sizing: border-box; padding: 12px 14px; border-radius: var(--radius-m); border: 1px solid var(--line);
+    background: #14130f; color: var(--text); font: inherit; }
+  .contact textarea { min-height: 130px; resize: vertical; }
+  .contact textarea:focus, .contact input:focus { outline: 2px solid var(--amber); outline-offset: 1px; }
+  .contact .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .contact button { padding: 12px 26px; border: 0; border-radius: var(--radius-m); background: var(--amber); color: var(--ink); font: inherit; font-weight: 700; cursor: pointer; }
+  .contact button:disabled { opacity: .55; cursor: default; }
+  .contact .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .contact .st { font-size: 14px; } .contact .st.ok { color: var(--green); } .contact .st.bad { color: #d98a6a; }
+  .contact .alt { font-size: 14px; color: var(--text-dim); } .contact .alt a { color: var(--amber); }
+  .support a.btn { display: inline-block; margin-top: 6px; padding: 12px 22px; border-radius: var(--radius-m); background: var(--amber); color: var(--ink); font-weight: 700; text-decoration: none; }
+  .support a.btn:hover { background: #f0ad4a; }
+  .dl-meta { font-size: 14px; color: var(--text-dim); margin: 0; }
+  .dl-meta .ver { font-family: var(--font-mono); color: var(--green); }
+
+  /* Screenshot */
+  .shot {
+    margin: 40px 0 0; border: 1px solid var(--line); border-radius: var(--radius-l);
+    overflow: hidden; background: var(--panel);
+  }
+  .shot img { display: block; width: 100%; height: auto; }
+  .shot-globe { max-width: 560px; margin: 24px auto 0; }
+
+  /* Live pictures: the real screenshots stay, motion graphics play over them (12 s loops). */
+  .lv { position: relative; container-type: inline-size; }
+  .lv-fx { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  .lv-hl { position: absolute; border-radius: 10px; opacity: 0; border: 1px solid rgba(255, 255, 255, .5);
+    box-shadow: 0 0 0 100vmax rgba(8, 8, 7, .6), 0 0 3cqw rgba(255, 255, 255, .12); animation: lv-hl 12s ease infinite; }
+  .lv-hl::before { content: ""; position: absolute; inset: -.7cqw; border-radius: 14px; pointer-events: none;
+    background:
+      linear-gradient(var(--amber), var(--amber)) top left / 2cqw 2px no-repeat, linear-gradient(var(--amber), var(--amber)) top left / 2px 2cqw no-repeat,
+      linear-gradient(var(--amber), var(--amber)) top right / 2cqw 2px no-repeat, linear-gradient(var(--amber), var(--amber)) top right / 2px 2cqw no-repeat,
+      linear-gradient(var(--amber), var(--amber)) bottom left / 2cqw 2px no-repeat, linear-gradient(var(--amber), var(--amber)) bottom left / 2px 2cqw no-repeat,
+      linear-gradient(var(--amber), var(--amber)) bottom right / 2cqw 2px no-repeat, linear-gradient(var(--amber), var(--amber)) bottom right / 2px 2cqw no-repeat;
+    animation: lv-brk 12s ease infinite; animation-delay: inherit; }
+  .lv-cap { position: absolute; left: 50%; top: 2cqw; transform: translate(-50%, -1cqw); opacity: 0; white-space: nowrap; display: flex; align-items: center; gap: 1.8cqw;
+    font-family: var(--font-text); font-weight: 500; font-size: 2.1cqw; letter-spacing: .01em; color: var(--paper);
+    background: rgba(20, 19, 15, .7); -webkit-backdrop-filter: blur(12px) saturate(1.3); backdrop-filter: blur(12px) saturate(1.3);
+    border: 1px solid rgba(255, 255, 255, .16); border-radius: 14px; padding: 1.2cqw 2.4cqw 1.2cqw 1.8cqw;
+    box-shadow: 0 1cqw 3cqw rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.08); animation: lv-cap 12s ease infinite; }
+  .lv-dots { display: flex; gap: .55cqw; } .lv-dots i { width: .8cqw; height: .8cqw; border-radius: 50%; background: rgba(255,255,255,.22); }
+  .lv-dots i.on { background: var(--amber); box-shadow: 0 0 1cqw var(--amber); transform: scale(1.35); }
+  .lv-bar { position: absolute; left: 0; bottom: 0; height: .35cqw; width: 0; background: linear-gradient(90deg, transparent, var(--amber)); animation: lv-bar 12s linear infinite; }
+  .lv-glint { position: absolute; top: 0; bottom: 0; width: 26%; left: -30%; background: linear-gradient(100deg, transparent, rgba(255, 240, 200, .16), transparent);
+    animation: lv-glint 12s linear infinite; }
+  .lv .i1 { animation-delay: 0s; } .lv .i2 { animation-delay: 2s; } .lv .i3 { animation-delay: 4s; }
+  .lv .i4 { animation-delay: 6s; } .lv .i5 { animation-delay: 8s; } .lv .i6 { animation-delay: 10s; }
+  @keyframes lv-hl { 0% { opacity: 0; } 3% { opacity: 1; } 14% { opacity: 1; } 17% { opacity: 0; } 100% { opacity: 0; } }
+  @keyframes lv-cap { 0% { opacity: 0; transform: translate(-50%, -1cqw); } 3.5% { opacity: 1; transform: translate(-50%, 0); } 14% { opacity: 1; transform: translate(-50%, 0); }
+    17% { opacity: 0; transform: translate(-50%, .8cqw); } 100% { opacity: 0; } }
+  @keyframes lv-brk { 0%, 2% { transform: scale(1.06); opacity: 0; } 5% { transform: scale(1); opacity: 1; } 14% { opacity: 1; } 17% { opacity: 0; } 100% { opacity: 0; } }
+  @keyframes lv-bar { to { width: 100%; } }
+  @keyframes lv-glint { 0% { left: -30%; } 7% { left: 112%; } 100% { left: 112%; } }
+  /* globe: the disc floats on the page with its own halo, orbit and stars; four cards explain it */
+  .gwrap { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 36px; align-items: center; margin: 44px 0 0; }
+  .gcell { position: relative; aspect-ratio: 1; width: 100%; max-width: 500px; margin: 0 auto; container-type: inline-size; }
+  .lg-fx { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .lg-fx i.st { position: absolute; width: .6cqw; height: .6cqw; border-radius: 50%; background: #fff3d6; opacity: 0; animation: lg-tw 3.4s ease-in-out infinite; }
+  .g-glow { position: absolute; left: 6%; top: 6%; width: 88%; height: 88%; border-radius: 50%;
+    box-shadow: 0 0 8cqw 1cqw rgba(232, 162, 61, .22), 0 0 0 1px rgba(232, 162, 61, .25), inset 0 0 6cqw rgba(232, 162, 61, .1); }
+  .lg-orbit { position: absolute; left: 2%; top: 2%; width: 96%; height: 96%; border-radius: 50%; border: 1px dashed rgba(232, 162, 61, .38); animation: lg-rot 46s linear infinite reverse; }
+  .lg-orbit::after { content: ""; position: absolute; left: 50%; top: -.9cqw; width: 1.8cqw; height: 1.8cqw; margin-left: -.9cqw; border-radius: 50%;
+    background: var(--amber); box-shadow: 0 0 2cqw 4px rgba(232,162,61,.7); }
+  .gdisc { position: absolute; inset: 0; clip-path: circle(43.6% at 50% 50%); overflow: hidden; }
+  .gs { position: absolute; inset: 0; transform: scale(1.2536); }
+  .gs img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .lg-sweep { position: absolute; left: 14.9%; top: 14.9%; width: 70.2%; height: 70.2%; border-radius: 50%; animation: lg-rot 7s linear infinite;
+    background: conic-gradient(from 0deg, rgba(232,162,61,0) 0deg, rgba(232,162,61,0) 285deg, rgba(232,162,61,.2) 350deg, rgba(255,232,170,.45) 360deg); }
+  .gs svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .lg-run { fill: none; stroke: #fff3cf; stroke-width: 11; stroke-linecap: round; stroke-dasharray: .1 .9; filter: drop-shadow(0 0 12px #e8a23d); animation: lg-run 3.2s linear infinite; }
+  .lg-ring { fill: none; stroke-width: 6; opacity: 0; transform-box: fill-box; transform-origin: center; animation: lg-ring 2.4s ease-out infinite; }
+  .lg-ring.r2 { animation-delay: -1.2s; }
+  .lg-chip { position: absolute; left: 50%; top: 66%; transform: translate(-50%, 0) scale(.7); opacity: 0; font-family: var(--font-mono); font-weight: 700;
+    font-size: 2.9cqw; letter-spacing: .04em; color: var(--paper); white-space: nowrap; padding: 1cqw 2.4cqw; border-radius: 12px;
+    background: rgba(20, 19, 15, .72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.18);
+    box-shadow: 0 1cqw 3cqw rgba(0,0,0,.5); animation: lg-chip 8s cubic-bezier(.2,1.3,.4,1) infinite; }
+  .lg-img { animation: lg-breathe 14s ease-in-out infinite alternate; }
+  .gcards { list-style: none; margin: 0; padding: 0 8px 0 0; display: grid; gap: 12px; }
+  .gcard { display: flex; gap: 14px; align-items: flex-start; padding: 15px 17px; border-radius: 14px; position: relative;
+    background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border: 1px solid rgba(255,255,255,.09);
+    animation: gc 8s ease infinite; }
+  .gcard svg { flex: none; width: 36px; height: 36px; padding: 8px; border-radius: 10px; color: var(--amber); background: rgba(232,162,61,.1);
+    border: 1px solid rgba(232,162,61,.25); animation: gci 8s ease infinite; animation-delay: inherit; }
+  .gcard b { display: block; font-family: var(--font-cond); font-size: 18px; color: var(--paper); }
+  .gcard .gtxt { display: block; font-size: 14px; line-height: 1.45; color: var(--text-dim); margin-top: 3px; }
+  .gcard.g1 { animation-delay: 0s; } .gcard.g2 { animation-delay: 2s; } .gcard.g3 { animation-delay: 4s; } .gcard.g4 { animation-delay: 6s; }
+  @keyframes gc { 0%, 100% { transform: none; border-color: rgba(255,255,255,.09); box-shadow: none; }
+    4%, 22% { transform: translateX(6px); border-color: rgba(232,162,61,.45); box-shadow: 0 8px 30px rgba(232,162,61,.1), inset 3px 0 0 var(--amber); }
+    27% { transform: none; border-color: rgba(255,255,255,.09); box-shadow: none; } }
+  @keyframes gci { 0%, 100% { background: rgba(232,162,61,.1); } 4%, 22% { background: rgba(232,162,61,.28); } 27% { background: rgba(232,162,61,.1); } }
+  @media (max-width: 760px) { .gwrap { grid-template-columns: 1fr; margin-top: 28px; } .gcards { display: none; } .gcell { max-width: 400px; } .lg-chip { font-size: 3.4cqw; } }
+  @keyframes lg-rot { to { transform: rotate(360deg); } }
+  @keyframes lg-tw { 0%, 100% { opacity: 0; transform: scale(.5); } 50% { opacity: .9; transform: scale(1.4); } }
+  @keyframes lg-run { from { stroke-dashoffset: .1; } to { stroke-dashoffset: -.9; } }
+  @keyframes lg-ring { 0% { opacity: .9; transform: scale(.4); } 100% { opacity: 0; transform: scale(3.4); } }
+  @keyframes lg-chip { 0%, 6% { opacity: 0; transform: translate(-50%, 1cqw) scale(.7); } 14%, 78% { opacity: 1; transform: translate(-50%, 0) scale(1); } 90%, 100% { opacity: 0; transform: translate(-50%, -1cqw) scale(.9); } }
+  @keyframes lg-breathe { from { transform: scale(1); } to { transform: scale(1.035); } }
+  @media (prefers-reduced-motion: reduce) {
+    .lv-fx, .lg-fx, .lg-sweep, .gs svg, .lg-chip { display: none; } .lg-img, .gcard, .gcard svg { animation: none; }
+  }
+  .shot-cap { text-align: center; color: var(--text-dim); font-size: 14px; margin: 10px 0 0; }
+
+  /* Sections */
+  section { padding: 56px 0 0; }
+  h2 {
+    font-family: var(--font-label); font-weight: 700; font-size: 16px; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--text-dim); margin: 0 0 20px;
+    padding-bottom: 10px; border-bottom: 1px dashed var(--line);
+  }
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .feature {
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-m);
+    padding: 18px 20px;
+  }
+  .feature h3 {
+    font-family: var(--font-cond); font-weight: 700; font-size: 20px; line-height: 1.2;
+    margin: 0 0 6px; color: var(--paper);
+  }
+  .feature p { margin: 0; font-size: 15px; color: var(--text-dim); }
+  .badge {
+    font-family: var(--font-label); font-weight: 700; font-size: 12px; letter-spacing: .14em; line-height: 1;
+    color: var(--ink); background: var(--amber); border-radius: var(--radius-s);
+    padding: 3px 6px 2px; margin-left: 8px; vertical-align: 3px; text-transform: uppercase;
+  }
+  .feature code, .tag {
+    font-family: var(--font-mono); font-size: .88em; color: var(--amber);
+  }
+
+  /* Videos: nothing loads from YouTube until it is clicked. The "cover" is live (8 s loop): a callsign is typed,
+     the card fills in with a photo, a globe turns and draws the path, DX spots run in — all drawn here. */
+  /* Reviews by a friend of the project: plain links to his YouTube channel, nothing is loaded from YouTube. */
+  .rv { display: grid; grid-template-columns: 1fr 1.25fr; gap: 14px; }
+  .rv-lead { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-m); padding: 26px 26px 24px; display: flex; flex-direction: column; justify-content: center; }
+  .rv-tag { align-self: flex-start; font-family: var(--font-label); font-weight: 700; font-size: 13px; letter-spacing: .14em; text-transform: uppercase;
+    background: var(--amber); color: var(--ink); border-radius: var(--radius-s); padding: 4px 9px 3px; }
+  .rv-lead h3 { font-family: var(--font-cond); font-weight: 700; font-size: 30px; line-height: 1.1; margin: 14px 0 10px; }
+  .rv-lead h3 em { font-style: normal; color: var(--amber); }
+  .rv-lead p { margin: 0; color: var(--text-dim); font-size: 15px; line-height: 1.5; max-width: 38ch; }
+  .rv-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .rv-card { display: flex; flex-direction: column; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-m);
+    overflow: hidden; text-decoration: none; color: inherit; transition: border-color .15s; }
+  .rv-card:hover, .rv-card:focus-visible { border-color: var(--amber); }
+  .rv-pic { height: 190px; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; background: #14130f; padding-top: 14px; }
+  .rv-pic img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; }
+  .rv-pic.is-phone img { height: 100%; width: auto; }
+  .rv-pic.is-desk img { width: 92%; height: auto; border-radius: 6px 6px 0 0; }
+  .rv-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .rv-name { font-family: var(--font-cond); font-weight: 700; font-size: 18px; line-height: 1.2; }
+  .rv-go { font-family: var(--font-label); font-weight: 700; font-size: 14px; letter-spacing: .08em; color: var(--amber); text-transform: uppercase; }
+  @media (max-width: 820px) { .rv { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) { .rv-list { grid-template-columns: 1fr; } .rv-lead h3 { font-size: 26px; } }
+  .videos { max-width: 920px; }
+  .video { position: relative; width: 100%; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-m);
+    background: var(--panel); aspect-ratio: 16 / 9; }
+  .video.is-short { aspect-ratio: 9 / 16; }
+  .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .video .vc { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; padding: 0; cursor: pointer; overflow: hidden; text-decoration: none;
+    color: var(--paper); text-align: left; container-type: inline-size;
+    background: repeating-linear-gradient(0deg, rgba(255,255,255,.014) 0 1px, transparent 1px 3px),
+      radial-gradient(110% 120% at 92% 0%, #34302a 0%, #201f1c 55%, #191816 100%); }
+  .vc-mark { position: absolute; left: 5cqw; top: 5cqw; display: flex; align-items: center; gap: 1.6cqw; }
+  .vc-call { font-family: var(--font-mono); font-weight: 700; font-size: 2.1cqw; letter-spacing: .16em; color: var(--ink);
+    background: var(--amber); border-radius: 4px; padding: .8cqw 1.5cqw .7cqw calc(1.5cqw + .16em); line-height: 1; }
+  .vc-name { font-family: var(--font-label); font-weight: 700; font-size: 4cqw; line-height: 1; letter-spacing: .04em; }
+  .vc-title { position: absolute; left: 5cqw; top: 15cqw; width: 40cqw; font-family: var(--font-cond); font-weight: 700; font-size: 6.4cqw; line-height: 1.1; }
+  .vc-title em { font-style: normal; color: var(--amber); }
+  .vc-demo { display: block; position: absolute; right: 3.5cqw; top: 3.5cqw; width: 47cqw; }
+  .vc-field { font-family: var(--font-mono); font-weight: 700; font-size: 4.4cqw; letter-spacing: .08em; background: #14130f;
+    border: 1px solid var(--line); border-radius: 6px; padding: 1.6cqw 2.4cqw; height: 8cqw; line-height: 1; display: flex; align-items: center; }
+  .vc-typed { display: inline-block; overflow: hidden; white-space: nowrap; width: 0; animation: vc-type 8s steps(5, end) infinite; }
+  .vc-caret { width: .5cqw; height: 4.6cqw; background: var(--amber); margin-left: .6cqw; animation: vc-blink .8s steps(1) infinite; }
+  .vc-card { display: flex; align-items: center; gap: 2.2cqw; margin-top: 1.8cqw; background: var(--panel); border: 1px solid #5a4a2a;
+    border-left: 3px solid var(--amber); border-radius: 6px; padding: 1.8cqw 2.2cqw; opacity: 0; transform: translateY(1.6cqw);
+    animation: vc-card 8s cubic-bezier(.2,.8,.2,1) infinite; }
+  .vc-photo { flex: none; width: 16.5cqw; height: 11cqw; border-radius: 4px; overflow: hidden; border: 1px solid #4a4438; }
+  .vc-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .vc-photo svg, .vc-globe svg { display: block; width: 100%; height: 100%; }
+  .vc-txt { display: block; min-width: 0; }
+  .vc-badge { display: inline-block; font-family: var(--font-label); font-weight: 700; font-size: 1.7cqw; letter-spacing: .06em;
+    background: #3aa6d8; color: var(--ink); border-radius: 3px; padding: .45cqw 1cqw; }
+  .vc-who { font-family: var(--font-cond); font-weight: 700; font-size: 3.3cqw; margin-top: 1cqw; line-height: 1.1; }
+  .vc-town { font-family: var(--font-mono); font-size: 1.75cqw; color: var(--amber); margin-top: .7cqw; }
+  .vc-geo { display: flex; align-items: center; gap: 1.6cqw; margin-top: 1.4cqw; opacity: 0; animation: vc-geo 8s ease infinite; }
+  .vc-globe { flex: none; width: 18cqw; height: 18cqw; filter: drop-shadow(0 0 1.4cqw rgba(232,162,61,.28)); }
+  .vc-route { display: block; min-width: 0; }
+  .vc-km { display: block; font-family: var(--font-mono); font-weight: 600; font-size: 2cqw; color: #7ea36b; }
+  .vc-to { display: block; font-family: var(--font-mono); font-size: 1.45cqw; color: var(--text-dim); margin: .3cqw 0 1cqw; }
+  .vc-spots { display: block; border-top: 1px solid #3a3731; padding-top: .9cqw; }
+  .vc-spot { display: flex; gap: 1.1cqw; align-items: baseline; font-family: var(--font-mono); font-size: 1.6cqw; line-height: 1.55;
+    color: var(--paper); white-space: nowrap; opacity: 0; transform: translateX(2cqw); animation: vc-spot 8s cubic-bezier(.2,.8,.2,1) infinite; }
+  .vc-spot:nth-child(2) { animation-delay: .35s; } .vc-spot:nth-child(3) { animation-delay: .7s; } .vc-spot:nth-child(4) { animation-delay: 1.05s; }
+  .vc-spot b { color: var(--amber); font-weight: 600; } .vc-spot i { font-style: normal; color: var(--text-dim); margin-left: auto; }
+  .vc-spot.is-head { font-family: var(--font-label); font-weight: 700; letter-spacing: .12em; font-size: 1.3cqw; color: var(--text-dim); }
+  .vc-morse { position: absolute; left: 0; right: 0; bottom: 3cqw; height: 2cqw; opacity: .55; }
+  .vc-morse svg { display: block; width: 200%; height: 100%; animation: vc-run 14s linear infinite; }
+  .vc-play { position: absolute; left: 5cqw; bottom: 9cqw; display: flex; align-items: center; gap: 1.8cqw;
+    font-family: var(--font-label); font-weight: 700; font-size: 2.6cqw; letter-spacing: .08em; }
+  .vc-play i { font-style: normal; width: 8cqw; height: 8cqw; border-radius: 50%; background: var(--amber); color: var(--ink);
+    display: flex; align-items: center; justify-content: center; font-size: 3.4cqw; padding-left: .7cqw; animation: vc-pulse 2.4s ease-out infinite; }
+  .video .vc:hover .vc-play i { background: #f0b252; }
+  /* globe inner motion */
+  .vc-g-land { animation: vc-land 9s linear infinite; }
+  .vc-g-mer { transform-box: view-box; transform-origin: 50px 50px; animation: vc-mer 6s ease-in-out infinite alternate; }
+  .vc-g-mer.m2 { animation-delay: -2s; } .vc-g-mer.m3 { animation-delay: -4s; }
+  .vc-g-arc { stroke-dasharray: 1; stroke-dashoffset: 1; animation: vc-arc 8s ease infinite; }
+  .vc-g-dot { opacity: 0; animation: vc-dot 8s ease infinite; }
+  .vc-g-ring { opacity: 0; transform-box: fill-box; transform-origin: center; animation: vc-ring 2s ease-out infinite; }
+  .vc-g-ring.r2 { animation-delay: -1s; }
+  /* vertical (Shorts) cover */
+  .is-short .vc-mark { left: 8cqw; top: 8cqw; gap: 2.4cqw; }
+  .is-short .vc-call { font-size: 5.4cqw; } .is-short .vc-name { font-size: 10cqw; }
+  .is-short .vc-title { left: 8cqw; top: 26cqw; width: 84cqw; font-size: 15cqw; }
+  .is-short .vc-demo { left: 8cqw; right: 8cqw; top: 60cqw; width: auto; }
+  .is-short .vc-field { font-size: 8.6cqw; height: 15cqw; padding: 3cqw 5cqw; border-radius: 8px; }
+  .is-short .vc-caret { width: 1cqw; height: 9cqw; }
+  .is-short .vc-card { gap: 3cqw; margin-top: 3cqw; padding: 3.4cqw 4cqw; }
+  .is-short .vc-photo { width: 21cqw; height: 14cqw; border-radius: 6px; }
+  .is-short .vc-badge { font-size: 3.4cqw; padding: .9cqw 2cqw; }
+  .is-short .vc-who { font-size: 6.6cqw; margin-top: 1.8cqw; } .is-short .vc-town { font-size: 3.6cqw; margin-top: 1.2cqw; }
+  .is-short .vc-geo { gap: 3cqw; margin-top: 3cqw; } .is-short .vc-globe { width: 26cqw; height: 26cqw; }
+  .is-short .vc-km { font-size: 4.4cqw; } .is-short .vc-to { font-size: 3.2cqw; margin: .6cqw 0 2cqw; }
+  .is-short .vc-spots { padding-top: 1.6cqw; } .is-short .vc-spot { font-size: 3.5cqw; gap: 2cqw; } .is-short .vc-spot.is-head { font-size: 2.8cqw; }
+  .is-short .vc-morse { bottom: 4cqw; height: 3.4cqw; }
+  .is-short .vc-play { left: 8cqw; bottom: 11cqw; gap: 3.6cqw; font-size: 6cqw; }
+  .is-short .vc-play i { width: 17cqw; height: 17cqw; font-size: 7.6cqw; padding-left: 1.4cqw; }
+  @keyframes vc-type { 0%, 2% { width: 0; } 14%, 92% { width: 3.6em; } 100% { width: 0; } }
+  @keyframes vc-card { 0%, 14% { opacity: 0; transform: translateY(1.6cqw); } 21%, 90% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; } }
+  @keyframes vc-geo { 0%, 22% { opacity: 0; } 28%, 90% { opacity: 1; } 97%, 100% { opacity: 0; } }
+  @keyframes vc-spot { 0%, 30% { opacity: 0; transform: translateX(2cqw); } 37%, 90% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; } }
+  @keyframes vc-arc { 0%, 30% { stroke-dashoffset: 1; } 48%, 90% { stroke-dashoffset: 0; } 97%, 100% { stroke-dashoffset: 1; } }
+  @keyframes vc-dot { 0%, 26% { opacity: 0; } 32%, 90% { opacity: 1; } 97%, 100% { opacity: 0; } }
+  @keyframes vc-ring { 0% { opacity: .9; transform: scale(.5); } 100% { opacity: 0; transform: scale(2.6); } }
+  @keyframes vc-land { to { transform: translateX(-120px); } }
+  @keyframes vc-mer { from { transform: scaleX(1); } to { transform: scaleX(.08); } }
+  @keyframes vc-blink { 50% { opacity: 0; } }
+  @keyframes vc-run { to { transform: translateX(-50%); } }
+  @keyframes vc-pulse { 0% { box-shadow: 0 0 0 0 rgba(232, 162, 61, .5); } 70%, 100% { box-shadow: 0 0 0 2.6cqw rgba(232, 162, 61, 0); } }
+  @media (prefers-reduced-motion: reduce) {
+    .vc-typed { animation: none; width: 3.6em; } .vc-card, .vc-geo, .vc-spot { animation: none; opacity: 1; transform: none; }
+    .vc-caret, .vc-morse svg, .vc-play i, .vc-g-land, .vc-g-mer, .vc-g-ring { animation: none; }
+    .vc-g-arc { animation: none; stroke-dashoffset: 0; } .vc-g-dot { animation: none; opacity: 1; } .vc-g-spark { display: none; }
+  }
+  .video-cap { font-size: 14px; color: var(--text-dim); margin: 10px 0 0; max-width: 920px; }
+  .video-note { font-size: 13px; color: var(--text-dim); margin: 6px 0 0; max-width: 920px; }
+  .video.is-short { display: none; }
+  @media (max-width: 640px) {
+    #video { display: none; }
+    .video.is-short { display: block; width: min(100%, 380px); margin: 0 auto; }
+  }
+
+  /* Install / privacy */
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .note {
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-m);
+    padding: 20px 22px; font-size: 15px;
+  }
+  .note h3 { font-family: var(--font-cond); font-weight: 700; font-size: 20px; margin: 0 0 8px; }
+  .note p { margin: 0 0 10px; color: var(--text-dim); }
+  .note p:last-child { margin-bottom: 0; }
+  .note b { color: var(--text); font-weight: 600; }
+  .note.ok { border-color: var(--green-line); }
+  .note.ok h3 { color: var(--green); }
+
+  footer { margin-top: 64px; border-top: 1px solid var(--line); padding: 28px 0 40px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; justify-content: space-between; }
+  footer p { margin: 0; font-size: 14px; color: var(--text-dim); }
+  .seventy3 { font-family: var(--font-mono); color: var(--amber); }
+
+
+  /* 2026-10-29 redesign: computer and phone together */
+  .stage { position: relative; flex: 1 1 52%; min-width: 0; padding: 0 0 64px; }
+  .stage .desk { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--radius-l); box-shadow: 0 30px 80px rgba(0,0,0,.45); }
+  .stage .phone { position: absolute; right: -8px; bottom: 0; width: 30%; transform: rotate(3deg); }
+  .phone { border: 7px solid #0d0c0a; border-radius: 34px; background: #0d0c0a; overflow: hidden; box-shadow: 0 0 0 1px #3a362e, 0 26px 60px rgba(0,0,0,.55); }
+  .phone img { display: block; width: 100%; height: auto; }
+  .dl { grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 30px 0 14px; }
+  .dl a { padding: 14px 12px 13px; }
+  .dl .os { font-size: 21px; line-height: 1.1; }
+  .dl .os::before { font-size: 15px; }
+  .dl .for { font-size: 13px; }
+  .kicker { font-family: var(--font-label); font-weight: 700; font-size: 14px; letter-spacing: .18em; text-transform: uppercase; color: var(--text-dim); margin: 0 0 10px; }
+  .sec-h { font-family: var(--font-cond); font-weight: 700; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.1; margin: 0 0 12px; letter-spacing: 0; text-transform: none; color: var(--text); padding: 0; border: 0; }
+  .sec-sub { color: var(--text-dim); max-width: 62ch; margin: 0 0 30px; }
+  .sync { display: grid; grid-template-columns: 1fr 1.1fr; gap: 40px; align-items: center; }
+  .diag { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-l); padding: 26px 18px 18px; }
+  .diag svg { display: block; width: 100%; height: auto; }
+  .sync-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .sync-steps li { display: grid; grid-template-columns: 38px 1fr; gap: 14px; align-items: start; }
+  .sync-steps .n { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--amber-dim); color: var(--amber); display: grid; place-items: center; font-family: var(--font-mono); font-weight: 700; }
+  .sync-steps b { display: block; font-family: var(--font-cond); font-size: 20px; }
+  .sync-steps span.t { color: var(--text-dim); font-size: 15px; }
+  .gal { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .gal figure { margin: 0; }
+  .gal .phone { width: 100%; }
+  .gal figcaption { margin-top: 16px; }
+  .gal figcaption b { display: block; font-family: var(--font-cond); font-size: 19px; line-height: 1.2; margin-bottom: 3px; }
+  .gal figcaption span.t { color: var(--text-dim); font-size: 14.5px; line-height: 1.45; display: block; }
+  .gal figure:nth-child(even) { margin-top: 36px; }
+  .fcards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .fc { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-m); padding: 20px 18px 18px; }
+  .fc svg { width: 40px; height: 40px; padding: 8px; border-radius: 10px; color: var(--amber); background: rgba(232,162,61,.1); border: 1px solid rgba(232,162,61,.25); margin-bottom: 14px; display: block; }
+  .fc h3 { font-family: var(--font-cond); font-weight: 700; font-size: 20px; line-height: 1.2; margin: 0 0 6px; }
+  .fc p { margin: 0; font-size: 14.5px; color: var(--text-dim); line-height: 1.5; }
+  .tagline { margin-top: 26px; padding: 20px 22px; border: 1px dashed var(--line); border-radius: var(--radius-m); color: var(--text-dim); font-size: 15px; }
+  .tagline b { color: var(--text); font-weight: 600; }
+  @media (max-width: 920px) {
+    .hero-top { flex-direction: column; align-items: stretch; }
+    .stage { max-width: 640px; margin: 0 auto; width: 100%; }
+    .dl { grid-template-columns: repeat(2, 1fr); }
+    .sync { grid-template-columns: 1fr; }
+    .gal { grid-template-columns: repeat(2, 1fr); } .gal figure:nth-child(even) { margin-top: 0; }
+    .fcards { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) { .dl, .fcards, .gal { grid-template-columns: 1fr; } .gal .phone { max-width: 300px; } .stage .phone { width: 34%; } }
+  .banner-link { flex: none; }
+  .banner { display: block; }
+  /* Thank-you block: live. Each tester's callsign lights up, a line draws to R2FEL and a spark runs along it
+     (8 s loop). Callsigns are the CALLS list in the script at the bottom — add one and the picture re-lays itself. */
+  .thx { position: relative; margin: 0 0 14px; aspect-ratio: 1000 / 330; overflow: hidden; container-type: inline-size;
+    border: 1px solid #3a3731; border-radius: var(--radius-m); color: var(--paper);
+    background: repeating-linear-gradient(0deg, rgba(255,255,255,.012) 0 1px, transparent 1px 3px),
+      radial-gradient(110% 120% at 90% 0%, #2f2b25 0%, #1f1e1b 55%, #191816 100%); }
+  .thx-text { position: absolute; left: 4.4cqw; top: 50%; transform: translateY(-50%); width: 40cqw; }
+  .thx-mark { display: flex; align-items: center; gap: 1.2cqw; margin-bottom: 2cqw; }
+  .thx-call { font-family: var(--font-mono); font-weight: 700; font-size: 1.5cqw; letter-spacing: .16em; color: var(--ink); background: var(--amber);
+    border-radius: 4px; padding: .6cqw 1.1cqw .5cqw calc(1.1cqw + .16em); line-height: 1; }
+  .thx-name { font-family: var(--font-label); font-weight: 700; font-size: 3cqw; line-height: 1; letter-spacing: .04em; }
+  .thx h3 { font-family: var(--font-cond); font-weight: 700; font-size: 5.2cqw; line-height: 1.08; margin: 0; }
+  .thx h3 em { font-style: normal; color: var(--amber); }
+  .thx-sub { font-size: max(12px, 1.5cqw); line-height: 1.5; color: var(--text-dim); margin: 1.4cqw 0 0; max-width: 34cqw; }
+  .thx-net { position: absolute; right: 2cqw; top: 3cqw; bottom: 6cqw; width: 50cqw; }
+  .thx-net svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .thx-line { stroke: var(--amber-dim); stroke-width: .55; fill: none; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: .75;
+    animation: thx-line 8s ease infinite; }
+  .thx-hub { position: absolute; left: 50%; top: 50%; width: 9cqw; height: 9cqw; transform: translate(-50%, -50%); }
+  .thx-hub b { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; z-index: 2;
+    background: var(--amber); color: var(--ink); font-family: var(--font-mono); font-size: 1.7cqw; letter-spacing: .1em; padding-left: .1em; }
+  .thx-hub i { position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid var(--amber); opacity: 0; animation: thx-wave 3s ease-out infinite; }
+  .thx-hub i:nth-child(2) { animation-delay: -1s; } .thx-hub i:nth-child(3) { animation-delay: -2s; }
+  .thx-st { position: absolute; transform: translate(-50%, -50%) scale(.6); opacity: 0; z-index: 3;
+    font-family: var(--font-mono); font-weight: 700; font-size: 2.5cqw; letter-spacing: .1em; color: var(--ink); background: var(--amber);
+    border-radius: 7px; padding: 1.2cqw 2cqw 1.1cqw calc(2cqw + .1em); line-height: 1; white-space: nowrap;
+    animation: thx-pop 8s cubic-bezier(.2,1.3,.4,1) infinite; box-shadow: 0 0 0 0 rgba(232,162,61,.5); }
+  .thx-spark { fill: #fff6dc; filter: drop-shadow(0 0 3px #e8a23d); }
+  .thx-morse { position: absolute; left: 0; right: 0; bottom: 1.8cqw; height: 1.6cqw; opacity: .5; }
+  .thx-morse svg { display: block; width: 200%; height: 100%; animation: vc-run 16s linear infinite; }
+  @keyframes thx-pop { 0%, 3% { opacity: 0; transform: translate(-50%, -50%) scale(.6); } 9%, 88% { opacity: 1; transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(232,162,61,0); }
+    12% { box-shadow: 0 0 0 1.6cqw rgba(232,162,61,.0); } 96%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(.8); } }
+  @keyframes thx-line { 0%, 6% { stroke-dashoffset: 1; } 20%, 88% { stroke-dashoffset: 0; } 96%, 100% { stroke-dashoffset: 1; } }
+  @keyframes thx-wave { 0% { opacity: .8; transform: scale(1); } 100% { opacity: 0; transform: scale(3); } }
+  @media (prefers-reduced-motion: reduce) {
+    .thx-st { animation: none; opacity: 1; transform: translate(-50%, -50%); } .thx-line { animation: none; stroke-dashoffset: 0; }
+    .thx-hub i, .thx-morse svg { animation: none; } .thx-spark { display: none; }
+  }
+  @media (max-width: 640px) {
+    .thx { aspect-ratio: auto; height: 118cqw; }
+    .thx-text { left: 6cqw; right: 6cqw; top: 6cqw; width: auto; transform: none; }
+    .thx-mark { margin-bottom: 3cqw; } .thx-call { font-size: 3cqw; } .thx-name { font-size: 6cqw; } .thx h3 { font-size: 10cqw; }
+    .thx-sub { font-size: 3.6cqw; max-width: none; margin-top: 2.4cqw; }
+    .thx-net { left: 3cqw; right: 3cqw; top: 54cqw; bottom: 10cqw; width: auto; }
+    .thx-hub { width: 17cqw; height: 17cqw; } .thx-hub b { font-size: 3.2cqw; }
+    .thx-st { font-size: 4.6cqw; border-radius: 8px; padding: 2.2cqw 3.6cqw 2cqw calc(3.6cqw + .1em); }
+    .thx-morse { bottom: 3cqw; height: 3cqw; }
+  }
+  .thanks-note { color: var(--text-dim); max-width: 760px; }
+  @media (max-width: 820px) {
+    .banner-link { display: none !important; }
+    .dl.two { grid-template-columns: 1fr; }
+    .two { grid-template-columns: 1fr; }
+    .hero { padding-top: 40px; }
+  }
+  @media (max-width: 420px) {
+    .wrap { padding: 0 16px; }
+    .mark-name { font-size: 25px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="mark" href="/"><span class="mark-call">R2FEL</span><span class="mark-name">HamLog</span></a>
+    <a class="nav-heart nav-mail" href="#contact" aria-label="Write / Написать"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1.6 2 7.4 5.6L19.4 7H4.6zM4 17h16V9.3l-8 6-8-6V17z"/></svg><span class="nt"><span class="en">Write</span><span class="ru">Написать</span></span></a>
+    <a class="nav-heart" href="#support" aria-label="Support / Поддержать"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 21s-7.5-4.6-9.6-9.2C.8 8.2 3 5 6.3 5c2 0 3.7 1.1 4.7 2.7h2C14 6.1 15.700 5 17.700 5c3.300 0 5.500 3.200 3.900 6.800C19.500 16.400 12 21 12 21z"/></svg><span class="nt"><span class="en">Support</span><span class="ru">Поддержать</span></span></a>
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" data-set-lang="en">EN</button>
+      <button type="button" data-set-lang="ru">RU</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <div class="hero-top">
+    <div>
+    <p class="eyebrow"><span class="en">Free ham radio logbook · Mac, Windows, Android, iPhone</span><span class="ru">Бесплатный журнал радиосвязей · Mac, Windows, Android, iPhone</span></p>
+    <h1><span class="en">The ham radio logbook<br><em>on your computer</em><br>and in your pocket</span><span class="ru">Журнал радиосвязей<br><em>на компьютере</em><br>и в кармане</span></h1>
+    <p class="lead"><span class="en">Type a callsign — name, town, grid square, photo, distance and the weather at the other end appear by themselves. At home on the computer, in the field on the phone, even without internet.</span><span class="ru">Набрали позывной — имя, город, локатор, фото, расстояние и погода у корреспондента уже на экране. Дома на компьютере, в поле на телефоне, даже без интернета.</span></p>
+    <p class="lead-dim"><span class="en">No subscription, no cloud: your log and your passwords stay with you.</span><span class="ru">Без подписок и без облака: журнал и пароли остаются у вас.</span></p>
+    </div>
+    <div class="stage">
+      <img class="desk ru" src="img/desk-ru.webp" width="1300" height="618" alt="R2FEL HamLog на компьютере: найденный позывной W1AW с фото, расстоянием, погодой и временем">
+      <img class="desk en" src="img/desk-en.webp" width="1300" height="615" alt="R2FEL HamLog on the computer: a callsign found, with name, town, distance, weather and local time">
+      <div class="phone"><img class="en" src="img/phone-entry.webp" width="460" height="936" alt="R2FEL HamLog on the phone"><img class="ru" src="img/phone-entry-ru.webp" width="460" height="936" alt="R2FEL HamLog на телефоне"></div>
+    </div>
+    </div>
+
+    <div class="dl" id="downloads">
+      <a class="primary" data-file="mac" href="https://github.com/r2fel/hamlog/releases/latest"><span class="os">macOS</span><span class="for"><span class="en">Apple Silicon (M1 and newer)</span><span class="ru">Apple Silicon (M1 и новее)</span></span><span class="file"></span></a>
+      <a data-file="macintel" href="https://github.com/r2fel/hamlog/releases/latest"><span class="os">macOS</span><span class="for"><span class="en">Intel Mac</span><span class="ru">Mac с процессором Intel</span></span><span class="file"></span></a>
+      <a data-file="win" href="https://github.com/r2fel/hamlog/releases/latest"><span class="os">Windows 10 / 11</span><span class="for"><span class="en">64-bit</span><span class="ru">64 бит</span></span><span class="file"></span></a>
+      <a data-file="win78" href="https://github.com/r2fel/hamlog/releases/latest"><span class="os">Windows 7 / 8</span><span class="for"><span class="en">also 8.1 and any 32-bit Windows</span><span class="ru">а также 8.1 и любая 32-битная</span></span><span class="file"></span></a>
+      <a data-file="apk" href="https://github.com/r2fel/hamlog/releases/latest"><span class="os">Android</span><span class="for"><span class="en">Android 7 and newer</span><span class="ru">Android 7 и новее</span></span><span class="file"></span></a>
+      <a data-file="ipa" href="https://github.com/r2fel/hamlog/releases/latest"><span class="os">iPhone</span><span class="for"><span class="en">iOS 15 and newer — steps below</span><span class="ru">iOS 15 и новее — шаги ниже</span></span><span class="file"></span></a>
+    </div>
+    <p class="dl-meta">
+      <span class="en">Version</span><span class="ru">Версия</span> <span class="ver" id="ver">1.0.82</span> ·
+      <a href="https://github.com/r2fel/hamlog/releases"><span class="en">all versions</span><span class="ru">все версии</span></a>
+    </p>
+    <p class="dl-meta">
+      <span class="en">First launch only: macOS or Windows may say the program can't be verified (no paid certificate). Mac: System Settings → Privacy &amp; Security → Open Anyway. Windows: More info → Run anyway.</span>
+      <span class="ru">Только при первом запуске: macOS или Windows могут написать, что не могут проверить программу (нет платного сертификата). Mac: Системные настройки → Конфиденциальность и безопасность → «Всё равно открыть». Windows: «Подробнее» → «Выполнить в любом случае».</span>
+    </p>
+
+  </div>
+
+  <section id="sync">
+    <p class="kicker"><span class="en">One log everywhere</span><span class="ru">Один журнал везде</span></p>
+    <h2 class="sec-h"><span class="en">Your phone finds the computer by itself</span><span class="ru">Телефон сам находит компьютер</span></h2>
+    <p class="sec-sub"><span class="en">Contacts made in the field arrive on the computer by themselves, and the log from the computer goes to the phone. No addresses, no keys to type.</span><span class="ru">Связи, сделанные в поле, сами приезжают на компьютер, а журнал с компьютера — на телефон. Ни адресов, ни ключей вводить не нужно.</span></p>
+    <div class="sync">
+      <div class="diag"><svg viewBox="0 0 560 240" role="img" aria-label="Computer and phone on one Wi-Fi network"><rect x="30" y="50" width="190" height="124" rx="10" fill="#1c1b19" stroke="#e8a23d" stroke-width="2"/><rect x="42" y="62" width="166" height="92" rx="4" fill="#26241f" stroke="#443f37"/><path d="M84 196h82M125 174v22" stroke="#e8a23d" stroke-width="3" stroke-linecap="round"/><text x="125" y="112" fill="#e8a23d" font-family="IBM Plex Mono, monospace" font-weight="700" font-size="18" text-anchor="middle" letter-spacing="3">R2FEL</text><rect x="450" y="34" width="84" height="164" rx="14" fill="#1c1b19" stroke="#e8a23d" stroke-width="2"/><rect x="459" y="52" width="66" height="122" rx="4" fill="#26241f" stroke="#443f37"/><circle cx="492" cy="186" r="4" fill="#443f37"/><text x="492" y="118" fill="#e8a23d" font-family="IBM Plex Mono, monospace" font-weight="700" font-size="12" text-anchor="middle" letter-spacing="2">R2FEL</text><path d="M232 100h196" stroke="#e8a23d" stroke-width="2.5" stroke-dasharray="4 8" stroke-linecap="round"/><path d="M438 100l-9-6v12z" fill="#e8a23d"/><path d="M438 134h-196" stroke="#7ea36b" stroke-width="2.5" stroke-dasharray="4 8" stroke-linecap="round"/><path d="M232 134l9-6v12z" fill="#7ea36b"/><text class="en" x="335" y="86" fill="#e8a23d" font-family="Barlow Condensed, sans-serif" font-weight="700" font-size="15" text-anchor="middle" letter-spacing="2">CONTACTS FROM THE FIELD</text><text class="ru" x="335" y="86" fill="#e8a23d" font-family="Barlow Condensed, sans-serif" font-weight="700" font-size="15" text-anchor="middle" letter-spacing="2">СВЯЗИ ИЗ ПОЛЯ</text><text class="en" x="335" y="158" fill="#7ea36b" font-family="Barlow Condensed, sans-serif" font-weight="700" font-size="15" text-anchor="middle" letter-spacing="2">THE LOG AT HOME</text><text class="ru" x="335" y="158" fill="#7ea36b" font-family="Barlow Condensed, sans-serif" font-weight="700" font-size="15" text-anchor="middle" letter-spacing="2">ЖУРНАЛ ДОМА</text><text class="en" x="335" y="218" fill="#9c9587" font-family="IBM Plex Sans, sans-serif" font-size="14" text-anchor="middle">one Wi-Fi network</text><text class="ru" x="335" y="218" fill="#9c9587" font-family="IBM Plex Sans, sans-serif" font-size="14" text-anchor="middle">одна сеть Wi-Fi</text></svg></div>
+      <ol class="sync-steps">
+        <li><span class="n">1</span><div><b><span class="en">Run the program on the computer</span><span class="ru">Запустите программу на компьютере</span></b><span class="t"><span class="en">No need to open any settings — it just has to be running.</span><span class="ru">Заходить в настройки не нужно — достаточно, чтобы она была открыта.</span></span></div></li>
+        <li><span class="n">2</span><div><b><span class="en">Open the app on the phone</span><span class="ru">Откройте приложение на телефоне</span></b><span class="t"><span class="en">More → Sync with computer → your computer appears; tap it.</span><span class="ru">«Ещё» → «Синхронизация» → найдётся ваш компьютер, нажмите на него.</span></span></div></li>
+        <li><span class="n">3</span><div><b><span class="en">Press “Allow” on the computer</span><span class="ru">Нажмите «Разрешить» на компьютере</span></b><span class="t"><span class="en">Once. After that the phone remembers the computer and finds it again by itself, even if its address changes.</span><span class="ru">Один раз. Дальше телефон запомнит компьютер и найдёт его сам, даже если адрес сменится.</span></span></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="phone">
+    <p class="kicker"><span class="en">In your pocket</span><span class="ru">В кармане</span></p>
+    <h2 class="sec-h"><span class="en">Trips, the field, the dacha — your log is always with you</span><span class="ru">Выезд, поле, дача — журнал всегда с вами</span></h2>
+    <p class="sec-sub"><span class="en">Logging needs no network: the callbooks fill in the details later. Dark and light themes, Russian and English.</span><span class="ru">Запись связи не требует сети: справочники дописывают данные потом. Тёмная и светлая тема, русский и английский.</span></p>
+    <div class="gal">
+      <figure><div class="phone"><img class="en" src="img/phone-entry.webp" width="460" height="936" loading="lazy" alt=""><img class="ru" src="img/phone-entry-ru.webp" width="460" height="936" loading="lazy" alt=""></div>
+        <figcaption><b><span class="en">The other station’s card</span><span class="ru">Карточка корреспондента</span></b><span class="t"><span class="en">Photo, flag, distance, bearing, weather and time at their end. NEW COUNTRY and NEW BAND marks.</span><span class="ru">Фото, флаг, расстояние, азимут, погода и время у него. Метки NEW COUNTRY и NEW BAND.</span></span></figcaption></figure>
+      <figure><div class="phone"><img class="en" src="img/phone-kb.webp" width="460" height="936" loading="lazy" alt=""><img class="ru" src="img/phone-kb-ru.webp" width="460" height="936" loading="lazy" alt=""></div>
+        <figcaption><b><span class="en">One-handed logging</span><span class="ru">Запись одной рукой</span></b><span class="t"><span class="en">Reports and the Log button right above the keyboard, a row of digits under your thumb.</span><span class="ru">Рапорты и кнопка «Записать» прямо над клавиатурой, ряд цифр под пальцем.</span></span></figcaption></figure>
+      <figure><div class="phone"><img class="en" src="img/phone-log.webp" width="460" height="936" loading="lazy" alt=""><img class="ru" src="img/phone-log-ru.webp" width="460" height="936" loading="lazy" alt=""></div>
+        <figcaption><b><span class="en">The log as cards</span><span class="ru">Журнал карточками</span></b><span class="t"><span class="en">Search by callsign, name or town; swipe left to delete, tap to edit.</span><span class="ru">Поиск по позывному, имени и городу, смахнуть влево — удалить, нажать — исправить.</span></span></figcaption></figure>
+      <figure><div class="phone"><img class="en" src="img/phone-map.webp" width="460" height="936" loading="lazy" alt=""><img class="ru" src="img/phone-map-ru.webp" width="460" height="936" loading="lazy" alt=""></div>
+        <figcaption><b><span class="en">Globe and map</span><span class="ru">Глобус и карта</span></b><span class="t"><span class="en">The arc to the other station, day and night. No internet — an offline map.</span><span class="ru">Дуга до корреспондента, день и ночь. Без интернета — офлайн-карта.</span></span></figcaption></figure>
+    </div>
+  </section>
+
+  <section id="computer">
+    <p class="kicker"><span class="en">On the computer</span><span class="ru">На компьютере</span></p>
+    <h2 class="sec-h"><span class="en">The window that does the work</span><span class="ru">Окно, которое работает за вас</span></h2>
+    <div class="shot lv">
+      <img class="en" src="img/desk-en.webp" width="1300" height="615" alt="R2FEL HamLog: a callsign found, with name, town, distance, weather and local time">
+      <img class="ru" src="img/desk-ru.webp" width="1300" height="618" alt="R2FEL HamLog: найденный позывной — имя, город, расстояние, погода и местное время">
+      <div class="lv-fx" aria-hidden="true"><span class="lv-hl i1" style="left:2.5%;top:25.9%;width:82.0%;height:12.3%"></span><span class="lv-hl i2" style="left:22.4%;top:67.3%;width:28.9%;height:21.0%"></span><span class="lv-hl i3" style="left:4.4%;top:59.6%;width:17.1%;height:24.6%"></span><span class="lv-hl i4" style="left:22.7%;top:59.1%;width:28.0%;height:7.8%"></span><span class="lv-hl i5" style="left:51.0%;top:76.2%;width:26.2%;height:8.6%"></span><span class="lv-hl i6" style="left:78.0%;top:76.2%;width:11.5%;height:8.6%"></span><span class="lv-cap i1"><span class="lv-dots"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></span><span class="en">Type a callsign — the rest fills in itself</span><span class="ru">Набрали позывной — остальное подставится само</span></span><span class="lv-cap i2"><span class="lv-dots"><i></i><i class="on"></i><i></i><i></i><i></i><i></i></span><span class="en">Name, town and country from the callbook</span><span class="ru">Имя, город и страна — из справочника</span></span><span class="lv-cap i3"><span class="lv-dots"><i></i><i></i><i class="on"></i><i></i><i></i><i></i></span><span class="en">The station’s photo</span><span class="ru">Фото корреспондента</span></span><span class="lv-cap i4"><span class="lv-dots"><i></i><i></i><i></i><i class="on"></i><i></i><i></i></span><span class="en">New contact, new RDA district — you see it at once</span><span class="ru">Новый позывной и новый район RDA — видно сразу</span></span><span class="lv-cap i5"><span class="lv-dots"><i></i><i></i><i></i><i></i><i class="on"></i><i></i></span><span class="en">Distance and the heading for your antenna</span><span class="ru">Расстояние и азимут, куда крутить антенну</span></span><span class="lv-cap i6"><span class="lv-dots"><i></i><i></i><i></i><i></i><i></i><i class="on"></i></span><span class="en">Weather and local time over there</span><span class="ru">Погода и местное время у корреспондента</span></span><span class="lv-glint"></span><span class="lv-bar"></span></div>
+    </div>
+    <div class="gwrap">
+      <div class="gcell">
+        <div class="lg-fx" id="lg-fx" aria-hidden="true"><span class="g-glow"></span><span class="lg-orbit"></span></div>
+        <div class="gdisc"><div class="gs">
+          <img class="lg-img en" src="img/globe-en.webp" width="1600" height="1600" loading="lazy" alt="The globe window: both stations and the great-circle arc between them, distance and bearing">
+          <img class="lg-img ru" src="img/globe-ru.webp" width="1600" height="1600" loading="lazy" alt="Окно глобуса: обе станции и дуга большого круга между ними, расстояние и азимут">
+          <span class="lg-sweep"></span>
+          <svg viewBox="0 0 1600 1600" aria-hidden="true"><path class="lg-run" pathLength="1" d="M1120 702L480 896"/>
+            <circle class="lg-ring" cx="1120" cy="702" r="26" stroke="#e8a23d"/><circle class="lg-ring r2" cx="1120" cy="702" r="26" stroke="#e8a23d"/>
+            <circle class="lg-ring" cx="480" cy="896" r="26" stroke="#7ea36b"/><circle class="lg-ring r2" cx="480" cy="896" r="26" stroke="#7ea36b"/></svg>
+          <span class="lg-chip">6 533 km · 42°</span>
+        </div></div>
+      </div>
+      <ul class="gcards">
+        <li class="gcard g1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 8h18"/></svg>
+          <span><b><span class="en">Its own window</span><span class="ru">Отдельное окно</span></b><span class="gtxt"><span class="en">It opens beside the program, not inside it — put it on a second screen.</span><span class="ru">Открывается рядом с программой, а не внутри неё — можно вынести на второй монитор.</span></span></span></li>
+        <li class="gcard g2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg>
+          <span><b><span class="en">Always on top of the program</span><span class="ru">Всегда поверх программы</span></b><span class="gtxt"><span class="en">It stays above the logbook, never above other apps.</span><span class="ru">Держится поверх журнала, но не поверх чужих программ.</span></span></span></li>
+        <li class="gcard g3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 15v5h-5M20 9V4h-5M4 15v5h5"/></svg>
+          <span><b><span class="en">Grows as you stretch it</span><span class="ru">Растёт вместе с окном</span></b><span class="gtxt"><span class="en">Stretch the window and the globe grows with it.</span><span class="ru">Растянули окно — вместе с ним растёт и глобус.</span></span></span></li>
+        <li class="gcard g4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="17" r="2"/><circle cx="19" cy="7" r="2"/><path d="M6.5 15.5C9 8 14 6 17.5 6.8"/></svg>
+          <span><b><span class="en">Short and long path</span><span class="ru">Короткий и длинный путь</span></b><span class="gtxt"><span class="en">The great-circle arc, the distance and the heading — one press for the long way round.</span><span class="ru">Дуга большого круга, расстояние и азимут — одним нажатием и длинный путь.</span></span></span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="features">
+    <p class="kicker"><span class="en">The essentials</span><span class="ru">Главное в программе</span></p>
+    <h2 class="sec-h"><span class="en">Everything you need at the mic and the key</span><span class="ru">Всё, что нужно у микрофона и ключа</span></h2>
+    <p class="sec-sub"><span class="en">Eight things people choose the program for. The rest is in the line below.</span><span class="ru">Восемь вещей, ради которых программу выбирают. Остальное — в строке ниже.</span></p>
+    <div class="fcards">
+      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg><h3><span class="en">Three callbooks at once</span><span class="ru">Три справочника сразу</span></h3><p><span class="en">QRZ.RU, HamQTH and QRZ.com. Name, town, grid square and RDA district fill in by themselves.</span><span class="ru">QRZ.RU, HamQTH и QRZ.com. Имя, город, локатор и район RDA подставляются сами.</span></p></div>
+      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c3 3 3 14 0 17M12 3.5c-3 3-3 14 0 17"/></svg><h3><span class="en">A globe in its own window</span><span class="ru">Глобус в своём окне</span></h3><p><span class="en">Both stations, the arc, day and night. It grows with the window and works offline.</span><span class="ru">Обе станции, дуга, день и ночь. Растёт вместе с окном, работает и без сети.</span></p></div>
+      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M5 17l5-4 3 2 3-3 3 3"/></svg><h3><span class="en">The other station’s photo</span><span class="ru">Фото корреспондента</span></h3><p><span class="en">From the callbooks. Several photos, swiping, all kept on your own device.</span><span class="ru">Из справочников. Несколько фото, листание, всё хранится у вас.</span></p></div>
+      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11l3 3v13H5z"/><path d="M8 11h8M8 15h6"/></svg><h3><span class="en">Colour marks, as in JTDX</span><span class="ru">Цветные метки, как в JTDX</span></h3><p><span class="en">New station, new country, new band — seen at a glance, and contacts from JTDX go straight into the log.</span><span class="ru">Новая станция, новая страна, новый диапазон — видно с первого взгляда, а связи из JTDX попадают прямо в журнал.</span></p></div>
+      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18c3-9 6-9 8 0s5 9 8-12"/></svg><h3><span class="en">DX cluster and CW decoder</span><span class="ru">DX-кластер и декодер CW</span></h3><p><span class="en">Spots go into the form with one click. Morse is read from the microphone in Latin letters, with abbreviations explained.</span><span class="ru">Споты одним нажатием в форму. Телеграф читается с микрофона на латинице, с расшифровкой сокращений.</span></p></div>
+      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg><h3><span class="en">LoTW, eQSL, QRZ.com, award.srr.ru</span><span class="ru">LoTW, eQSL, QRZ.com, award.srr.ru</span></h3><p><span class="en">Send and check confirmations with one button. Files for HAMLOG and QRZ.com. QSL cards by e-mail.</span><span class="ru">Отправка и проверка подтверждений одной кнопкой. Файлы для HAMLOG и QRZ.com. Карточки по e-mail.</span></p></div>
+      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1"/></svg><h3><span class="en">The sun and the bands</span><span class="ru">Солнце и прохождение</span></h3><p><span class="en">K, A and SFI in the header and in plain words: which bands carry far stations right now.</span><span class="ru">K, A и SFI в шапке и простым языком: на каких диапазонах сейчас слышно далёкие станции.</span></p></div>
+      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14v10H9l-4 4z"/></svg><h3><span class="en">What to say on air</span><span class="ru">Что сказать в эфире</span></h3><p><span class="en">A hint for beginners: a ready CQ phrase and a typical conversation, in Russian and English.</span><span class="ru">Подсказка для новичка: готовая фраза вызова и типовой разговор, на русском и английском.</span></p></div>
+    </div>
+    <p class="tagline"><span class="en"><b>And also:</b> three colour themes · log columns the way you want · duplicates and “worked before” · ADIF and Cabrillo · backups · POTA and contests · pileups · QSL cards · weather and time at the other end.</span><span class="ru"><b>И ещё:</b> три цветовые темы · колонки журнала под себя · двойники и «уже работали» · ADIF и Cabrillo · резервные копии · POTA и контест · пайлап · QSL-карточки · погода и время у корреспондента.</span></p>
+  </section>
+
+  <section class="heart" id="support">
+    <div class="heart-in">
+      <svg class="heart-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <div class="heart-tx">
+        <h2><span class="en">Made by one ham, for hams</span><span class="ru">Сделано одним радиолюбителем — для радиолюбителей</span></h2>
+        <p><span class="en">R2FEL HamLog is free and always will be. Every new feature, every fix and every night of testing is one person’s time. If the program saves you minutes at the key, you can say thanks — any amount, even the smallest, keeps it going.</span><span class="ru">R2FEL HamLog бесплатный и таким останется. Каждая новая функция, каждое исправление и каждая ночь проверок — время одного человека. Если программа экономит вам минуты у ключа, можно сказать спасибо: любая сумма, даже самая маленькая, помогает ей жить.</span></p>
+      </div>
+      <a class="heart-btn" href="https://boosty.to/r2fel/donate" target="_blank" rel="noopener"><span class="en">Support the author</span><span class="ru">Поддержать автора</span><small><span class="en">on Boosty · from 10 ₽</span><span class="ru">на Boosty · от 10 ₽</span></small></a>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="en">Video</span><span class="ru">Видео</span></h2>
+    <div class="videos">
+      <div class="video" id="video" data-id="s1Y7C9ECQgI">
+        <a class="vc" href="https://www.youtube.com/watch?v=s1Y7C9ECQgI" target="_blank" rel="noopener" aria-label="Watch the video on YouTube">
+          <span class="vc-mark"><span class="vc-call">R2FEL</span><span class="vc-name">HamLog</span></span>
+          <span class="vc-title"><span class="en">See it<br>in <em>a minute</em></span><span class="ru">Посмотрите<br>за <em>минуту</em></span></span>
+          <span class="vc-demo">
+            <span class="vc-field"><span class="vc-typed">R2FEL</span><span class="vc-caret"></span></span>
+            <span class="vc-card"><span class="vc-photo"></span><span class="vc-txt"><span class="vc-badge">● NEW CONTACT</span>
+              <span class="vc-who" style="display:block"><span class="en">Aleksei Aleksandrov</span><span class="ru">Алексей Александров</span></span>
+              <span class="vc-town" style="display:block"><span class="en">Kaliningrad · Russia</span><span class="ru">Калининград · Россия</span></span></span></span>
+            <span class="vc-geo"><span class="vc-globe"></span><span class="vc-route">
+              <span class="vc-km"><span class="en">6 533 km · 42°</span><span class="ru">6 533 km · 42°</span></span>
+              <span class="vc-to">W1AW → R2FEL</span>
+              <span class="vc-spots"><span class="vc-spot is-head">DX CLUSTER</span>
+                <span class="vc-spot"><b>14 025.0</b> VK9XY <i>12:41</i></span>
+                <span class="vc-spot"><b>7 031.5</b> JA3TEST <i>12:40</i></span>
+                <span class="vc-spot"><b>21 295.0</b> PY2TEST <i>12:38</i></span></span></span></span>
+          </span>
+          <span class="vc-morse"><svg viewBox="0 0 1000 20" preserveAspectRatio="none" class="vc-wave"></svg></span>
+          <span class="vc-play"><i>▶</i><span><span class="en">Watch on YouTube</span><span class="ru">Смотреть на YouTube</span></span></span>
+        </a>
+      </div>
+      <div class="video is-short" id="video-short" data-id="_CYz21qohl8">
+        <a class="vc" href="https://www.youtube.com/shorts/_CYz21qohl8" target="_blank" rel="noopener" aria-label="Watch the video on YouTube">
+          <span class="vc-mark"><span class="vc-call">R2FEL</span><span class="vc-name">HamLog</span></span>
+          <span class="vc-title"><span class="en">See it<br>in <em>a minute</em></span><span class="ru">Посмотрите<br>за <em>минуту</em></span></span>
+          <span class="vc-demo">
+            <span class="vc-field"><span class="vc-typed">R2FEL</span><span class="vc-caret"></span></span>
+            <span class="vc-card"><span class="vc-photo"></span><span class="vc-txt"><span class="vc-badge">● NEW CONTACT</span>
+              <span class="vc-who" style="display:block"><span class="en">Aleksei Aleksandrov</span><span class="ru">Алексей Александров</span></span>
+              <span class="vc-town" style="display:block"><span class="en">Kaliningrad · Russia</span><span class="ru">Калининград · Россия</span></span></span></span>
+            <span class="vc-geo"><span class="vc-globe"></span><span class="vc-route">
+              <span class="vc-km"><span class="en">6 533 km · 42°</span><span class="ru">6 533 km · 42°</span></span>
+              <span class="vc-to">W1AW → R2FEL</span>
+              <span class="vc-spots"><span class="vc-spot is-head">DX CLUSTER</span>
+                <span class="vc-spot"><b>14 025.0</b> VK9XY <i>12:41</i></span>
+                <span class="vc-spot"><b>7 031.5</b> JA3TEST <i>12:40</i></span>
+                <span class="vc-spot"><b>21 295.0</b> PY2TEST <i>12:38</i></span></span></span></span>
+          </span>
+          <span class="vc-morse"><svg viewBox="0 0 1000 20" preserveAspectRatio="none" class="vc-wave"></svg></span>
+          <span class="vc-play"><i>▶</i><span><span class="en">Watch on YouTube</span><span class="ru">Смотреть на YouTube</span></span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews">
+    <h2><span class="en">Reviews by RU2FAC</span><span class="ru">Обзоры от RU2FAC</span></h2>
+    <div class="rv">
+      <div class="rv-lead">
+        <span class="rv-tag"><span class="en">Review · RU2FAC</span><span class="ru">Обзор · RU2FAC</span></span>
+        <h3><span class="en">R2FEL HamLog,<br>seen by <em>RU2FAC</em></span><span class="ru">R2FEL HamLog<br>глазами <em>RU2FAC</em></span></h3>
+        <p><span class="en">A fellow ham went through the phone app and the computer program on camera and shows how they work. The videos are in Russian and live on his YouTube channel, Imran Expert.</span><span class="ru">Радиолюбитель RU2FAC на камеру проходит по мобильному приложению и компьютерной программе и показывает, как они работают. Видео на его канале Imran Expert.</span></p>
+      </div>
+      <div class="rv-list">
+        <a class="rv-card" href="https://youtu.be/c1kdcrW04s8" target="_blank" rel="noopener">
+          <span class="rv-pic is-phone"><img class="en" src="img/phone-entry.webp" alt="" width="460" height="936" loading="lazy"><img class="ru" src="img/phone-entry-ru.webp" alt="" width="460" height="936" loading="lazy"></span>
+          <span class="rv-body"><span class="rv-name"><span class="en">The phone app: Android and iPhone</span><span class="ru">Мобильное приложение: Android и iPhone</span></span>
+            <span class="rv-go"><span class="en">Watch on YouTube ↗</span><span class="ru">Смотреть на YouTube ↗</span></span></span>
+        </a>
+        <a class="rv-card" href="https://youtu.be/jHyAE3GIDko" target="_blank" rel="noopener">
+          <span class="rv-pic is-desk"><img class="en" src="img/desk-en.webp" alt="" width="1300" height="615" loading="lazy"><img class="ru" src="img/desk-ru.webp" alt="" width="1300" height="618" loading="lazy"></span>
+          <span class="rv-body"><span class="rv-name"><span class="en">The computer program: Mac and Windows</span><span class="ru">Программа для компьютера: Mac и Windows</span></span>
+            <span class="rv-go"><span class="en">Watch on YouTube ↗</span><span class="ru">Смотреть на YouTube ↗</span></span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="install">
+    <h2><span class="en">Installing on the phone</span><span class="ru">Установка на телефон</span><span class="badge"><span class="en">free</span><span class="ru">бесплатно</span></span></h2>
+    <p class="lead-dim"><span class="en">The phone app is free, with no ad networks and no banners. It logs contacts in the field, looks callsigns up, shows the map and syncs with the computer program over your home Wi-Fi.</span><span class="ru">Телефонное приложение бесплатное, без рекламных сетей и баннеров. Записывает связи в поле, ищет позывные, показывает карту и синхронизируется с компьютерной программой по домашнему Wi-Fi.</span></p>
+        <details class="note why">
+      <summary><span class="en">Why not from the App Store or Google Play?</span><span class="ru">Почему не из App Store и Google Play?</span></summary>
+      <p><span class="en"><b>Short answer:</b> the stores charge the developer and set conditions, and this is a free hobby program made by one ham. Today it is simply not worth it for a free app that earns nothing.</span><span class="ru"><b>Коротко:</b> магазины берут плату с разработчика и ставят свои условия, а это бесплатная программа одного радиолюбителя. Пока для бесплатного приложения, которое ничего не зарабатывает, это просто не окупается.</span></p>
+      <p><span class="en"><b>Details.</b> Apple asks for a paid developer account every year and checks every update; Google Play asks for a fee, a verified identity and test periods. Both stores also want the right to decide what an app may do. Apps installed straight from a file are normal on Android and possible on iPhone, they just need a few more steps from you.</span><span class="ru"><b>Подробнее.</b> Apple берёт плату за аккаунт разработчика каждый год и проверяет каждое обновление; Google Play требует взнос, подтверждение личности и тестовые периоды. Оба магазина ещё и решают, что приложению можно делать. Приложения, установленные из файла, — обычное дело на Android и возможное на iPhone, просто от вас нужно чуть больше шагов.</span></p>
+      <p><span class="en"><b>Is it safe?</b> Take the file only from this page (or from the official GitHub page it links to). The app has no ad networks and does not look into your log. At most it shows one short sponsor screen at launch, and only when the author switches it on. Your log stays on the phone; callbooks, weather and maps are asked by the phone itself only when you use them — the same as in the computer program (see “Your data” below). Android says “unknown app” just because it is not from Google Play.</span><span class="ru"><b>Это безопасно?</b> Берите файл только с этой страницы (или с официальной страницы GitHub, на которую она ведёт). В приложении нет рекламных сетей, и оно не заглядывает в ваш журнал. Максимум — одна короткая заставка спонсора при запуске, и только если автор её включил. Журнал хранится на телефоне; справочники, погоду и карты телефон спрашивает сам и только когда вы ими пользуетесь — как и компьютерная программа (см. «Ваши данные» ниже). Android пишет «неизвестное приложение» только потому, что его нет в Google Play.</span></p>
+      <p><span class="en"><b>Why iPhone is harder.</b> Apple allows apps only from its store or signed by a developer account. Sideloadly signs the file with <i>your own</i> free Apple ID, and a free signature lasts 7 days. With a paid developer account that limit would go away — and if the app finds enough users, the author will consider that and the store.</span><span class="ru"><b>Почему на iPhone сложнее.</b> Apple разрешает приложения только из своего магазина или подписанные аккаунтом разработчика. Sideloadly подписывает файл <i>вашим собственным</i> бесплатным Apple ID, а бесплатная подпись держится 7 дней. С платным аккаунтом разработчика это ограничение исчезло бы — и если у приложения появится достаточно пользователей, автор подумает и об этом, и о магазине.</span></p>
+      <p><span class="en"><b>Updates.</b> A new version is installed over the old one from this page; the log stays.</span><span class="ru"><b>Обновления.</b> Новая версия ставится поверх старой с этой страницы, журнал сохраняется.</span></p>
+    </details>
+    <div class="two">
+      <div class="note">
+        <h3><span class="en">Android — 1 minute</span><span class="ru">Android — 1 минута</span></h3>
+        <ol class="steps">
+          <li><span class="en"><b>Download</b> the file with the Android button at the top of this page (on the phone itself).</span><span class="ru"><b>Скачайте</b> файл кнопкой «Android» вверху страницы (прямо на телефоне).</span></li>
+          <li><span class="en"><b>Open</b> it. The phone asks to allow installing from this source — allow it.</span><span class="ru"><b>Откройте</b> его. Телефон спросит разрешение на установку из этого источника — разрешите.</span></li>
+          <li><span class="en">If Play Protect says the app is unknown, press <b>Install anyway</b> (it is not in the store).</span><span class="ru">Если Play Protect пишет, что приложение неизвестно, нажмите <b>«Всё равно установить»</b> (в магазине его нет).</span></li>
+          <li><span class="en">A new version: install the new file over the old one — the log stays.</span><span class="ru">Новая версия: установите новый файл поверх старого — журнал сохранится.</span></li>
+        </ol>
+      </div>
+      <div class="note">
+        <h3><span class="en">iPhone — needs a computer</span><span class="ru">iPhone — нужен компьютер</span></h3>
+        <ol class="steps">
+          <li><span class="en">On a Mac or Windows PC install the free <a href="https://sideloadly.io/" rel="noopener">Sideloadly</a> and follow its own instructions (Windows needs iTunes from Apple).</span><span class="ru">На компьютере (Mac или Windows) поставьте бесплатную программу <a href="https://sideloadly.io/" rel="noopener">Sideloadly</a> и следуйте её инструкции (для Windows нужен iTunes с сайта Apple).</span></li>
+          <li><span class="en">Download the file with the iPhone button at the top of this page, connect the iPhone by cable, press “Trust”.</span><span class="ru">Скачайте файл кнопкой «iPhone» вверху страницы, подключите iPhone кабелем, нажмите «Доверять».</span></li>
+          <li><span class="en">Drag the file into Sideloadly, enter your free Apple ID when it asks, press Start.</span><span class="ru">Перетащите файл в Sideloadly, введите свой бесплатный Apple ID, когда спросит, нажмите Start.</span></li>
+          <li><span class="en">On the iPhone: Settings → General → VPN &amp; Device Management → trust your Apple ID; on iOS 16+ also Settings → Privacy &amp; Security → Developer Mode.</span><span class="ru">На iPhone: Настройки → Основные → VPN и управление устройством → доверять вашему Apple ID; на iOS 16 и новее ещё Настройки → Конфиденциальность и безопасность → Режим разработчика.</span></li>
+        </ol>
+        <p><b><span class="en">Honestly:</span><span class="ru">Честно:</span></b> <span class="en">a free Apple ID signature lasts <b>7 days</b>. Then the app stops opening — install the file again the same way, over the old one. Before that, export your log (More → Export ADIF). A paid Apple developer account would remove this limit.</span><span class="ru">бесплатная подпись Apple ID держится <b>7 дней</b>. Потом приложение перестаёт открываться — поставьте файл заново тем же способом, поверх старого. Перед этим выгрузите журнал («Ещё» → «Выгрузить ADIF»). Платный аккаунт разработчика Apple снимает это ограничение.</span></p>
+      </div>
+    </div>
+  </section>
+
+
+  <section>
+    <h2><span class="en">Getting started</span><span class="ru">Первые шаги</span></h2>
+      <div class="note">
+        <h3><span class="en">Callsign lookup</span><span class="ru">Поиск позывных</span></h3>
+        <p><span class="en">Needs free XML API access at QRZ.RU and/or a free HamQTH account. The manual inside the program (F1) explains how to get both.</span><span class="ru">Нужен бесплатный доступ к XML API QRZ.RU и/или бесплатный аккаунт HamQTH. Как их получить — в инструкции внутри программы (F1).</span></p>
+      </div>
+  </section>
+
+  <section>
+    <h2><span class="en">Thank you, testers</span><span class="ru">Спасибо тестировщикам</span></h2>
+    <div class="thx" id="thx">
+      <div class="thx-text">
+        <div class="thx-mark"><span class="thx-call">R2FEL</span><span class="thx-name">HamLog</span></div>
+        <h3><span class="en">Thank you,<br><em>testers</em></span><span class="ru">Спасибо,<br><em>тестировщики</em></span></h3>
+        <p class="thx-sub"><span class="en">Every build installed, logs and bugs sent — the program is better for it.</span><span class="ru">Каждую сборку поставили, журналы и ошибки прислали — программа стала лучше.</span></p>
+      </div>
+      <div class="thx-net" id="thx-net" role="img" aria-label="Thank you, testers"><svg id="thx-svg" viewBox="0 0 100 48" preserveAspectRatio="none"></svg>
+        <span class="thx-hub"><i></i><i></i><i></i><b>R2FEL</b></span></div>
+      <div class="thx-morse"><svg viewBox="0 0 1000 16" preserveAspectRatio="none" id="thx-wave"></svg></div>
+    </div>
+    <p class="thanks-note"><span class="en">R2FEL HamLog grew out of other hams' real logs and honest bug reports. These people installed every unfinished build, sent their logs and debug files, and said plainly what did not work.</span><span class="ru">R2FEL HamLog вырос из настоящих журналов радиолюбителей и честных сообщений об ошибках. Эти люди ставили каждую недоделанную сборку, присылали журналы и файлы отладки и прямо говорили, что не работает.</span></p>
+  </section>
+
+  <section>
+    <h2><span class="en">Your data</span><span class="ru">Ваши данные</span></h2>
+    <div class="note ok">
+      <h3><span class="en">Nothing from your log leaves your computer</span><span class="ru">Ничего из журнала не уходит с компьютера</span></h3>
+      <p><span class="en">Callbooks and weather are asked only while you type a callsign (the sun and band data once an hour, with a request that is the same for everyone). LoTW, eQSL, HAMLOG and award.srr.ru — only when you press the button; the DX cluster only when you press Connect (the node you pick sees your callsign, which is how clusters sign you in). The nearest POTA parks are asked from pota.app only when you press 📍 with the park fields on — your coordinates go with that request. Photos of stations are downloaded from the same callbooks, and a background run asks them, one callsign at a time, about the callsigns in your log. The globe is off by default; its map comes from OpenFreeMap, which sees which areas of the world are shown — no callsigns, no log. The microphone of the Morse decoder is yours alone — the sound never leaves the program. The settings backup, if you turn it on, lands in the folder you choose; its logins are plain text, so keep it off a cloud folder or switch them off. Once a day the program checks for a new version and tells the author just the country, version, system and language — no callsign, no contacts. You can switch that off in settings. This site counts visits the same way — the day, the country, where you came from — with no cookies and nothing about you personally.</span><span class="ru">Справочники и погода спрашиваются, только пока вы вводите позывной (данные о Солнце и прохождении — раз в час, запросом, одинаковым для всех). LoTW, eQSL, HAMLOG и award.srr.ru — только по нажатию кнопки; DX-кластер — только по кнопке Connect (узел, который вы выбрали, видит ваш позывной — так кластеры вас впускают). Ближайшие парки POTA запрашиваются с pota.app только по нажатию 📍 при включённых полях парков — с запросом уходят ваши координаты. Фото станций скачиваются с тех же справочников, а фоновый обход спрашивает у них, по одному позывному за раз, позывные вашего журнала. Глобус по умолчанию выключен; карта берётся с OpenFreeMap, который видит, какие места мира показаны, — ни позывных, ни журнала. Микрофон декодера телеграфа принадлежит только вам — звук из программы не уходит. Копия настроек, если вы её включили, ложится в выбранную вами папку; логины в ней открытым текстом, поэтому не кладите её в облачную папку или выключите логины. Раз в сутки программа проверяет, не вышла ли новая версия, и сообщает автору только страну, версию, систему и язык — ни позывного, ни связей. Это выключается в настройках. Сам сайт считает посещения так же обезличенно: день, страна, откуда пришли, — без cookie и без чего-либо о вас лично.</span></p>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <h2><span class="en">Write to the author</span><span class="ru">Написать автору</span></h2>
+    <p class="lead-dim"><span class="en">A question, an idea or a bug — write here, right on the page. No address to type, no account.</span><span class="ru">Вопрос, идея или ошибка — напишите прямо здесь, на странице. Адрес вводить не нужно, регистрироваться тоже.</span></p>
+    <form id="cf" autocomplete="off">
+      <label for="cf-msg"><span class="en">Your message</span><span class="ru">Ваше сообщение</span>
+        <textarea id="cf-msg" maxlength="2000" required></textarea></label>
+      <label for="cf-who"><span class="en">How to answer you (optional): e-mail, Telegram, callsign</span><span class="ru">Как вам ответить (по желанию): почта, Telegram, позывной</span>
+        <input type="text" id="cf-who" maxlength="120"></label>
+      <div class="hp" aria-hidden="true"><label>Site <input type="text" id="cf-hp" tabindex="-1" autocomplete="off"></label></div>
+      <div class="row"><button type="submit" id="cf-go"><span class="en">Send</span><span class="ru">Отправить</span></button><span class="st" id="cf-st" role="status"></span></div>
+      <p class="alt"><span class="en">Only the text (and the contact if you write one) and your country are kept. If sending fails, or you prefer mail: </span><span class="ru">Сохраняется только текст (и контакт, если вы его указали) и страна. Если не отправляется или удобнее почтой: </span><a href="mailto:r2fel@mail.ru" id="cf-mail">r2fel@mail.ru</a></p>
+    </form>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><span class="en">Author: Aleksei Aleksandrov,</span><span class="ru">Автор — Алексей Александров,</span> <b>R2FEL</b> · <a href="mailto:r2fel@mail.ru">r2fel@mail.ru</a> · <span class="en">free to use · all rights reserved</span><span class="ru">бесплатно · все права защищены</span></p>
+    <p class="seventy3">73!</p>
+  </div>
+</footer>
+
+<dialog class="inst" id="inst" aria-labelledby="inst-h">
+  <div data-os="apk">
+    <h3 id="inst-h"><span class="en">Android: install in a minute</span><span class="ru">Android: установка за минуту</span></h3>
+    <p class="sub"><span class="en">The download has started.</span><span class="ru">Скачивание началось.</span></p>
+  </div>
+  <div data-os="ipa">
+    <h3><span class="en">iPhone: it takes a computer</span><span class="ru">iPhone: понадобится компьютер</span></h3>
+    <p class="sub"><span class="en">The download has started.</span><span class="ru">Скачивание началось.</span></p>
+  </div>
+  <ol data-os="apk">
+    <li><span class="en"><b>Open the file</b> when it has downloaded (notification or the Downloads folder).</span><span class="ru"><b>Откройте файл</b>, когда он скачается (уведомление или папка «Загрузки»).</span></li>
+    <li><span class="en">Android asks to allow installing from this source — <b>allow</b>.</span><span class="ru">Android спросит разрешение на установку из этого источника — <b>разрешите</b>.</span></li>
+    <li><span class="en">If Play Protect says the app is unknown, tap <b>“Install anyway”</b>: it is not in the store.</span><span class="ru">Если Play Protect пишет, что приложение неизвестно, нажмите <b>«Всё равно установить»</b>: в магазине его нет.</span></li>
+    <li><span class="en">A new version goes over the old one — the log stays.</span><span class="ru">Новая версия ставится поверх старой — журнал сохранится.</span></li>
+  </ol>
+  <ol data-os="ipa">
+    <li><span class="en">On a Mac or Windows PC install the free <b>Sideloadly</b> (sideloadly.io; Windows also needs iTunes from Apple’s site).</span><span class="ru">На компьютере (Mac или Windows) поставьте бесплатную программу <b>Sideloadly</b> (sideloadly.io; для Windows нужен iTunes с сайта Apple).</span></li>
+    <li><span class="en">Connect the iPhone by cable, tap <b>Trust</b>, drag the downloaded file into Sideloadly, enter your own free Apple ID, press <b>Start</b>.</span><span class="ru">Подключите iPhone кабелем, нажмите <b>«Доверять»</b>, перетащите скачанный файл в Sideloadly, введите свой бесплатный Apple ID и нажмите <b>Start</b>.</span></li>
+    <li><span class="en">On the iPhone: Settings → General → VPN &amp; Device Management → trust your Apple ID; on iOS 16+ also Settings → Privacy &amp; Security → Developer Mode.</span><span class="ru">На iPhone: Настройки → Основные → VPN и управление устройством → доверять вашему Apple ID; на iOS 16 и новее ещё Настройки → Конфиденциальность и безопасность → Режим разработчика.</span></li>
+  </ol>
+  <p class="warn" data-os="ipa"><span class="en"><b>Honestly:</b> a free Apple ID signature lasts <b>7 days</b>; then install the file again over the old one. Export your log first (More → Export ADIF).</span><span class="ru"><b>Честно:</b> бесплатная подпись Apple ID держится <b>7 дней</b>; потом поставьте файл заново поверх старого. Перед этим выгрузите журнал («Ещё» → «Выгрузить ADIF»).</span></p>
+  <div class="acts"><button type="button" class="ok" id="inst-ok"><span class="en">Got it</span><span class="ru">Понятно</span></button><a class="more" href="#install" id="inst-more"><span class="en">Full instructions</span><span class="ru">Подробная инструкция</span></a></div>
+</dialog>
+
+<script>
+  (function () {
+    var REPO = 'r2fel/hamlog';
+    // Своя служба на Cloudflare — та же, что говорит программе о новых
+    // версиях. Ею же считаются посещения сайта: чужих счётчиков здесь нет.
+    // На localhost (проверка страницы у себя) — служба, поднятая рядом
+    // командой node stats-server/local.mjs, чтобы не мешать настоящему счёту.
+    var SERVICE = /^(localhost|127\.)/.test(location.hostname)
+      ? 'http://127.0.0.1:4195'
+      : 'https://r2fel-hamlog-updates.r2fel.workers.dev';
+    var files = {
+      mac: function (v) { return 'R2FEL-LOG-' + v + '-arm64.dmg'; },
+      macintel: function (v) { return 'R2FEL-LOG-' + v + '-x64.dmg'; },
+      win: function (v) { return 'R2FEL-LOG-Setup-' + v + '.exe'; },
+      win78: function (v) { return 'R2FEL-LOG-Setup-' + v + '-Windows7-8.exe'; },
+      apk: function (v) { return 'R2FEL-HamLog-mobile-' + v + '.apk'; },
+      ipa: function (v) { return 'R2FEL-HamLog-mobile-' + v + '.ipa'; }
+    };
+
+    // Links straight to the files of a release. The version written in the page
+    // is the fallback; the update service (the same one the program asks) knows
+    // the newest release, so a new version on GitHub shows up here by itself.
+    function setVersion(v) {
+      document.getElementById('ver').textContent = v;
+      var links = document.querySelectorAll('[data-file]');
+      for (var i = 0; i < links.length; i++) {
+        var name = files[links[i].getAttribute('data-file')](v);
+        links[i].href = 'https://github.com/' + REPO + '/releases/download/v' + v + '/' + name;
+        links[i].querySelector('.file').textContent = name;
+      }
+    }
+    var builtIn = '1.0.82';
+    setVersion(builtIn);
+    // Only ever forward: the service keeps GitHub's answer for an hour, and
+    // right after a release it still names the one before — taking that would
+    // point the buttons at the old files (21.10.2026, 1.0.57 shown as 1.0.56).
+    function newer(a, b) {
+      var x = a.split('.'), y = b.split('.');
+      for (var i = 0; i < 3; i++) { if (+x[i] !== +y[i]) return +x[i] > +y[i]; }
+      return false;
+    }
+    try {
+      fetch(SERVICE + '/latest')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) { if (j && /^\d+\.\d+\.\d+$/.test(j.latest || '') && newer(j.latest, builtIn)) setVersion(j.latest); })
+        .catch(function () {});
+    } catch (e) {}
+
+    // The banner downloads the file for the visitor's own system: a Mac gets
+    // the DMG, Windows 10/11 64-bit the main installer, Windows 7/8/8.1
+    // (NT 6.x) and any 32-bit Windows the old-engine one. Anything else
+    // (Linux, a phone) just scrolls to the three buttons.
+    function ownSystem() {
+      var ua = navigator.userAgent || '';
+      if (/Windows NT/.test(ua)) {
+        if (/Windows NT 6\./.test(ua)) return 'win78';
+        return /Win64|x64|WOW64|amd64/i.test(ua) ? 'win' : 'win78';
+      }
+      if (/Android/.test(ua)) return 'apk';
+      if (/iPhone|iPad|iPod/.test(ua)) return 'ipa';
+      if (/Macintosh|Mac OS X/.test(ua) && !(navigator.maxTouchPoints > 1)) return 'mac';
+      return null;
+    }
+    // The orange button is the visitor's own system's, not always the Mac one
+    (function () {
+      var own = ownSystem();
+      if (!own) return;
+      var all = document.querySelectorAll('[data-file]');
+      for (var i = 0; i < all.length; i++) all[i].classList.toggle('primary', all[i].getAttribute('data-file') === own);
+    })();
+
+    // Отметка о посещении: день, страна (её знает сеть), одно слово о том,
+    // откуда пришли, и язык страницы. Ни cookie, ни номера посетителя, ни
+    // адреса — считаются события, а не люди. Не получилось — и ладно.
+    function mark(kind) {
+      var ref = '';
+      try { ref = document.referrer ? new URL(document.referrer).hostname : ''; } catch (e) {}
+      if (ref === location.hostname) ref = '';
+      var url = SERVICE + '/hit?k=' + kind +
+        '&lang=' + document.documentElement.getAttribute('data-lang') +
+        (ref ? '&ref=' + encodeURIComponent(ref) : '');
+      try {
+        if (navigator.sendBeacon) navigator.sendBeacon(url);
+        else fetch(url, { mode: 'no-cors', keepalive: true }).catch(function () {});
+      } catch (e) {}
+    }
+    mark('page');
+    var dlKind = { mac: 'dl-mac', macintel: 'dl-mac', win: 'dl-win', win78: 'dl-win78', apk: 'dl-apk', ipa: 'dl-ipa' };
+    document.querySelectorAll('[data-file]').forEach(function (a) {
+      a.addEventListener('click', function () { var k = dlKind[a.getAttribute('data-file')]; if (k) mark(k); });
+    });
+
+    // Android and iPhone: show the install steps at once, the download goes on in the background
+    (function () {
+      var d = document.getElementById('inst'); if (!d) return;
+      document.querySelectorAll('[data-file="apk"], [data-file="ipa"]').forEach(function (a) {
+        a.addEventListener('click', function () {
+          d.setAttribute('data-os', a.getAttribute('data-file'));
+          if (d.showModal) { try { d.showModal(); } catch (e) {} }
+        });
+      });
+      document.getElementById('inst-ok').addEventListener('click', function () { d.close(); });
+      document.getElementById('inst-more').addEventListener('click', function () { d.close(); });
+      d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
+    })();
+
+    // The "write to the author" form: goes to our own service, no mail program involved
+    (function () {
+      var f = document.getElementById('cf'); if (!f) return;
+      var st = document.getElementById('cf-st'), go = document.getElementById('cf-go');
+      function lang() { return document.documentElement.getAttribute('data-lang') === 'ru' ? 'ru' : 'en'; }
+      function say(t, c) { st.textContent = t; st.className = 'st ' + (c || ''); }
+      function ph() { document.getElementById('cf-msg').placeholder = lang() === 'ru' ? 'Что случилось или что хотите предложить?' : 'What happened, or what would you like to suggest?'; }
+      document.getElementById('cf-msg').addEventListener('input', function () { say(''); });
+      ph(); document.querySelectorAll('[data-set-lang]').forEach(function (b) { b.addEventListener('click', function () { setTimeout(ph, 0); }); });
+      f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var msg = document.getElementById('cf-msg').value.trim(); if (msg.length < 3) return;
+        go.disabled = true; say(lang() === 'ru' ? 'Отправляю…' : 'Sending…');
+        var ctl = window.AbortController ? new AbortController() : null; var tm = setTimeout(function () { if (ctl) ctl.abort(); }, 10000);
+        fetch(SERVICE + '/feedback', { method: 'POST', headers: { 'content-type': 'text/plain' }, body: JSON.stringify({ message: msg, contact: document.getElementById('cf-who').value, lang: lang(), site: document.getElementById('cf-hp').value }), signal: ctl ? ctl.signal : undefined })
+          .then(function (r) { clearTimeout(tm); if (r.status === 429) throw new Error('many'); if (!r.ok) throw new Error('bad'); return r.json(); })
+          .then(function () { say(lang() === 'ru' ? 'Спасибо! Сообщение отправлено.' : 'Thank you! Your message was sent.', 'ok'); document.getElementById('cf-msg').value = ''; go.disabled = false; })
+          .catch(function (er) {
+            clearTimeout(tm); go.disabled = false;
+            var m = document.getElementById('cf-mail'); m.href = 'mailto:r2fel@mail.ru?subject=R2FEL%20HamLog&body=' + encodeURIComponent(msg);
+            say(er && er.message === 'many' ? (lang() === 'ru' ? 'Сегодня уже много сообщений с вашего адреса — напишите на почту ниже.' : 'Too many messages from your address today — please use the mail address below.')
+              : (lang() === 'ru' ? 'Не получилось отправить (из России без VPN служба может быть недоступна). Нажмите на почту ниже — текст подставится.' : 'Could not send (the service may be unreachable from your network). Use the mail link below — your text is filled in.'), 'bad');
+          });
+      });
+    })();
+
+    // Language switch
+    function markLang() {
+      var l = document.documentElement.getAttribute('data-lang');
+      var b = document.querySelectorAll('[data-set-lang]');
+      for (var i = 0; i < b.length; i++) b[i].setAttribute('aria-pressed', b[i].getAttribute('data-set-lang') === l);
+      // The page can show Russian text on the root address (a Russian browser): the videos follow the language.
+      var V = { en: ['s1Y7C9ECQgI', '_CYz21qohl8'], ru: ['4O0bGUv8YIY', 'CS9T3UbZquo'] }[l === 'ru' ? 'ru' : 'en'];
+      [['video', 'watch?v=', V[0]], ['video-short', 'shorts/', V[1]]].forEach(function (v) {
+        var box = document.getElementById(v[0]), a = box && box.querySelector('a.vc');
+        if (!box || !a) return;
+        box.setAttribute('data-id', v[2]);
+        a.setAttribute('href', 'https://www.youtube.com/' + v[1] + v[2]);
+      });
+    }
+    document.querySelector('.langs').addEventListener('click', function (e) {
+      var l = e.target.getAttribute('data-set-lang');
+      if (!l) return;
+      document.documentElement.setAttribute('data-lang', l);
+      document.documentElement.lang = l;
+      try { localStorage.setItem('lang', l); } catch (err) {}
+      if (l === 'ru') { location.href = '/ru/'; return; }
+      markLang();
+    });
+    markLang();
+
+    // Twinkling stars in the black corners around the globe picture.
+    (function () {
+      var box = document.getElementById('lg-fx'); if (!box) return;
+      var seed = 7; function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+      for (var i = 0, n = 0; n < 26 && i < 400; i++) {
+        var x = rnd(), y = rnd(), dx = x - .5, dy = y - .5;
+        if (Math.sqrt(dx * dx + dy * dy) < .5) continue;
+        var e = document.createElement('i'); e.className = 'st'; e.style.left = (x * 100) + '%'; e.style.top = (y * 100) + '%';
+        e.style.animationDelay = (-rnd() * 3.4).toFixed(2) + 's'; e.style.animationDuration = (2.4 + rnd() * 2.6).toFixed(2) + 's'; box.appendChild(e); n++;
+      }
+    })();
+
+    // The thank-you block: the testers' callsigns (add one here and the picture lays itself out again).
+    (function () {
+      var CALLS = ['RU2FAC', 'R2ST', 'R1BRZ', 'R2FDB'];
+      var net = document.getElementById('thx-net'), svg = document.getElementById('thx-svg'), n = CALLS.length, lines = '', sparks = '';
+      var wide = true;
+      CALLS.forEach(function (c, i) {
+        var a = (-90 + (i + .5) * 360 / n) * Math.PI / 180;
+        var x = 50 + Math.cos(a) * 41, y = 24 + Math.sin(a) * 19.5, d = (i * 0.55).toFixed(2) + 's';
+        var el = document.createElement('span');
+        el.className = 'thx-st'; el.textContent = c; el.style.left = x + '%'; el.style.top = (y / 48 * 100) + '%'; el.style.animationDelay = d;
+        net.appendChild(el);
+        lines += '<path class="thx-line" pathLength="1" d="M' + x + ' ' + y + 'L50 24" style="animation-delay:' + d + '"/>';
+        var t = (0.2 + i * 0.07).toFixed(2), t2 = (parseFloat(t) + 0.12).toFixed(2);
+        sparks += '<circle class="thx-spark" r=".9" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;' + t + ';' + t2 + ';1" calcMode="linear" path="M' + x + ' ' + y + 'L50 24"/>' +
+          '<animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;' + t + ';' + (parseFloat(t) + .01).toFixed(2) + ';' + (parseFloat(t2) - .01).toFixed(2) + ';' + t2 + ';1"/></circle>';
+      });
+      svg.innerHTML = lines + sparks;
+      var x2 = 10, out = '', M = '--... ...--';
+      for (var r = 0; r < 8; r++) for (var i = 0; i < M.length; i++) {
+        var ch = M.charAt(i);
+        if (ch === ' ') { x2 += 40; continue; }
+        var w = ch === '-' ? 34 : 10;
+        out += '<rect x="' + x2 + '" y="4" width="' + w + '" height="8" rx="4" fill="#a97a3a"/>';
+        x2 += w + 12;
+      }
+      var wv = document.getElementById('thx-wave'); wv.setAttribute('viewBox', '0 0 ' + x2 + ' 16'); wv.innerHTML = out;
+    })();
+
+    // The video covers: a line of dots and dashes under each ("73"), drawn once; the rest animates in CSS.
+    (function () {
+      var x = 10, out = '', M = '--... ...--';
+      for (var r = 0; r < 8; r++) for (var i = 0; i < M.length; i++) {
+        var ch = M.charAt(i);
+        if (ch === ' ') { x += 40; continue; }
+        var w = ch === '-' ? 34 : 10;
+        out += '<rect x="' + x + '" y="6" width="' + w + '" height="8" rx="4" fill="#a97a3a"/>';
+        x += w + 12;
+      }
+      document.querySelectorAll('.vc-wave').forEach(function (s) { s.setAttribute('viewBox', '0 0 ' + Math.ceil(x * 1) + ' 20'); s.innerHTML = out; });
+    })();
+
+    // The drawn portrait and the globe on the covers (inline SVG, so they animate). Land scrolls under the
+    // glass of the sphere, meridians breathe, rings pulse at both ends, a spark runs along the path.
+    (function () {
+      var photo = '<svg viewBox="0 0 150 100" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="vcp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b7a96"/><stop offset="1" stop-color="#2f4357"/></linearGradient></defs>' +
+        '<rect width="150" height="100" fill="url(#vcp)"/><rect x="14" y="14" width="30" height="20" rx="3" fill="#3b5168" opacity=".8"/>' +
+        '<path d="M32 100c2-26 20-34 43-34s41 8 43 34z" fill="#4b78a4"/><circle cx="75" cy="44" r="19" fill="#e8b98f"/>' +
+        '<path d="M55 40c0-18 10-26 20-26s20 8 20 26" fill="none" stroke="#1d242b" stroke-width="5" stroke-linecap="round"/>' +
+        '<rect x="50" y="38" width="7" height="14" rx="3" fill="#1d242b"/><rect x="93" y="38" width="7" height="14" rx="3" fill="#1d242b"/>' +
+        '<path d="M54 52c4 12 14 16 22 16" fill="none" stroke="#1d242b" stroke-width="3" stroke-linecap="round"/>' +
+        '<circle cx="69" cy="43" r="2" fill="#2b2b2b"/><circle cx="82" cy="43" r="2" fill="#2b2b2b"/><path d="M69 54c4 3 9 3 13 0" fill="none" stroke="#8a4b3a" stroke-width="2" stroke-linecap="round"/></svg>';
+      // one 120-wide strip of land, drawn twice side by side so it can scroll without a seam
+      var land = '<path d="M6 30c6-9 20-12 28-6s16 0 22 4 4 12-4 14-10 8-20 6-10-8-18-6-14-4-8-12z"/>' +
+        '<path d="M44 58c8-5 18-3 20 5s-3 17-12 17-14-14-8-22z"/>' +
+        '<path d="M70 26c8-6 22-8 30-2s10 12 2 16-14 10-24 6-14-14-8-20z"/><path d="M92 54c6-3 12 0 12 6s-6 8-10 6-6-8-2-12z"/><path d="M104 74c6-2 12 2 10 8s-10 6-12 2 0-8 2-10z"/>';
+      var globe = '<svg viewBox="0 0 100 100"><defs><clipPath id="vcc"><circle cx="50" cy="50" r="44"/></clipPath>' +
+        '<radialGradient id="vcr" cx=".5" cy=".5" r=".5"><stop offset=".86" stop-color="#e8a23d" stop-opacity="0"/><stop offset=".95" stop-color="#e8a23d" stop-opacity=".5"/><stop offset="1" stop-color="#e8a23d" stop-opacity="0"/></radialGradient></defs>' +
+        '<circle cx="50" cy="50" r="49" fill="url(#vcr)"/>' +
+        '<g clip-path="url(#vcc)"><image class="en" href="img/vc-globe-en.webp" x="6" y="6" width="88" height="88"/><image class="ru" href="img/vc-globe-ru.webp" x="6" y="6" width="88" height="88"/></g>' +
+        '<circle cx="50" cy="50" r="44" fill="none" stroke="#5a4a2a" stroke-width="1.2"/>' +
+        '<path id="vcpath" class="vc-g-arc" pathLength="1" d="M24.9 57.5Q50 48 75.1 42.3" fill="none" stroke="#f4b24f" stroke-width="1.8" stroke-linecap="round"/>' +
+        '<circle class="vc-g-ring" cx="24.9" cy="57.5" r="4" fill="none" stroke="#e8a23d" stroke-width="1.2"/><circle class="vc-g-ring r2" cx="24.9" cy="57.5" r="4" fill="none" stroke="#e8a23d" stroke-width="1.2"/>' +
+        '<circle class="vc-g-ring" cx="75.1" cy="42.3" r="4" fill="none" stroke="#7ea36b" stroke-width="1.2" style="animation-delay:-.5s"/>' +
+        '<circle class="vc-g-spark" r="1.8" fill="#fff6dc" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.30;.48;1" calcMode="linear"><mpath href="#vcpath"/></animateMotion>' +
+        '<animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;.3;.32;.47;.49;1"/></circle></svg>';
+      document.querySelectorAll('.vc-photo').forEach(function (e) { e.innerHTML = '<img src="img/vc-card.webp" width="528" height="352" alt="">'; });
+      document.querySelectorAll('.vc-globe').forEach(function (e) { e.innerHTML = globe; });
+    })();
+
+  })();
+</script>
+</body>
+</html>
