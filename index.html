@@ -28,10 +28,9 @@
   "operatingSystem": "macOS, Windows 7, Windows 8, Windows 10, Windows 11",
   "description": "Free ham radio logbook: callsign lookup, weather and local time, DX cluster, Morse decoder, LoTW, eQSL, ADIF, Cabrillo.",
   "url": "https://r2fel.com/",
-  "downloadUrl": "https://github.com/r2fel/hamlog/releases/latest",
+  "downloadUrl": "https://r2fel.com/#downloads",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "author": { "@type": "Person", "name": "Aleksei Aleksandrov", "alternateName": "R2FEL" },
-  "sameAs": ["https://github.com/r2fel/hamlog"]
+  "author": { "@type": "Person", "name": "Aleksei Aleksandrov", "alternateName": "R2FEL" }
 }
 </script>
 <link rel="icon" type="image/png" href="img/icon-192.png">
@@ -475,11 +474,12 @@
   .stage .phone { position: absolute; right: -8px; bottom: 0; width: 30%; transform: rotate(3deg); }
   .phone { border: 7px solid #0d0c0a; border-radius: 34px; background: #0d0c0a; overflow: hidden; box-shadow: 0 0 0 1px #3a362e, 0 26px 60px rgba(0,0,0,.55); }
   .phone img { display: block; width: 100%; height: auto; }
-  .dl { grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 30px 0 14px; }
-  .dl a { padding: 14px 12px 13px; }
-  .dl .os { font-size: 21px; line-height: 1.1; }
-  .dl .os::before { font-size: 15px; }
-  .dl .for { font-size: 13px; }
+  .dl { grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 30px 0 14px; }
+  .dl a { padding: 18px 20px 17px; gap: 4px; }
+  .dl .os { font-size: 26px; line-height: 1.15; white-space: nowrap; align-items: center; }
+  .dl .os::before { font-size: 18px; flex: none; }
+  .dl .for { font-size: 15px; }
+  .dl .file { font-size: 12px; margin-top: auto; padding-top: 8px; }
   .kicker { font-family: var(--font-label); font-weight: 700; font-size: 14px; letter-spacing: .18em; text-transform: uppercase; color: var(--text-dim); margin: 0 0 10px; }
   .sec-h { font-family: var(--font-cond); font-weight: 700; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.1; margin: 0 0 12px; letter-spacing: 0; text-transform: none; color: var(--text); padding: 0; border: 0; }
   .sec-sub { color: var(--text-dim); max-width: 62ch; margin: 0 0 30px; }
@@ -609,15 +609,15 @@
     </div>
 
     <div class="dl" id="downloads">
-      <a class="primary" data-file="mac" href="https://github.com/r2fel/hamlog/releases/latest"><span class="os">macOS</span><span class="for"><span class="en">Apple Silicon (M1 and newer)</span><span class="ru">Apple Silicon (M1 и новее)</span></span><span class="file"></span></a>
-      <a data-file="macintel" href="https://github.com/r2fel/hamlog/releases/latest"><span class="os">macOS</span><span class="for"><span class="en">Intel Mac</span><span class="ru">Mac с процессором Intel</span></span><span class="file"></span></a>
-      <a data-file="win" href="https://github.com/r2fel/hamlog/releases/latest"><span class="os">Windows 10 / 11</span><span class="for"><span class="en">64-bit</span><span class="ru">64 бит</span></span><span class="file"></span></a>
-      <a data-file="win78" href="https://github.com/r2fel/hamlog/releases/latest"><span class="os">Windows 7 / 8</span><span class="for"><span class="en">also 8.1 and any 32-bit Windows</span><span class="ru">а также 8.1 и любая 32-битная</span></span><span class="file"></span></a>
-      <a data-file="apk" href="https://github.com/r2fel/hamlog/releases/latest"><span class="os">Android</span><span class="for"><span class="en">Android 7 and newer</span><span class="ru">Android 7 и новее</span></span><span class="file"></span></a>
-      <a data-file="ipa" href="https://github.com/r2fel/hamlog/releases/latest"><span class="os">iPhone</span><span class="for"><span class="en">iOS 15 and newer — steps below</span><span class="ru">iOS 15 и новее — шаги ниже</span></span><span class="file"></span></a>
+      <a class="primary" data-file="mac" href="https://github.com/r2fel/hamlog/releases"><span class="os">macOS</span><span class="for"><span class="en">Apple Silicon (M1 and newer)</span><span class="ru">Apple Silicon (M1 и новее)</span></span><span class="file"></span></a>
+      <a data-file="macintel" href="https://github.com/r2fel/hamlog/releases"><span class="os">macOS</span><span class="for"><span class="en">Intel Mac</span><span class="ru">Mac с процессором Intel</span></span><span class="file"></span></a>
+      <a data-file="win" href="https://github.com/r2fel/hamlog/releases"><span class="os">Windows 10 / 11</span><span class="for"><span class="en">64-bit</span><span class="ru">64 бит</span></span><span class="file"></span></a>
+      <a data-file="win78" href="https://github.com/r2fel/hamlog/releases"><span class="os">Windows 7 / 8</span><span class="for"><span class="en">also 8.1 and any 32-bit Windows</span><span class="ru">а также 8.1 и любая 32-битная</span></span><span class="file"></span></a>
+      <a data-file="apk" href="https://github.com/r2fel/hamlog/releases"><span class="os">Android</span><span class="for"><span class="en">Android 7 and newer</span><span class="ru">Android 7 и новее</span></span><span class="file"></span></a>
+      <a data-file="ipa" href="https://github.com/r2fel/hamlog/releases"><span class="os">iPhone</span><span class="for"><span class="en">iOS 15 and newer — steps below</span><span class="ru">iOS 15 и новее — шаги ниже</span></span><span class="file"></span></a>
     </div>
     <p class="dl-meta">
-      <span class="en">Version</span><span class="ru">Версия</span> <span class="ver" id="ver">1.0.82</span> ·
+      <span class="en">Version</span><span class="ru">Версия</span> <span class="ver" id="ver">1.0.85</span> ·
       <a href="https://github.com/r2fel/hamlog/releases"><span class="en">all versions</span><span class="ru">все версии</span></a>
     </p>
     <p class="dl-meta">
@@ -797,7 +797,7 @@
       <summary><span class="en">Why not from the App Store or Google Play?</span><span class="ru">Почему не из App Store и Google Play?</span></summary>
       <p><span class="en"><b>Short answer:</b> the stores charge the developer and set conditions, and this is a free hobby program made by one ham. Today it is simply not worth it for a free app that earns nothing.</span><span class="ru"><b>Коротко:</b> магазины берут плату с разработчика и ставят свои условия, а это бесплатная программа одного радиолюбителя. Пока для бесплатного приложения, которое ничего не зарабатывает, это просто не окупается.</span></p>
       <p><span class="en"><b>Details.</b> Apple asks for a paid developer account every year and checks every update; Google Play asks for a fee, a verified identity and test periods. Both stores also want the right to decide what an app may do. Apps installed straight from a file are normal on Android and possible on iPhone, they just need a few more steps from you.</span><span class="ru"><b>Подробнее.</b> Apple берёт плату за аккаунт разработчика каждый год и проверяет каждое обновление; Google Play требует взнос, подтверждение личности и тестовые периоды. Оба магазина ещё и решают, что приложению можно делать. Приложения, установленные из файла, — обычное дело на Android и возможное на iPhone, просто от вас нужно чуть больше шагов.</span></p>
-      <p><span class="en"><b>Is it safe?</b> Take the file only from this page (or from the official GitHub page it links to). The app has no ad networks and does not look into your log. At most it shows one short sponsor screen at launch, and only when the author switches it on. Your log stays on the phone; callbooks, weather and maps are asked by the phone itself only when you use them — the same as in the computer program (see “Your data” below). Android says “unknown app” just because it is not from Google Play.</span><span class="ru"><b>Это безопасно?</b> Берите файл только с этой страницы (или с официальной страницы GitHub, на которую она ведёт). В приложении нет рекламных сетей, и оно не заглядывает в ваш журнал. Максимум — одна короткая заставка спонсора при запуске, и только если автор её включил. Журнал хранится на телефоне; справочники, погоду и карты телефон спрашивает сам и только когда вы ими пользуетесь — как и компьютерная программа (см. «Ваши данные» ниже). Android пишет «неизвестное приложение» только потому, что его нет в Google Play.</span></p>
+      <p><span class="en"><b>Is it safe?</b> Take the file only from this page. The app has no ad networks and does not look into your log. At most it shows one short sponsor screen at launch, and only when the author switches it on. Your log stays on the phone; callbooks, weather and maps are asked by the phone itself only when you use them — the same as in the computer program (see “Your data” below). Android says “unknown app” just because it is not from Google Play.</span><span class="ru"><b>Это безопасно?</b> Берите файл только с этой страницы. В приложении нет рекламных сетей, и оно не заглядывает в ваш журнал. Максимум — одна короткая заставка спонсора при запуске, и только если автор её включил. Журнал хранится на телефоне; справочники, погоду и карты телефон спрашивает сам и только когда вы ими пользуетесь — как и компьютерная программа (см. «Ваши данные» ниже). Android пишет «неизвестное приложение» только потому, что его нет в Google Play.</span></p>
       <p><span class="en"><b>Why iPhone is harder.</b> Apple allows apps only from its store or signed by a developer account. Sideloadly signs the file with <i>your own</i> free Apple ID, and a free signature lasts 7 days. With a paid developer account that limit would go away — and if the app finds enough users, the author will consider that and the store.</span><span class="ru"><b>Почему на iPhone сложнее.</b> Apple разрешает приложения только из своего магазина или подписанные аккаунтом разработчика. Sideloadly подписывает файл <i>вашим собственным</i> бесплатным Apple ID, а бесплатная подпись держится 7 дней. С платным аккаунтом разработчика это ограничение исчезло бы — и если у приложения появится достаточно пользователей, автор подумает и об этом, и о магазине.</span></p>
       <p><span class="en"><b>Updates.</b> A new version is installed over the old one from this page; the log stays.</span><span class="ru"><b>Обновления.</b> Новая версия ставится поверх старой с этой страницы, журнал сохраняется.</span></p>
     </details>
@@ -905,7 +905,8 @@
 
 <script>
   (function () {
-    var REPO = 'r2fel/hamlog';
+    // The installers lie on this very site
+    var DOWNLOADS = 'https://github.com/r2fel/hamlog/releases/download/';
     // Своя служба на Cloudflare — та же, что говорит программе о новых
     // версиях. Ею же считаются посещения сайта: чужих счётчиков здесь нет.
     // На localhost (проверка страницы у себя) — служба, поднятая рядом
@@ -924,19 +925,19 @@
 
     // Links straight to the files of a release. The version written in the page
     // is the fallback; the update service (the same one the program asks) knows
-    // the newest release, so a new version on GitHub shows up here by itself.
+    // the newest release, so a new version shows up here by itself.
     function setVersion(v) {
       document.getElementById('ver').textContent = v;
       var links = document.querySelectorAll('[data-file]');
       for (var i = 0; i < links.length; i++) {
         var name = files[links[i].getAttribute('data-file')](v);
-        links[i].href = 'https://github.com/' + REPO + '/releases/download/v' + v + '/' + name;
+        links[i].href = DOWNLOADS + 'v' + v + '/' + name;
         links[i].querySelector('.file').textContent = name;
       }
     }
-    var builtIn = '1.0.82';
+    var builtIn = '1.0.85';
     setVersion(builtIn);
-    // Only ever forward: the service keeps GitHub's answer for an hour, and
+    // Only ever forward: the service keeps its answer for an hour, and
     // right after a release it still names the one before — taking that would
     // point the buttons at the old files (21.10.2026, 1.0.57 shown as 1.0.56).
     function newer(a, b) {
@@ -1023,7 +1024,12 @@
         var msg = document.getElementById('cf-msg').value.trim(); if (msg.length < 3) return;
         go.disabled = true; say(lang() === 'ru' ? 'Отправляю…' : 'Sending…');
         var ctl = window.AbortController ? new AbortController() : null; var tm = setTimeout(function () { if (ctl) ctl.abort(); }, 10000);
-        fetch(SERVICE + '/feedback', { method: 'POST', headers: { 'content-type': 'text/plain' }, body: JSON.stringify({ message: msg, contact: document.getElementById('cf-who').value, lang: lang(), site: document.getElementById('cf-hp').value }), signal: ctl ? ctl.signal : undefined })
+        var body = JSON.stringify({ message: msg, contact: document.getElementById('cf-who').value, lang: lang(), site: document.getElementById('cf-hp').value });
+        function post(url) { return fetch(url, { method: 'POST', headers: { 'content-type': 'text/plain' }, body: body, signal: ctl ? ctl.signal : undefined }); }
+        // The site itself answers first (it opens wherever r2fel.com opens); our other service is the second way
+        var own = /^(localhost|127\.)/.test(location.hostname) ? Promise.reject(new Error('local')) : post('/feedback.php');
+        own.then(function (r) { if (r.status === 429) return r; if (!r.ok) throw new Error('bad'); return r; })
+          .catch(function () { return post(SERVICE + '/feedback'); })
           .then(function (r) { clearTimeout(tm); if (r.status === 429) throw new Error('many'); if (!r.ok) throw new Error('bad'); return r.json(); })
           .then(function () { say(lang() === 'ru' ? 'Спасибо! Сообщение отправлено.' : 'Thank you! Your message was sent.', 'ok'); document.getElementById('cf-msg').value = ''; go.disabled = false; })
           .catch(function (er) {
