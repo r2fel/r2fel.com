@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>R2FEL — управление</title>
+<link rel="icon" type="image/png" href="../img/icon-192.png">
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+  :root {
+    --chassis: #1c1b19; --panel: #26241f; --raised: #2f2c26; --line: #443f37;
+    --text: #ece7d8; --dim: #9c9587; --ink: #14130f;
+    --amber: #e8a23d; --amber-dim: #a97a3a; --green: #7ea36b; --green-line: #4a6340;
+    --red: #c96a4f; --red-line: #6b3b2c;
+    --font-text: 'IBM Plex Sans', -apple-system, 'Segoe UI', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+    --font-label: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--chassis); color-scheme: dark; }
+  body { margin: 0; background: var(--chassis); color: var(--text); font: 16px/1.5 var(--font-text); }
+  main { max-width: 640px; margin: 0 auto; padding: 28px 16px 64px; }
+  .mark { display: inline-flex; align-items: baseline; gap: 10px; margin-bottom: 22px; }
+  .mark b { font: 700 15px/1 var(--font-mono); letter-spacing: .16em; color: var(--ink); background: var(--amber); padding: 6px 9px; border-radius: 4px; }
+  .mark span { font: 700 26px/1 var(--font-label); }
+  h1 { font: 700 30px/1.1 var(--font-label); letter-spacing: .02em; margin: 0 0 6px; text-wrap: balance; }
+  p { margin: 0 0 12px; }
+  .dim { color: var(--dim); font-size: 14px; }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px; margin-bottom: 16px; }
+  h2 { font: 600 15px/1 var(--font-label); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin: 0 0 14px; }
+  label { display: block; font-size: 14px; color: var(--dim); margin: 14px 0 6px; }
+  input[type=text], input[type=password], input[type=number], input[type=url] {
+    width: 100%; background: var(--chassis); color: var(--text); border: 1px solid var(--line); border-radius: 4px;
+    padding: 11px 12px; font: 16px var(--font-mono); }
+  input:focus-visible, button:focus-visible, .file:focus-within { outline: 2px solid var(--amber); outline-offset: 2px; }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .row > div { flex: 1 1 140px; }
+  button { font: 600 16px var(--font-text); border-radius: 8px; border: 1px solid var(--line); background: var(--raised); color: var(--text); padding: 12px 18px; cursor: pointer; }
+  button.go { background: var(--amber); color: var(--ink); border-color: var(--amber); }
+  button.off { border-color: var(--red-line); color: var(--red); }
+  button.on { background: var(--green); border-color: var(--green); color: var(--ink); }
+  button:disabled { opacity: .45; cursor: default; }
+  .state { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .lamp { width: 14px; height: 14px; border-radius: 50%; background: var(--dim); flex: none; }
+  .lamp.on { background: var(--green); box-shadow: 0 0 0 4px rgba(126,163,107,.22); }
+  .big { font: 700 24px/1.1 var(--font-label); letter-spacing: .04em; flex: 1 1 200px; }
+  .file { position: relative; display: block; border: 1.5px dashed var(--amber-dim); border-radius: 8px; padding: 18px; text-align: center; cursor: pointer; color: var(--text); }
+  .file input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .file small { display: block; color: var(--dim); margin-top: 4px; }
+  video, img.pv { width: 100%; max-height: 320px; object-fit: contain; background: #000; border-radius: 4px; margin-top: 12px; display: block; }
+  .msg { margin-top: 14px; padding: 11px 13px; border-radius: 4px; border: 1px solid var(--line); font-size: 15px; }
+  .msg.ok { border-color: var(--green-line); color: var(--green); }
+  .msg.bad { border-color: var(--red-line); color: var(--red); }
+  .check { display: flex; gap: 8px; align-items: center; font-size: 14px; color: var(--dim); margin-top: 12px; }
+  details { margin-top: 12px; color: var(--dim); font-size: 14px; }
+  summary { cursor: pointer; color: var(--amber); }
+  ol, ul { padding-left: 20px; margin: 10px 0 0; }
+  li { margin-bottom: 6px; }
+  details[open] > summary { margin-bottom: 4px; }
+  .tabs { display: flex; gap: 8px; margin: 0 0 18px; }
+  .tabs button { flex: 1; font: 700 18px/1 var(--font-label); letter-spacing: .06em; text-transform: uppercase; padding: 12px; }
+  .tabs button[aria-selected="true"] { background: var(--amber); color: var(--ink); border-color: var(--amber); }
+  main.wide { max-width: 1040px; }
+  #stats-frame { width: 100%; height: 78vh; min-height: 520px; border: 1px solid var(--line); border-radius: 8px; background: var(--chassis); display: block; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 0 0 12px; }
+  .row a { color: var(--amber); }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <div class="mark"><b>R2FEL</b><span>HamLog</span></div>
+  <div class="tabs" role="tablist">
+    <button type="button" role="tab" id="tab-btn-stats" aria-selected="false">Статистика</button>
+    <button type="button" role="tab" id="tab-btn-ads" aria-selected="true">Реклама</button>
+  </div>
+
+  <div id="tab-stats" hidden>
+    <div id="stats-ask">
+      <p class="dim">Вставьте один раз ссылку на сводку, которую вы открываете сейчас (вида <code>…workers.dev/s/…</code>). Она запоминается только в этом браузере и нигде на сайте не хранится.</p>
+      <label for="stats-url">Ссылка на сводку</label>
+      <input id="stats-url" type="text" spellcheck="false" autocomplete="off" placeholder="https://r2fel-hamlog-updates.r2fel.workers.dev/s/…">
+      <p style="margin-top:12px"><button class="go" id="stats-save" type="button">Показать статистику</button></p>
+      <div class="msg bad" id="stats-msg" hidden></div>
+    </div>
+    <div id="stats-view" hidden>
+      <div class="row">
+        <button id="stats-reload" type="button">Обновить</button>
+        <a id="stats-open" href="#" target="_blank" rel="noopener">Открыть отдельно ↗</a>
+        <button id="stats-change" type="button">Сменить ссылку</button>
+      </div>
+      <iframe id="stats-frame" title="Статистика R2FEL HamLog"></iframe>
+      <p class="dim" style="margin-top:10px">Сводка идёт через сервер сайта (прокси), поэтому открывается и без VPN. Если окно пустое — нажмите «Обновить».</p>
+    </div>
+  </div>
+
+  <div id="tab-ads">
+  <h1>Реклама при запуске</h1>
+  <p class="dim">Заставка, которую видят все при открытии программы (компьютер) и приложения (телефон). У телефона и компьютера она своя: у каждого свой ролик и своё включение. Эту страницу видите только вы: без вашего ключа в ней ничего нельзя изменить.</p>
+
+  <!-- управление -->
+  <div id="panel">
+    <div id="slots"></div>
+  </div>
+  </div>
+</main>
+
+<script>
+(function () {
+  var SITE = 'https://r2fel.com/';
+  var HARD_MB = 60;
+  var SLOTS = [
+    { key: 'phone', title: 'Телефон', sub: 'iPhone и Android', frame: '1080×1920, вертикальное 9:16', max: 25, ideal: 10,
+      specs: [
+        ['Формат', 'видео MP4 (кодек H.264). Другие форматы на iPhone могут не пойти.'],
+        ['Размер кадра', '1080 × 1920, вертикальное (9:16). Заполняет весь экран телефона.'],
+        ['Длина', '5–10 секунд (дольше 15 с не досматривают).'],
+        ['Вес', 'идеально до 10 МБ, не больше 25 МБ.'],
+        ['Кадры и звук', '25 или 30 кадров в секунду. Звук не нужен — он выключен.'],
+        ['Картинка вместо видео', 'JPG или PNG 1080 × 1920, до 1 МБ.'],
+        ['Важное в кадре', 'текст и логотип в середине, отступ ~150 точек сверху и снизу: там вырез камеры и полоса жестов.']
+      ], test: 'R2FEL-тест-реклама-телефон.mp4' },
+    { key: 'desktop', title: 'Компьютер', sub: 'Mac и Windows', frame: '1920×1080, горизонтальное 16:9', max: 25, ideal: 15,
+      specs: [
+        ['Формат', 'видео MP4 (кодек H.264). Файлы mov, avi, wmv не годятся.'],
+        ['Размер кадра', '1920 × 1080, горизонтальное (16:9). Окно программы поменьше, кадр сожмётся по размеру окна, поля чёрные.'],
+        ['Длина', '5–10 секунд.'],
+        ['Вес', 'идеально до 15 МБ, не больше 25 МБ.'],
+        ['Кадры и звук', '25 или 30 кадров в секунду. Звук не нужен — он выключен.'],
+        ['Картинка вместо видео', 'JPG или PNG 1920 × 1080, до 1,5 МБ.'],
+        ['Важное в кадре', 'текст и логотип ближе к центру, отступ от краёв ~100 точек.']
+      ], test: 'R2FEL-тест-реклама-компьютер.mp4' }
+  ];
+  var token = '', cfg = {}, ui = {};
+  var $ = function (id) { return document.getElementById(id); };
+  function say(el, text, kind) { el.hidden = !text; el.textContent = text || ''; el.className = 'msg' + (kind ? ' ' + kind : ''); }
+
+  // ---- the site's own helper (admin/api.php); the password is asked by the browser for the whole folder
+  function api(a, opt) {
+    opt = opt || {};
+    return fetch('api.php?a=' + a + (opt.q || ''), {
+      method: (opt.body || opt.json) ? 'POST' : 'GET', cache: 'no-store', credentials: 'same-origin',
+      headers: opt.json ? { 'Content-Type': 'application/json' } : undefined,
+      body: opt.json ? JSON.stringify(opt.json) : opt.body
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) { var e = new Error(j.error || r.status); e.status = r.status; throw e; } return j; });
+    });
+  }
+  function human(e) {
+    if (e.status === 401) return 'Сайт не принял пароль. Закройте страницу и откройте заново.';
+    if (e.status === 413) return 'Файл слишком большой для сайта (предел около 25 МБ). Сожмите его.';
+    return 'Не получилось: ' + e.message + '. Проверьте интернет и повторите.';
+  }
+  var EMPTY = { on: false, video: '', image: '', link: '', seconds: 5, skipAfter: 3, skippable: true };
+  function normal(c) {      // an old flat file counts for both
+    c = c || {};
+    if (c.phone || c.desktop) return { phone: Object.assign({}, EMPTY, c.phone), desktop: Object.assign({}, EMPTY, c.desktop) };
+    return { phone: Object.assign({}, EMPTY, c), desktop: Object.assign({}, EMPTY, c) };
+  }
+  function readCfg() {
+    return api('read').then(function (j) { return { sha: '', cfg: normal(j.config) }; });
+  }
+  function writeCfg(next) { return api('write', { json: next }); }
+  function fileUrl(c) { return c.video || c.image || ''; }
+
+  // ---- build the two cards
+  function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+  function build() {
+    var root = $('slots'); root.innerHTML = '';
+    SLOTS.forEach(function (S) {
+      var k = S.key, u = ui[k] = { file: null };
+      var sec = el('section'); sec.appendChild(el('h2', '', S.title + ' · ' + S.sub));
+      // state
+      var st = el('div', 'state'); u.lamp = el('span', 'lamp'); u.text = el('span', 'big'); u.toggle = el('button'); u.toggle.type = 'button';
+      st.appendChild(u.lamp); st.appendChild(u.text); st.appendChild(u.toggle); sec.appendChild(st);
+      u.current = el('div'); sec.appendChild(u.current);
+      u.stateMsg = el('div', 'msg'); u.stateMsg.hidden = true; sec.appendChild(u.stateMsg);
+      // specs
+      var d = document.createElement('details'); d.open = true;
+      var sm = el('summary', '', 'Какой файл нужен · ' + S.frame); d.appendChild(sm);
+      var ul = el('ul'); S.specs.forEach(function (r) { var li = el('li'); li.appendChild(el('b', '', r[0] + ': ')); li.appendChild(document.createTextNode(r[1])); ul.appendChild(li); });
+      d.appendChild(ul); d.appendChild(el('p', 'dim', 'Пробный ролик для проверки: «' + S.test + '» на рабочем столе у владельца.')); sec.appendChild(d);
+      // upload
+      var lab = el('label', 'file'); u.input = document.createElement('input'); u.input.type = 'file';
+      u.input.accept = 'video/mp4,video/webm,video/quicktime,image/jpeg,image/png,image/webp,image/gif';
+      u.name = el('span', '', 'Выбрать видео или картинку для раздела «' + S.title + '»');
+      lab.appendChild(u.input); lab.appendChild(u.name); lab.appendChild(el('small', '', S.frame + ' · до ' + S.max + ' МБ')); sec.appendChild(lab);
+      u.preview = el('div'); sec.appendChild(u.preview);
+      var row = el('div', 'row');
+      function field(label, input) { var dv = el('div'); dv.appendChild(el('label', '', label)); dv.appendChild(input); row.appendChild(dv); }
+      u.secs = el('input'); u.secs.type = 'number'; u.secs.min = 2; u.secs.max = 30; u.secs.value = 5; field('Сколько секунд показывать', u.secs);
+      u.skip = el('input'); u.skip.type = 'number'; u.skip.min = 0; u.skip.max = 30; u.skip.value = 3; field('«Пропустить» через (с)', u.skip);
+      sec.appendChild(row);
+      var ck = el('label', 'check'); u.skippable = document.createElement('input'); u.skippable.type = 'checkbox'; u.skippable.checked = true;
+      ck.appendChild(u.skippable); ck.appendChild(document.createTextNode('Показывать кнопку «Пропустить» (без галочки ролик нельзя закрыть, он идёт все секунды)')); sec.appendChild(ck);
+      u.skippable.onchange = function () { u.skip.disabled = !u.skippable.checked; };
+      sec.appendChild(el('label', '', 'Ссылка при нажатии на ролик (не обязательно)'));
+      u.link = el('input'); u.link.type = 'url'; u.link.placeholder = 'https://…'; sec.appendChild(u.link);
+      var pp = el('p'); pp.style.marginTop = '16px'; u.publish = el('button', 'go', 'Загрузить и включить у всех на ' + (k === 'phone' ? 'телефонах' : 'компьютерах')); u.publish.type = 'button'; u.publish.disabled = true; pp.appendChild(u.publish); sec.appendChild(pp);
+      var p2 = el('p'); u.params = el('button', '', 'Сохранить параметры (секунды, «Пропустить», ссылка) без новой загрузки'); u.params.type = 'button'; p2.appendChild(u.params); sec.appendChild(p2);
+      u.pubMsg = el('div', 'msg'); u.pubMsg.hidden = true; sec.appendChild(u.pubMsg);
+      root.appendChild(sec);
+      u.params.onclick = function () { saveParams(S); };
+      u.toggle.onclick = function () { toggle(S); };
+      u.input.onchange = function () { picked(S); };
+      u.publish.onclick = function () { publish(S); };
+    });
+    root.appendChild(el('p', 'dim', 'Изменения попадают на сайт сразу — и включение, и выключение доходят до всех примерно за 2–12 минут. Без интернета у человека заставки просто нет — программа не ждёт. Телефоны и компьютеры включаются и выключаются отдельно.'));
+  }
+
+  function show(c) {
+    cfg = c;
+    SLOTS.forEach(function (S) {
+      var b = c[S.key], u = ui[S.key], on = !!(b.on && fileUrl(b));
+      u.lamp.className = 'lamp' + (on ? ' on' : '');
+      u.text.textContent = on ? 'Реклама ВКЛЮЧЕНА' : 'Реклама выключена';
+      u.toggle.className = on ? 'off' : 'on'; u.toggle.textContent = on ? 'Выключить у всех' : 'Включить у всех';
+      u.toggle.disabled = !fileUrl(b); u.toggle.title = fileUrl(b) ? '' : 'Сначала загрузите ролик ниже';
+      u.current.innerHTML = '';
+      if (fileUrl(b)) {
+        var m = document.createElement(b.video ? 'video' : 'img');
+        if (b.video) { m.controls = true; m.muted = true; m.preload = 'metadata'; } else m.className = 'pv';
+        m.src = fileUrl(b); u.current.appendChild(m);
+        var d = el('p', 'dim', (b.seconds || 5) + ' с' + (b.skippable === false ? ' · без кнопки «Пропустить»' : ' · «Пропустить» через ' + (b.skipAfter == null ? 3 : b.skipAfter) + ' с') + (b.link ? ' · ссылка: ' + b.link : '')); d.style.marginTop = '8px'; u.current.appendChild(d);
+      }
+      u.secs.value = b.seconds || 5; u.skip.value = b.skipAfter == null ? 3 : b.skipAfter; u.link.value = b.link || '';
+      u.skippable.checked = b.skippable !== false; u.skip.disabled = !u.skippable.checked; u.params.disabled = !fileUrl(b);
+    });
+  }
+  function load() { return readCfg().then(function (r) { show(r.cfg); }); }
+
+  function waitPages(m, done) { say(m, done + ' Люди увидят это при следующем запуске программы или приложения (обычно в течение минуты).', 'ok'); }
+
+  // ---- start
+  build();
+  load().catch(function (e) { say($('stats-msg'), human(e), 'bad'); });
+
+  // ---- on / off
+  function toggle(S) {
+    var u = ui[S.key]; u.toggle.disabled = true; var cur = cfg[S.key], turnOn = !(cur.on && fileUrl(cur));
+    readCfg().then(function (r) {
+      var next = r.cfg; next[S.key] = Object.assign({}, next[S.key], { on: turnOn });
+      return writeCfg(next, r.sha, 'Реклама (' + S.key + '): ' + (turnOn ? 'включена' : 'выключена')).then(function () { show(next); });
+    }).then(function () { waitPages(u.stateMsg, turnOn ? 'Включено у всех.' : 'Выключено у всех.'); })
+      .catch(function (e) { say(u.stateMsg, human(e), 'bad'); show(cfg); });
+  }
+
+  // ---- change only the settings of the banner that is already there
+  function readParams(u) {
+    var link = u.link.value.trim();
+    if (link && !/^https?:\/\//i.test(link)) return null;
+    return { seconds: Math.max(2, Math.min(30, +u.secs.value || 5)), skipAfter: Math.max(0, Math.min(30, u.skip.value === '' ? 3 : +u.skip.value)), skippable: u.skippable.checked, link: link };
+  }
+  function saveParams(S) {
+    var u = ui[S.key], v = readParams(u);
+    if (!v) { say(u.pubMsg, 'Ссылка должна начинаться с https://', 'bad'); return; }
+    u.params.disabled = true; say(u.pubMsg, 'Сохраняю…', 'ok');
+    readCfg().then(function (r) {
+      var next = r.cfg; next[S.key] = Object.assign({}, next[S.key], v);
+      return writeCfg(next, r.sha, 'Реклама (' + S.key + '): параметры').then(function () { show(next); });
+    }).then(function () { waitPages(u.pubMsg, 'Параметры сохранены.'); })
+      .catch(function (e) { say(u.pubMsg, human(e), 'bad'); u.params.disabled = false; });
+  }
+
+  // ---- new file
+  function picked(S) {
+    var u = ui[S.key], f = u.file = u.input.files[0] || null; u.preview.innerHTML = ''; say(u.pubMsg, ''); u.publish.disabled = true;
+    if (!f) { u.name.textContent = 'Выбрать видео или картинку для раздела «' + S.title + '»'; return; }
+    var mb = f.size / 1048576;
+    u.name.textContent = f.name + ' · ' + mb.toFixed(1).replace('.', ',') + ' МБ';
+    if (mb > HARD_MB) { say(u.pubMsg, 'Файл слишком большой (' + mb.toFixed(0) + ' МБ). Сожмите до ' + S.max + ' МБ.', 'bad'); return; }
+    if (mb > S.max) say(u.pubMsg, 'Файл большой: у людей с медленным интернетом он может не успеть загрузиться. Лучше до ' + S.max + ' МБ.', 'bad');
+    var isVideo = /^video\//.test(f.type), m = document.createElement(isVideo ? 'video' : 'img');
+    if (isVideo) { m.controls = true; m.muted = true; } else m.className = 'pv';
+    m.src = URL.createObjectURL(f); u.preview.appendChild(m);
+    if (isVideo) m.addEventListener('loadedmetadata', function () {
+      var w = m.videoWidth, h = m.videoHeight, port = h > w;
+      if (S.key === 'phone' && !port) say(u.pubMsg, 'Это горизонтальное видео (' + w + '×' + h + '), а для телефона лучше вертикальное 1080×1920. Загрузить можно, но будут чёрные поля.', 'bad');
+      if (S.key === 'desktop' && port) say(u.pubMsg, 'Это вертикальное видео (' + w + '×' + h + '), а для компьютера лучше горизонтальное 1920×1080. Загрузить можно, но будут чёрные поля.', 'bad');
+    });
+    u.publish.disabled = false;
+  }
+  function publish(S) {
+    var u = ui[S.key], f = u.file; if (!f) return;
+    var isVideo = /^video\//.test(f.type), path = '', old = fileUrl(cfg[S.key]);
+    var secs = Math.max(2, Math.min(30, +u.secs.value || 5)), skip = Math.max(0, Math.min(30, u.skip.value === '' ? 3 : +u.skip.value));
+    var link = u.link.value.trim();
+    if (link && !/^https?:\/\//i.test(link)) { say(u.pubMsg, 'Ссылка должна начинаться с https://', 'bad'); return; }
+    u.publish.disabled = true; say(u.pubMsg, 'Загружаю файл…', 'ok');
+    var fd = new FormData(); fd.append('file', f);
+    api('upload', { q: '&key=' + S.key, body: fd }).then(function (up) {
+      path = up.path; isVideo = !!up.video;
+      say(u.pubMsg, 'Включаю…', 'ok'); return readCfg();
+    }).then(function (r) {
+      var next = r.cfg; next[S.key] = { on: true, video: isVideo ? SITE + path : '', image: isVideo ? '' : SITE + path, link: link, seconds: secs, skipAfter: skip, skippable: u.skippable.checked };
+      return writeCfg(next).then(function () { show(next); });
+    }).then(function () {
+      waitPages(u.pubMsg, 'Готово, реклама включена у всех.');
+      var rel = old.indexOf(SITE + 'ads/') === 0 ? old.slice(SITE.length) : '';
+      var other = cfg[S.key === 'phone' ? 'desktop' : 'phone']; if (rel && fileUrl(other) === old) rel = '';   // the other banner still uses it
+      if (rel) api('delete', { json: { path: rel } }).catch(function () {});
+      u.input.value = ''; u.file = null; u.name.textContent = 'Выбрать видео или картинку для раздела «' + S.title + '»'; u.preview.innerHTML = '';
+    }).catch(function (e) { say(u.pubMsg, human(e), 'bad'); u.publish.disabled = false; });
+  }
+
+  // ---- tabs and the statistics page (the link lives only in this browser)
+  var STATS_KEY = 'r2fel-stats-url';
+  function goodStats(u) { return /^https:\/\/[a-z0-9.-]+\.workers\.dev\/s\/[^\s?#]{6,}$/i.test(u); }
+  function showTab(name) {
+    var st = name === 'stats';
+    $('tab-stats').hidden = !st; $('tab-ads').hidden = st;
+    $('tab-btn-stats').setAttribute('aria-selected', st); $('tab-btn-ads').setAttribute('aria-selected', !st);
+    document.querySelector('main').classList.toggle('wide', st);
+    try { localStorage.setItem('r2fel-admin-tab', name); } catch (e) {}
+    if (st) statsStart();
+  }
+  function statsStart() {
+    var u = ''; try { u = localStorage.getItem(STATS_KEY) || ''; } catch (e) {}
+    var ok = goodStats(u);
+    $('stats-ask').hidden = ok; $('stats-view').hidden = !ok;
+    if (ok) { $('stats-open').href = u; var p = 'stats-proxy.php?u=' + encodeURIComponent(u); if ($('stats-frame').getAttribute('src') !== p) $('stats-frame').src = p; }
+  }
+  $('tab-btn-stats').onclick = function () { showTab('stats'); };
+  $('tab-btn-ads').onclick = function () { showTab('ads'); };
+  $('stats-save').onclick = function () {
+    var u = $('stats-url').value.trim().replace(/\/(data\.json|digest)$/, '');
+    if (!goodStats(u)) { var m = $('stats-msg'); m.textContent = 'Это не похоже на ссылку на сводку. Скопируйте её целиком из адресной строки.'; m.hidden = false; return; }
+    $('stats-msg').hidden = true;
+    try { localStorage.setItem(STATS_KEY, u); } catch (e) {}
+    $('stats-url').value = ''; statsStart();
+  };
+  $('stats-reload').onclick = function () { var f = $('stats-frame'), u = f.src.split('&t=')[0] + '&t=' + Date.now(); f.src = 'about:blank'; setTimeout(function () { f.src = u; }, 50); };
+  $('stats-change').onclick = function () { try { localStorage.removeItem(STATS_KEY); } catch (e) {} $('stats-frame').removeAttribute('src'); statsStart(); };
+  var tab = 'ads'; try { tab = localStorage.getItem('r2fel-admin-tab') || 'ads'; } catch (e) {}
+  if (tab === 'stats') showTab('stats');
+
+})();
+</script>
+</body>
+</html>
