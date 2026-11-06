@@ -498,6 +498,39 @@
   .fc p { margin: 0; font-size: 14.5px; color: var(--text-dim); line-height: 1.5; }
   .tagline { margin-top: 26px; padding: 20px 22px; border: 1px dashed var(--line); border-radius: var(--radius-m); color: var(--text-dim); font-size: 15px; }
   .tagline b { color: var(--text); font-weight: 600; }
+  /* Compatibility band: the radios the program talks to over USB. */
+  .compat { position: relative; margin: 52px 0 6px; padding: 32px 36px 30px; border-radius: var(--radius-l);
+    border: 1px solid var(--line); overflow: hidden;
+    background: radial-gradient(58% 120% at 12% 116%, rgba(232,162,61,.16), transparent 60%),
+                linear-gradient(180deg, #242019, #1a1916); }
+  .compat-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .78fr); gap: 28px; align-items: end; }
+  .compat-head .kicker { margin-bottom: 8px; }
+  .compat-head .sec-h { font-size: clamp(24px, 2.9vw, 31px); margin-bottom: 8px; }
+  .compat-lead { color: var(--text-dim); font-size: 15px; line-height: 1.5; margin: 0; max-width: 46ch; }
+  .compat-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .compat-list li { position: relative; padding-left: 20px; font-size: 14.5px; line-height: 1.4; }
+  .compat-list li::before { content: ""; position: absolute; left: 0; top: 6px; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--amber); box-shadow: 0 0 8px 1px rgba(232,162,61,.5); }
+  .compat-list b { font-weight: 600; }
+  .compat-rigs { display: grid; grid-template-columns: 1.24fr 1.16fr .8fr; gap: 22px; align-items: end; margin-top: 28px; }
+  .compat-rigs figure { margin: 0; display: grid; gap: 12px; justify-items: center; min-width: 0; }
+  .compat-rigs img { display: block; width: 100%; height: auto;
+    filter: drop-shadow(0 24px 34px rgba(0,0,0,.68)) drop-shadow(0 3px 7px rgba(0,0,0,.5)); }
+  .compat-rigs .r-ft { transform: rotate(-1deg); }
+  .compat-rigs .r-f8 { transform: rotate(.4deg); }
+  .compat-rigs .r-tx { transform: rotate(1.2deg); }
+  .compat-rigs figcaption { font-family: var(--font-label); font-weight: 700; font-size: 11.5px;
+    letter-spacing: .15em; text-transform: uppercase; color: var(--text-dim); }
+  @media (max-width: 920px) {
+    .compat { padding: 26px 24px 24px; }
+    .compat-head { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  }
+  @media (max-width: 620px) {
+    .compat { padding: 22px 18px 20px; }
+    .compat-rigs { grid-template-columns: 1fr 1fr; gap: 14px 12px; }
+    .compat-rigs figure:first-child { grid-column: 1 / -1; }
+    .compat-rigs figcaption { font-size: 10.5px; letter-spacing: .12em; }
+  }
   @media (max-width: 920px) {
     .hero-top { flex-direction: column; align-items: stretch; }
     .stage { max-width: 640px; margin: 0 auto; width: 100%; }
@@ -620,6 +653,28 @@
 
   </div>
 
+  <section id="usb">
+    <div class="compat">
+      <div class="compat-head">
+        <div>
+          <p class="kicker"><span class="en">Transceiver over USB</span><span class="ru">Трансивер по USB</span></p>
+          <h2 class="sec-h"><span class="en">The program works with your transceiver</span><span class="ru">Программа работает с вашим трансивером</span></h2>
+          <p class="compat-lead"><span class="en">Plug the cable in — the program works out by itself whether it is Yaesu or Kenwood.</span><span class="ru">Подключаете кабелем — программа сама понимает, Yaesu это или Kenwood.</span></p>
+        </div>
+        <ul class="compat-list">
+          <li><b><span class="en">Frequency and mode</span><span class="ru">Частота и вид</span></b> — <span class="en">straight from the radio into the log window</span><span class="ru">из трансивера в окно журнала</span></li>
+          <li><b><span class="en">Tuning from the program</span><span class="ru">Настройка из программы</span></b> — <span class="en">tap a spot, the radio follows</span><span class="ru">щёлкнули по споту, трансивер перешёл</span></li>
+          <li><b><span class="en">PTT and the S-meter</span><span class="ru">PTT и S-метр</span></b> — <span class="en">right in the program window</span><span class="ru">прямо в окне программы</span></li>
+        </ul>
+      </div>
+      <div class="compat-rigs">
+        <figure><img class="r-ft" src="../img/rig-ft710.webp" width="660" height="196" loading="lazy" alt="Yaesu FT-710"><figcaption>Yaesu FT-710</figcaption></figure>
+        <figure><img class="r-f8" src="../img/rig-ft891.webp" width="700" height="227" loading="lazy" alt="Yaesu FT-891"><figcaption>Yaesu FT-891</figcaption></figure>
+        <figure><img class="r-tx" src="../img/rig-tx500.webp" width="400" height="161" loading="lazy" alt="Lab599 Discovery TX-500"><figcaption>Lab599 Discovery TX-500</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
   <section id="sync">
     <p class="kicker"><span class="en">One log everywhere</span><span class="ru">Один журнал везде</span></p>
     <h2 class="sec-h"><span class="en">Your phone finds the computer by itself</span><span class="ru">Телефон сам находит компьютер</span></h2>
@@ -693,7 +748,7 @@
       <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c3 3 3 14 0 17M12 3.5c-3 3-3 14 0 17"/></svg><h3><span class="en">A globe in its own window</span><span class="ru">Глобус в своём окне</span></h3><p><span class="en">Both stations, the arc, day and night. It grows with the window and works offline.</span><span class="ru">Обе станции, дуга, день и ночь. Растёт вместе с окном, работает и без сети.</span></p></div>
       <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11l3 3v13H5z"/><path d="M8 11h8M8 15h6"/></svg><h3><span class="en">Colour marks, as in JTDX</span><span class="ru">Цветные метки, как в JTDX</span></h3><p><span class="en">New station, new country, new band — seen at a glance before you call.</span><span class="ru">Новая станция, новая страна, новый диапазон — видно с первого взгляда, ещё до вызова.</span></p></div>
       <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h3l2.5-7 3.5 14 2.5-7H21"/></svg><h3><span class="en">Digital contacts arrive by themselves</span><span class="ru">Связи из JTDX приходят сами</span></h3><p><span class="en">Pick a station in JTDX or WSJT-X: the callsign appears in the form and the callbooks fill in the rest. Press Log QSO there and it is in the log.</span><span class="ru">Выбрали станцию в JTDX или WSJT-X — позывной появился в форме, справочники подставили остальное. Нажали там Log QSO — связь в журнале.</span></p></div>
-            <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="9" width="19" height="11" rx="2"/><path d="M6 9V6.5h12V9M9.5 14.5h5M12 20v2.5M7.5 22.5h9"/></svg><h3><span class="en">The transceiver, straight from USB</span><span class="ru">Трансивер прямо по USB</span></h3><p><span class="en">Frequency, band and mode come from the radio itself, and the S-meter sits in the header. A spot or Enter tunes it. Yaesu and Kenwood-compatible radios (FT-710, TX-500).</span><span class="ru">Частота, диапазон и вид идут с самого трансивера, S-метр — в шапке. Спот или Enter — и он перестроен. Yaesu и Kenwood-совместимые (FT-710, TX-500).</span></p></div>
+            <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="9" width="19" height="11" rx="2"/><path d="M6 9V6.5h12V9M9.5 14.5h5M12 20v2.5M7.5 22.5h9"/></svg><h3><span class="en">The transceiver, straight from USB</span><span class="ru">Трансивер прямо по USB</span></h3><p><span class="en">Frequency, band and mode come from the radio itself, and the S-meter sits in the header. A spot or Enter tunes it. Yaesu and Kenwood-compatible radios (FT-710, FT-891, TX-500).</span><span class="ru">Частота, диапазон и вид идут с самого трансивера, S-метр — в шапке. Спот или Enter — и он перестроен. Yaesu и Kenwood-совместимые (FT-710, FT-891, TX-500).</span></p></div>
       <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15H6z"/><path d="M9 12l2 2 4-4"/></svg><h3><span class="en">Entries for contests</span><span class="ru">Отчёты для соревнований</span></h3><p><span class="en">Cabrillo for HF contests, EDI(RU) for VHF — with the gear, the operators and a file per band. The VHF one was checked against the ALRS robot.</span><span class="ru">Cabrillo для КВ-тестов, EDI(RU) для УКВ — с техникой, операторами и файлом на каждый диапазон. УКВ-отчёт проверен у робота АЛРС.</span></p></div>
       <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18c3-9 6-9 8 0s5 9 8-12"/></svg><h3><span class="en">DX cluster and CW decoder</span><span class="ru">DX-кластер и декодер CW</span></h3><p><span class="en">Spots go into the form with one click. Morse is read from the microphone in Latin letters, with abbreviations explained.</span><span class="ru">Споты одним нажатием в форму. Телеграф читается с микрофона на латинице, с расшифровкой сокращений.</span></p></div>
       <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg><h3><span class="en">LoTW, eQSL, QRZ.com, award.srr.ru</span><span class="ru">LoTW, eQSL, QRZ.com, award.srr.ru</span></h3><p><span class="en">Send and check confirmations with one button. Files for HAMLOG and QRZ.com. QSL cards by e-mail.</span><span class="ru">Отправка и проверка подтверждений одной кнопкой. Файлы для HAMLOG и QRZ.com. Карточки по e-mail.</span></p></div>
