@@ -491,7 +491,7 @@
   .gal figcaption b { display: block; font-family: var(--font-cond); font-size: 19px; line-height: 1.2; margin-bottom: 3px; }
   .gal figcaption span.t { color: var(--text-dim); font-size: 14.5px; line-height: 1.45; display: block; }
   .gal figure:nth-child(even) { margin-top: 36px; }
-  .fcards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .fcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
   .fc { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-m); padding: 20px 18px 18px; }
   .fc svg { width: 40px; height: 40px; padding: 8px; border-radius: 10px; color: var(--amber); background: rgba(232,162,61,.1); border: 1px solid rgba(232,162,61,.25); margin-bottom: 14px; display: block; }
   .fc h3 { font-family: var(--font-cond); font-weight: 700; font-size: 20px; line-height: 1.2; margin: 0 0 6px; }
@@ -610,7 +610,7 @@
       <a data-file="ipa" href="https://r2fel.com/download/"><span class="os">iPhone</span><span class="for"><span class="en">iOS 15 and newer — steps below</span><span class="ru">iOS 15 и новее — шаги ниже</span></span><span class="file"></span></a>
     </div>
     <p class="dl-meta">
-      <span class="en">Version</span><span class="ru">Версия</span> <span class="ver" id="ver">1.0.91</span> ·
+      <span class="en">Version</span><span class="ru">Версия</span> <span class="ver" id="ver">1.0.92</span> ·
       <a href="https://github.com/r2fel/hamlog/releases"><span class="en">all versions on GitHub</span><span class="ru">все версии на GitHub</span></a>
     </p>
     <p class="dl-meta">
@@ -687,12 +687,13 @@
   <section id="features">
     <p class="kicker"><span class="en">The essentials</span><span class="ru">Главное в программе</span></p>
     <h2 class="sec-h"><span class="en">Everything you need at the mic and the key</span><span class="ru">Всё, что нужно у микрофона и ключа</span></h2>
-    <p class="sec-sub"><span class="en">Eight things people choose the program for. The rest is in the line below.</span><span class="ru">Восемь вещей, ради которых программу выбирают. Остальное — в строке ниже.</span></p>
+    <p class="sec-sub"><span class="en">Nine things people choose the program for. The rest is in the line below.</span><span class="ru">Девять вещей, ради которых программу выбирают. Остальное — в строке ниже.</span></p>
         <div class="fcards">
       <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg><h3><span class="en">Three callbooks at once</span><span class="ru">Три справочника сразу</span></h3><p><span class="en">QRZ.RU, HamQTH and QRZ.com. Name, town, grid square and RDA district fill in by themselves.</span><span class="ru">QRZ.RU, HamQTH и QRZ.com. Имя, город, локатор и район RDA подставляются сами.</span></p></div>
       <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c3 3 3 14 0 17M12 3.5c-3 3-3 14 0 17"/></svg><h3><span class="en">A globe in its own window</span><span class="ru">Глобус в своём окне</span></h3><p><span class="en">Both stations, the arc, day and night. It grows with the window and works offline.</span><span class="ru">Обе станции, дуга, день и ночь. Растёт вместе с окном, работает и без сети.</span></p></div>
       <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11l3 3v13H5z"/><path d="M8 11h8M8 15h6"/></svg><h3><span class="en">Colour marks, as in JTDX</span><span class="ru">Цветные метки, как в JTDX</span></h3><p><span class="en">New station, new country, new band — seen at a glance before you call.</span><span class="ru">Новая станция, новая страна, новый диапазон — видно с первого взгляда, ещё до вызова.</span></p></div>
       <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h3l2.5-7 3.5 14 2.5-7H21"/></svg><h3><span class="en">Digital contacts arrive by themselves</span><span class="ru">Связи из JTDX приходят сами</span></h3><p><span class="en">Pick a station in JTDX or WSJT-X: the callsign appears in the form and the callbooks fill in the rest. Press Log QSO there and it is in the log.</span><span class="ru">Выбрали станцию в JTDX или WSJT-X — позывной появился в форме, справочники подставили остальное. Нажали там Log QSO — связь в журнале.</span></p></div>
+            <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="9" width="19" height="11" rx="2"/><path d="M6 9V6.5h12V9M9.5 14.5h5M12 20v2.5M7.5 22.5h9"/></svg><h3><span class="en">The transceiver, straight from USB</span><span class="ru">Трансивер прямо по USB</span></h3><p><span class="en">Frequency, band and mode come from the radio itself, and the S-meter sits in the header. A spot or Enter tunes it. Yaesu and Kenwood-compatible radios (FT-710, TX-500).</span><span class="ru">Частота, диапазон и вид идут с самого трансивера, S-метр — в шапке. Спот или Enter — и он перестроен. Yaesu и Kenwood-совместимые (FT-710, TX-500).</span></p></div>
       <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15H6z"/><path d="M9 12l2 2 4-4"/></svg><h3><span class="en">Entries for contests</span><span class="ru">Отчёты для соревнований</span></h3><p><span class="en">Cabrillo for HF contests, EDI(RU) for VHF — with the gear, the operators and a file per band. The VHF one was checked against the ALRS robot.</span><span class="ru">Cabrillo для КВ-тестов, EDI(RU) для УКВ — с техникой, операторами и файлом на каждый диапазон. УКВ-отчёт проверен у робота АЛРС.</span></p></div>
       <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18c3-9 6-9 8 0s5 9 8-12"/></svg><h3><span class="en">DX cluster and CW decoder</span><span class="ru">DX-кластер и декодер CW</span></h3><p><span class="en">Spots go into the form with one click. Morse is read from the microphone in Latin letters, with abbreviations explained.</span><span class="ru">Споты одним нажатием в форму. Телеграф читается с микрофона на латинице, с расшифровкой сокращений.</span></p></div>
       <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg><h3><span class="en">LoTW, eQSL, QRZ.com, award.srr.ru</span><span class="ru">LoTW, eQSL, QRZ.com, award.srr.ru</span></h3><p><span class="en">Send and check confirmations with one button. Files for HAMLOG and QRZ.com. QSL cards by e-mail.</span><span class="ru">Отправка и проверка подтверждений одной кнопкой. Файлы для HAMLOG и QRZ.com. Карточки по e-mail.</span></p></div>
@@ -929,7 +930,7 @@
         links[i].querySelector('.file').textContent = name;
       }
     }
-    var builtIn = '1.0.91';
+    var builtIn = '1.0.92';
     setVersion(builtIn);
     // Only ever forward: the service keeps its answer for an hour, and
     // right after a release it still names the one before — taking that would
