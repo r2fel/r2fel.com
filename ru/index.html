@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="google-site-verification" content="dubu0DjmE4Dn9UgI40hFgIibc6vJgqlARsd6HaOOG-U" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>R2FEL HamLog — бесплатный журнал радиосвязей для Mac и Windows</title>
+<title>R2FEL HamLog — бесплатный журнал радиосвязей для Mac, Windows, Android и iPhone</title>
 <link rel="canonical" href="https://r2fel.com/ru/">
 <link rel="alternate" hreflang="en" href="https://r2fel.com/">
 <link rel="alternate" hreflang="ru" href="https://r2fel.com/ru/">
@@ -603,6 +603,76 @@
     .wrap { padding: 0 16px; }
     .mark-name { font-size: 25px; }
   }
+
+  /* ───── 2026-11 redesign: «Прибор+» ───── */
+  html { scroll-behavior: smooth; }
+  section, .hero { scroll-margin-top: 76px; }
+  header { position: sticky; top: 0; z-index: 40; background: rgba(28,27,25,.82); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+  .topnav { display: flex; gap: 18px; margin-left: 24px; margin-right: auto; font-size: 14px; }
+  .topnav a { color: var(--text-dim); text-decoration: none; white-space: nowrap; }
+  .topnav a:hover { color: var(--amber); }
+  .nav-dl { display: inline-flex; align-items: center; white-space: nowrap; margin-right: 10px; padding: 8px 16px; border-radius: var(--radius-pill); background: var(--amber); color: var(--ink); text-decoration: none; font-weight: 600; font-size: 14px; }
+  .nav-dl:hover { background: #f0ad4a; }
+  .nav-heart.nav-mail { margin-left: 0; }
+  .ruler { height: 12px; position: relative; background:
+      repeating-linear-gradient(90deg, #55503f 0 1px, transparent 1px 50px) 0 0 / 100% 12px repeat-x,
+      repeating-linear-gradient(90deg, #3a362f 0 1px, transparent 1px 10px) 0 0 / 100% 6px repeat-x; }
+  .ruler::after { content: ""; position: absolute; left: 38%; top: 0; height: 12px; width: 2px; background: var(--amber); box-shadow: 0 0 12px var(--amber); }
+  body { background-image: radial-gradient(900px 560px at 78% 340px, rgba(232,162,61,.12), transparent 62%); background-repeat: no-repeat; }
+  .hero { padding-top: 56px; }
+  @media (min-width: 901px) { .nav-heart.nav-mail { display: none; } .nav-heart .nt { display: none; } .nav-heart { padding: 7px 10px; } }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(232,162,61,.4); background: rgba(232,162,61,.08); color: #f0b660; border-radius: var(--radius-pill); padding: 6px 14px; font-size: 12px; letter-spacing: .08em; }
+  .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green); }
+  h1 { letter-spacing: -.01em; }
+  h1 em { background: linear-gradient(90deg, #f6c26e, #e8a23d 55%, #c9822b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero-top > div:first-child { flex: 1 1 46%; min-width: 0; }
+  .dlwrap { margin-top: 26px; }
+  .dlwrap .dl { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+  .dlwrap .dl a { flex: 0 1 auto; padding: 8px 14px; border-radius: 999px; flex-direction: row; align-items: center; gap: 0; }
+  .dlwrap .dl a .os { font-size: 14px; font-family: var(--font-text); font-weight: 500; white-space: nowrap; }
+  .dlwrap .dl a .os::before { display: none; }
+  .dlwrap .dl a .for, .dlwrap .dl a .file { display: none; }
+  .dlwrap .dl a[data-file="mac"]:not(.primary) .os::after { content: " · Apple Silicon"; }
+  .dlwrap .dl a[data-file="macintel"]:not(.primary) .os::after { content: " · Intel"; }
+  .dlwrap .dl a.primary { flex: 1 0 100%; flex-direction: column; align-items: flex-start; gap: 2px; padding: 16px 24px; border-radius: 14px; box-shadow: 0 10px 40px rgba(232,162,61,.25); order: -1; }
+  .dlwrap .dl a.primary .os { font-family: var(--font-cond); font-weight: 700; font-size: 24px; display: inline-flex; gap: 8px; }
+  .dlwrap .dl a.primary .os::before { display: inline; content: "⬇"; }
+  .dlwrap .dl a.primary .for { display: block; font-size: 13px; }
+  .dlwrap .dl a.primary .file { display: block; margin-top: 2px; padding: 0; }
+  .dlwrap .dl-meta { font-size: 13px; margin-top: 8px; }
+  .trust { display: flex; justify-content: space-between; gap: 14px 24px; flex-wrap: wrap; padding: 18px 0; margin-top: 30px; border-block: 1px solid var(--line); font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-dim); }
+  .trust b { color: var(--amber); margin-right: 4px; }
+  /* бенто: те же девять карточек, разная величина */
+  .fcards { grid-template-columns: repeat(12, 1fr); gap: 14px; }
+  .fc { grid-column: span 4; border-radius: 20px; padding: 24px; background: linear-gradient(180deg, #232120, #1c1b19); }
+  .fc:nth-child(1) { grid-column: span 7; } .fc:nth-child(2) { grid-column: span 5; }
+  .fc:nth-child(9) { grid-column: span 12; }
+  .fc:nth-child(1), .fc:nth-child(2) { min-height: 190px; }
+  .fc:nth-child(1) h3, .fc:nth-child(2) h3 { font-size: 24px; }
+  /* табло трансивера */
+  .compat-head { grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); align-items: center; }
+  .dial { grid-column: 2; grid-row: 1 / span 2; background: linear-gradient(180deg, #191816, #121110); border: 1px solid #4a443a; border-radius: 20px; padding: 24px; box-shadow: 0 30px 70px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.04); }
+  .dial-row { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; color: #7d7766; }
+  .dial-ok { color: var(--green); }
+  .dial-f { font-family: var(--font-mono); font-weight: 700; font-size: clamp(34px, 4.6vw, 52px); color: var(--amber); text-shadow: 0 0 28px rgba(232,162,61,.45); margin: 10px 0 14px; letter-spacing: -.02em; white-space: nowrap; }
+  .dial-f small { font-size: 16px; color: var(--text-dim); margin-left: 8px; text-shadow: none; }
+  .dial-sm { height: 10px; border-radius: 5px; background: linear-gradient(90deg, #7ea36b 0 55%, #e8a23d 55% 80%, #c96a4f 80%); position: relative; }
+  .dial-sm::after { content: ""; position: absolute; left: 52%; top: -6px; width: 3px; height: 22px; background: #fff; border-radius: 2px; box-shadow: 0 0 8px #fff; }
+  .dial-sc { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; color: #7d7766; margin-top: 10px; }
+  .dial-low { margin-top: 16px; }
+  /* закреплённая кнопка на телефоне */
+  .cta-bar { display: none; }
+  @media (max-width: 900px) {
+    .topnav, .nav-dl { display: none; }
+    .fc, .fc:nth-child(n) { grid-column: span 12; min-height: 0; }
+    .compat-head { grid-template-columns: 1fr; }
+    .dial { grid-column: auto; grid-row: auto; }
+    .dlwrap .dl a.primary .os { font-size: 22px; }
+    body { padding-bottom: 84px; }
+    .cta-bar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; gap: 10px; align-items: center; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: rgba(28,27,25,.92); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-top: 1px solid var(--line); }
+    .cta-main { flex: 1; text-align: center; background: var(--amber); color: var(--ink); border-radius: 12px; padding: 14px; font-weight: 700; font-size: 16px; text-decoration: none; }
+    .cta-mail { border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; color: var(--text); text-decoration: none; font-size: 18px; }
+  }
 </style>
 </head>
 <body>
@@ -610,14 +680,24 @@
 <header>
   <div class="wrap">
     <a class="mark" href="/ru/"><span class="mark-call">R2FEL</span><span class="mark-name">HamLog</span></a>
+    <nav class="topnav" aria-label="Sections">
+      <a href="#features"><span class="en">Features</span><span class="ru">Возможности</span></a>
+      <a href="#usb"><span class="en">Transceiver</span><span class="ru">Трансивер</span></a>
+      <a href="#phone"><span class="en">Phone</span><span class="ru">Телефон</span></a>
+      <a href="#video"><span class="en">Video</span><span class="ru">Видео</span></a>
+      <a href="#install"><span class="en">Install</span><span class="ru">Установка</span></a>
+      <a href="#contact"><span class="en">Questions</span><span class="ru">Вопросы</span></a>
+    </nav>
     <a class="nav-heart nav-mail" href="#contact" aria-label="Write / Написать"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1.6 2 7.4 5.6L19.4 7H4.6zM4 17h16V9.3l-8 6-8-6V17z"/></svg><span class="nt"><span class="en">Write</span><span class="ru">Написать</span></span></a>
     <a class="nav-heart" href="#support" aria-label="Support / Поддержать"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 21s-7.5-4.6-9.6-9.2C.8 8.2 3 5 6.3 5c2 0 3.7 1.1 4.7 2.7h2C14 6.1 15.700 5 17.700 5c3.300 0 5.500 3.200 3.900 6.800C19.500 16.400 12 21 12 21z"/></svg><span class="nt"><span class="en">Support</span><span class="ru">Поддержать</span></span></a>
+    <a class="nav-dl" href="#downloads"><span class="en">⬇ Download</span><span class="ru">⬇ Скачать</span></a>
     <div class="langs" role="group" aria-label="Language">
       <button type="button" data-set-lang="en">EN</button>
       <button type="button" data-set-lang="ru">RU</button>
     </div>
   </div>
 </header>
+<div class="ruler" aria-hidden="true"></div>
 
 <main class="wrap">
 
@@ -628,14 +708,7 @@
     <h1><span class="en">The ham radio logbook<br><em>on your computer</em><br>and in your pocket</span><span class="ru">Журнал радиосвязей<br><em>на компьютере</em><br>и в кармане</span></h1>
     <p class="lead"><span class="en">Type a callsign — name, town, grid square, photo, distance and the weather at the other end appear by themselves. At home on the computer, in the field on the phone, even without internet.</span><span class="ru">Набрали позывной — имя, город, локатор, фото, расстояние и погода у корреспондента уже на экране. Дома на компьютере, в поле на телефоне, даже без интернета.</span></p>
     <p class="lead-dim"><span class="en">No subscription, no cloud: your log and your passwords stay with you.</span><span class="ru">Без подписок и без облака: журнал и пароли остаются у вас.</span></p>
-    </div>
-    <div class="stage">
-      <img class="desk ru" src="../img/desk-ru.webp" width="1236" height="606" alt="R2FEL HamLog на компьютере: найденный позывной: имя, город, расстояние, погода и местное время">
-      <img class="desk en" src="../img/desk-en.webp" width="1236" height="606" alt="R2FEL HamLog on the computer: a callsign found: name, town, distance, weather and local time">
-      <div class="phone"><img class="en" src="../img/phone-entry.webp" width="460" height="936" alt="R2FEL HamLog on the phone"><img class="ru" src="../img/phone-entry-ru.webp" width="460" height="936" alt="R2FEL HamLog на телефоне"></div>
-    </div>
-    </div>
-
+    <div class="dlwrap">
     <div class="dl" id="downloads">
       <a class="primary" data-file="mac" href="https://r2fel.com/download/"><span class="os">macOS</span><span class="for"><span class="en">Apple Silicon (M1 and newer)</span><span class="ru">Apple Silicon (M1 и новее)</span></span><span class="file"></span></a>
       <a data-file="macintel" href="https://r2fel.com/download/"><span class="os">macOS</span><span class="for"><span class="en">Intel Mac</span><span class="ru">Mac с процессором Intel</span></span><span class="file"></span></a>
@@ -652,8 +725,41 @@
       <span class="en">First launch only: macOS or Windows may say the program can't be verified (no paid certificate). Mac: System Settings → Privacy &amp; Security → Open Anyway. Windows: More info → Run anyway.</span>
       <span class="ru">Только при первом запуске: macOS или Windows могут написать, что не могут проверить программу (нет платного сертификата). Mac: Системные настройки → Конфиденциальность и безопасность → «Всё равно открыть». Windows: «Подробнее» → «Выполнить в любом случае».</span>
     </p>
+    </div>
+    </div>
+    <div class="stage">
+      <img class="desk ru" src="../img/desk-ru.webp" width="1236" height="606" alt="R2FEL HamLog на компьютере: найденный позывной: имя, город, расстояние, погода и местное время">
+      <img class="desk en" src="../img/desk-en.webp" width="1236" height="606" alt="R2FEL HamLog on the computer: a callsign found: name, town, distance, weather and local time">
+      <div class="phone"><img class="en" src="../img/phone-entry.webp" width="460" height="936" alt="R2FEL HamLog on the phone"><img class="ru" src="../img/phone-entry-ru.webp" width="460" height="936" alt="R2FEL HamLog на телефоне"></div>
+    </div>
+    </div>
 
   </div>
+
+  <div class="trust">
+    <div><b>4</b> <span class="en">systems: Mac · Windows · Android · iPhone</span><span class="ru">системы: Mac · Windows · Android · iPhone</span></div>
+    <div><b>0 ₽</b> <span class="en">no subscription</span><span class="ru">без подписок</span></div>
+    <div><b>★</b> <span class="en">your log and passwords stay with you</span><span class="ru">журнал и пароли — только у вас</span></div>
+    <div><b>RU·EN</b> <span class="en">two languages</span><span class="ru">два языка</span></div>
+  </div>
+
+  <section id="features">
+    <p class="kicker"><span class="en">The essentials</span><span class="ru">Главное в программе</span></p>
+    <h2 class="sec-h"><span class="en">Everything you need at the mic and the key</span><span class="ru">Всё, что нужно у микрофона и ключа</span></h2>
+    <p class="sec-sub"><span class="en">Nine things people choose the program for. The rest is in the line below.</span><span class="ru">Девять вещей, ради которых программу выбирают. Остальное — в строке ниже.</span></p>
+        <div class="fcards">
+      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg><h3><span class="en">Three callbooks at once</span><span class="ru">Три справочника сразу</span></h3><p><span class="en">QRZ.RU, HamQTH and QRZ.com. Name, town, grid square and RDA district fill in by themselves.</span><span class="ru">QRZ.RU, HamQTH и QRZ.com. Имя, город, локатор и район RDA подставляются сами.</span></p></div>
+      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c3 3 3 14 0 17M12 3.5c-3 3-3 14 0 17"/></svg><h3><span class="en">A globe in its own window</span><span class="ru">Глобус в своём окне</span></h3><p><span class="en">Both stations, the arc, day and night. It grows with the window and works offline.</span><span class="ru">Обе станции, дуга, день и ночь. Растёт вместе с окном, работает и без сети.</span></p></div>
+      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11l3 3v13H5z"/><path d="M8 11h8M8 15h6"/></svg><h3><span class="en">Colour marks, as in JTDX</span><span class="ru">Цветные метки, как в JTDX</span></h3><p><span class="en">New station, new country, new band — seen at a glance before you call.</span><span class="ru">Новая станция, новая страна, новый диапазон — видно с первого взгляда, ещё до вызова.</span></p></div>
+      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h3l2.5-7 3.5 14 2.5-7H21"/></svg><h3><span class="en">Digital contacts arrive by themselves</span><span class="ru">Связи из JTDX приходят сами</span></h3><p><span class="en">Pick a station in JTDX or WSJT-X: the callsign appears in the form and the callbooks fill in the rest. Press Log QSO there and it is in the log.</span><span class="ru">Выбрали станцию в JTDX или WSJT-X — позывной появился в форме, справочники подставили остальное. Нажали там Log QSO — связь в журнале.</span></p></div>
+            <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="9" width="19" height="11" rx="2"/><path d="M6 9V6.5h12V9M9.5 14.5h5M12 20v2.5M7.5 22.5h9"/></svg><h3><span class="en">The transceiver, straight from USB</span><span class="ru">Трансивер прямо по USB</span></h3><p><span class="en">Frequency, band and mode come from the radio itself, and the S-meter sits in the header. A spot or Enter tunes it. Yaesu and Kenwood-compatible radios (FT-710, FT-891, TX-500).</span><span class="ru">Частота, диапазон и вид идут с самого трансивера, S-метр — в шапке. Спот или Enter — и он перестроен. Yaesu и Kenwood-совместимые (FT-710, FT-891, TX-500).</span></p></div>
+      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15H6z"/><path d="M9 12l2 2 4-4"/></svg><h3><span class="en">Entries for contests</span><span class="ru">Отчёты для соревнований</span></h3><p><span class="en">Cabrillo for HF contests, EDI(RU) for VHF — with the gear, the operators and a file per band. The VHF one was checked against the ALRS robot.</span><span class="ru">Cabrillo для КВ-тестов, EDI(RU) для УКВ — с техникой, операторами и файлом на каждый диапазон. УКВ-отчёт проверен у робота АЛРС.</span></p></div>
+      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18c3-9 6-9 8 0s5 9 8-12"/></svg><h3><span class="en">DX cluster and CW decoder</span><span class="ru">DX-кластер и декодер CW</span></h3><p><span class="en">Spots go into the form with one click. Morse is read from the microphone in Latin letters, with abbreviations explained.</span><span class="ru">Споты одним нажатием в форму. Телеграф читается с микрофона на латинице, с расшифровкой сокращений.</span></p></div>
+      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg><h3><span class="en">LoTW, eQSL, QRZ.com, award.srr.ru</span><span class="ru">LoTW, eQSL, QRZ.com, award.srr.ru</span></h3><p><span class="en">Send and check confirmations with one button. Files for HAMLOG and QRZ.com. QSL cards by e-mail.</span><span class="ru">Отправка и проверка подтверждений одной кнопкой. Файлы для HAMLOG и QRZ.com. Карточки по e-mail.</span></p></div>
+      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="9.2" cy="10" r="1"/><circle cx="14.8" cy="10" r="1"/><circle cx="9.6" cy="15" r="1"/></svg><h3><span class="en">Russian mode and four themes</span><span class="ru">Русский режим и четыре темы</span></h3><p><span class="en">One switch makes the whole program Russian — menus, hints, dates and names. Amber, graphite, grey and light themes.</span><span class="ru">Одна кнопка делает программу русской — меню, подсказки, дату и имена. Темы: янтарная, графит, серая, светлая.</span></p></div>
+    </div>
+    <p class="tagline"><span class="en"><b>And also:</b> four themes · log columns the way you want · duplicates and “worked before” · ADIF, Cabrillo and EDI · backups · POTA and contests · pileups · QSL cards · weather and time at the other end.</span><span class="ru"><b>И ещё:</b> четыре темы · колонки журнала под себя · двойники и «уже работали» · ADIF, Cabrillo и EDI · резервные копии · POTA и контест · пайлап · QSL-карточки · погода и время у корреспондента.</span></p>
+  </section>
 
   <section id="usb">
     <div class="compat">
@@ -668,6 +774,13 @@
           <li><b><span class="en">Tuning from the program</span><span class="ru">Настройка из программы</span></b> — <span class="en">tap a spot, the radio follows</span><span class="ru">щёлкнули по споту, трансивер перешёл</span></li>
           <li><b><span class="en">PTT and the S-meter</span><span class="ru">PTT и S-метр</span></b> — <span class="en">right in the program window</span><span class="ru">прямо в окне программы</span></li>
         </ul>
+        <div class="dial" aria-hidden="true">
+          <div class="dial-row"><span>FT-710 · USB</span><span class="dial-ok">● CAT</span></div>
+          <div class="dial-f">14 074.0<small>kHz</small></div>
+          <div class="dial-sm"></div>
+          <div class="dial-sc"><span>S1</span><span>S3</span><span>S5</span><span>S7</span><span>S9</span><span>+20</span></div>
+          <div class="dial-row dial-low"><span><span class="en">MODE</span><span class="ru">ВИД</span> · FT8</span><span><span class="en">BAND</span><span class="ru">ДИАПАЗОН</span> · 20m</span></div>
+        </div>
       </div>
       <div class="compat-rigs">
         <figure><img class="r-ft" src="../img/rig-ft710.webp" width="660" height="196" loading="lazy" alt="Yaesu FT-710"><figcaption>Yaesu FT-710</figcaption></figure>
@@ -696,13 +809,13 @@
     <h2 class="sec-h"><span class="en">Trips, the field, the dacha — your log is always with you</span><span class="ru">Выезд, поле, дача — журнал всегда с вами</span></h2>
     <p class="sec-sub"><span class="en">Logging needs no network: the callbooks fill in the details later. Dark and light themes, Russian and English.</span><span class="ru">Запись связи не требует сети: справочники дописывают данные потом. Тёмная и светлая тема, русский и английский.</span></p>
     <div class="gal">
-      <figure><div class="phone"><img class="en" src="../img/phone-entry.webp" width="460" height="936" loading="lazy" alt=""><img class="ru" src="../img/phone-entry-ru.webp" width="460" height="936" loading="lazy" alt=""></div>
+      <figure><div class="phone"><img class="en" src="../img/phone-entry.webp" width="460" height="936" loading="lazy" alt="The other station's card on the phone: photo, flag, distance, weather"><img class="ru" src="../img/phone-entry-ru.webp" width="460" height="936" loading="lazy" alt="Карточка корреспондента на телефоне: фото, флаг, расстояние, погода"></div>
         <figcaption><b><span class="en">The other station’s card</span><span class="ru">Карточка корреспондента</span></b><span class="t"><span class="en">Photo, flag, distance, bearing, weather and time at their end. NEW COUNTRY and NEW BAND marks.</span><span class="ru">Фото, флаг, расстояние, азимут, погода и время у него. Метки NEW COUNTRY и NEW BAND.</span></span></figcaption></figure>
-      <figure><div class="phone"><img class="en" src="../img/phone-kb.webp" width="460" height="936" loading="lazy" alt=""><img class="ru" src="../img/phone-kb-ru.webp" width="460" height="936" loading="lazy" alt=""></div>
+      <figure><div class="phone"><img class="en" src="../img/phone-kb.webp" width="460" height="936" loading="lazy" alt="Logging with one hand: reports and the Log button above the keyboard"><img class="ru" src="../img/phone-kb-ru.webp" width="460" height="936" loading="lazy" alt="Запись одной рукой: рапорты и кнопка записи над клавиатурой"></div>
         <figcaption><b><span class="en">One-handed logging</span><span class="ru">Запись одной рукой</span></b><span class="t"><span class="en">Reports and the Log button right above the keyboard, a row of digits under your thumb.</span><span class="ru">Рапорты и кнопка «Записать» прямо над клавиатурой, ряд цифр под пальцем.</span></span></figcaption></figure>
-      <figure><div class="phone"><img class="en" src="../img/phone-log.webp" width="460" height="936" loading="lazy" alt=""><img class="ru" src="../img/phone-log-ru.webp" width="460" height="936" loading="lazy" alt=""></div>
+      <figure><div class="phone"><img class="en" src="../img/phone-log.webp" width="460" height="936" loading="lazy" alt="The log as cards on the phone"><img class="ru" src="../img/phone-log-ru.webp" width="460" height="936" loading="lazy" alt="Журнал карточками на телефоне"></div>
         <figcaption><b><span class="en">The log as cards</span><span class="ru">Журнал карточками</span></b><span class="t"><span class="en">Search by callsign, name or town; swipe left to delete, tap to edit.</span><span class="ru">Поиск по позывному, имени и городу, смахнуть влево — удалить, нажать — исправить.</span></span></figcaption></figure>
-      <figure><div class="phone"><img class="en" src="../img/phone-map.webp" width="460" height="936" loading="lazy" alt=""><img class="ru" src="../img/phone-map-ru.webp" width="460" height="936" loading="lazy" alt=""></div>
+      <figure><div class="phone"><img class="en" src="../img/phone-map.webp" width="460" height="936" loading="lazy" alt="Globe and map on the phone: the arc to the other station"><img class="ru" src="../img/phone-map-ru.webp" width="460" height="936" loading="lazy" alt="Глобус и карта на телефоне: дуга до корреспондента"></div>
         <figcaption><b><span class="en">Globe and map</span><span class="ru">Глобус и карта</span></b><span class="t"><span class="en">The arc to the other station, day and night. No internet — an offline map.</span><span class="ru">Дуга до корреспондента, день и ночь. Без интернета — офлайн-карта.</span></span></figcaption></figure>
     </div>
   </section>
@@ -739,24 +852,6 @@
           <span><b><span class="en">Short and long path</span><span class="ru">Короткий и длинный путь</span></b><span class="gtxt"><span class="en">The great-circle arc, the distance and the heading — one press for the long way round.</span><span class="ru">Дуга большого круга, расстояние и азимут — одним нажатием и длинный путь.</span></span></span></li>
       </ul>
     </div>
-  </section>
-
-  <section id="features">
-    <p class="kicker"><span class="en">The essentials</span><span class="ru">Главное в программе</span></p>
-    <h2 class="sec-h"><span class="en">Everything you need at the mic and the key</span><span class="ru">Всё, что нужно у микрофона и ключа</span></h2>
-    <p class="sec-sub"><span class="en">Nine things people choose the program for. The rest is in the line below.</span><span class="ru">Девять вещей, ради которых программу выбирают. Остальное — в строке ниже.</span></p>
-        <div class="fcards">
-      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg><h3><span class="en">Three callbooks at once</span><span class="ru">Три справочника сразу</span></h3><p><span class="en">QRZ.RU, HamQTH and QRZ.com. Name, town, grid square and RDA district fill in by themselves.</span><span class="ru">QRZ.RU, HamQTH и QRZ.com. Имя, город, локатор и район RDA подставляются сами.</span></p></div>
-      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c3 3 3 14 0 17M12 3.5c-3 3-3 14 0 17"/></svg><h3><span class="en">A globe in its own window</span><span class="ru">Глобус в своём окне</span></h3><p><span class="en">Both stations, the arc, day and night. It grows with the window and works offline.</span><span class="ru">Обе станции, дуга, день и ночь. Растёт вместе с окном, работает и без сети.</span></p></div>
-      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11l3 3v13H5z"/><path d="M8 11h8M8 15h6"/></svg><h3><span class="en">Colour marks, as in JTDX</span><span class="ru">Цветные метки, как в JTDX</span></h3><p><span class="en">New station, new country, new band — seen at a glance before you call.</span><span class="ru">Новая станция, новая страна, новый диапазон — видно с первого взгляда, ещё до вызова.</span></p></div>
-      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h3l2.5-7 3.5 14 2.5-7H21"/></svg><h3><span class="en">Digital contacts arrive by themselves</span><span class="ru">Связи из JTDX приходят сами</span></h3><p><span class="en">Pick a station in JTDX or WSJT-X: the callsign appears in the form and the callbooks fill in the rest. Press Log QSO there and it is in the log.</span><span class="ru">Выбрали станцию в JTDX или WSJT-X — позывной появился в форме, справочники подставили остальное. Нажали там Log QSO — связь в журнале.</span></p></div>
-            <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="9" width="19" height="11" rx="2"/><path d="M6 9V6.5h12V9M9.5 14.5h5M12 20v2.5M7.5 22.5h9"/></svg><h3><span class="en">The transceiver, straight from USB</span><span class="ru">Трансивер прямо по USB</span></h3><p><span class="en">Frequency, band and mode come from the radio itself, and the S-meter sits in the header. A spot or Enter tunes it. Yaesu and Kenwood-compatible radios (FT-710, FT-891, TX-500).</span><span class="ru">Частота, диапазон и вид идут с самого трансивера, S-метр — в шапке. Спот или Enter — и он перестроен. Yaesu и Kenwood-совместимые (FT-710, FT-891, TX-500).</span></p></div>
-      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15H6z"/><path d="M9 12l2 2 4-4"/></svg><h3><span class="en">Entries for contests</span><span class="ru">Отчёты для соревнований</span></h3><p><span class="en">Cabrillo for HF contests, EDI(RU) for VHF — with the gear, the operators and a file per band. The VHF one was checked against the ALRS robot.</span><span class="ru">Cabrillo для КВ-тестов, EDI(RU) для УКВ — с техникой, операторами и файлом на каждый диапазон. УКВ-отчёт проверен у робота АЛРС.</span></p></div>
-      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18c3-9 6-9 8 0s5 9 8-12"/></svg><h3><span class="en">DX cluster and CW decoder</span><span class="ru">DX-кластер и декодер CW</span></h3><p><span class="en">Spots go into the form with one click. Morse is read from the microphone in Latin letters, with abbreviations explained.</span><span class="ru">Споты одним нажатием в форму. Телеграф читается с микрофона на латинице, с расшифровкой сокращений.</span></p></div>
-      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg><h3><span class="en">LoTW, eQSL, QRZ.com, award.srr.ru</span><span class="ru">LoTW, eQSL, QRZ.com, award.srr.ru</span></h3><p><span class="en">Send and check confirmations with one button. Files for HAMLOG and QRZ.com. QSL cards by e-mail.</span><span class="ru">Отправка и проверка подтверждений одной кнопкой. Файлы для HAMLOG и QRZ.com. Карточки по e-mail.</span></p></div>
-      <div class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="9.2" cy="10" r="1"/><circle cx="14.8" cy="10" r="1"/><circle cx="9.6" cy="15" r="1"/></svg><h3><span class="en">Russian mode and four themes</span><span class="ru">Русский режим и четыре темы</span></h3><p><span class="en">One switch makes the whole program Russian — menus, hints, dates and names. Amber, graphite, grey and light themes.</span><span class="ru">Одна кнопка делает программу русской — меню, подсказки, дату и имена. Темы: янтарная, графит, серая, светлая.</span></p></div>
-    </div>
-    <p class="tagline"><span class="en"><b>And also:</b> four themes · log columns the way you want · duplicates and “worked before” · ADIF, Cabrillo and EDI · backups · POTA and contests · pileups · QSL cards · weather and time at the other end.</span><span class="ru"><b>И ещё:</b> четыре темы · колонки журнала под себя · двойники и «уже работали» · ADIF, Cabrillo и EDI · резервные копии · POTA и контест · пайлап · QSL-карточки · погода и время у корреспондента.</span></p>
   </section>
 
   <section class="heart" id="support">
@@ -931,6 +1026,8 @@
   </div>
 </footer>
 
+<div class="cta-bar" id="cta-bar"><a class="cta-main" id="cta-main" href="#downloads"><span class="cta-t"></span></a><a class="cta-mail" href="#contact" aria-label="Write / Написать">✉</a></div>
+
 <dialog class="inst" id="inst" aria-labelledby="inst-h">
   <div data-os="apk">
     <h3 id="inst-h"><span class="en">Android: install in a minute</span><span class="ru">Android: установка за минуту</span></h3>
@@ -1060,6 +1157,24 @@
       document.getElementById('inst-ok').addEventListener('click', function () { d.close(); });
       document.getElementById('inst-more').addEventListener('click', function () { d.close(); });
       d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
+    })();
+
+
+    // Закреплённая кнопка на телефоне: ведёт на файл своей системы (та же, что оранжевая вверху).
+    (function () {
+      var bar = document.getElementById('cta-main'); if (!bar) return;
+      var t = bar.querySelector('.cta-t');
+      function paint() {
+        var p = document.querySelector('.dl a.primary');
+        var l = document.documentElement.getAttribute('data-lang') === 'ru';
+        var os = p ? p.querySelector('.os').textContent : '';
+        t.textContent = p ? ((l ? '⬇ Скачать для ' : '⬇ Download for ') + os) : (l ? '⬇ Скачать' : '⬇ Download');
+      }
+      paint();
+      bar.addEventListener('click', function (e) {
+        var p = document.querySelector('.dl a.primary');
+        if (p) { e.preventDefault(); p.click(); }
+      });
     })();
 
     // The "write to the author" form: goes to our own service, no mail program involved
