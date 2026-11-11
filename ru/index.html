@@ -542,6 +542,51 @@
     .fcards { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 520px) { .dl, .fcards, .gal { grid-template-columns: 1fr; } .gal .phone { max-width: 300px; } .stage .phone { width: 34%; } }
+  /* What's new in this version. A card under the download buttons on a computer; on a phone a folded strip
+     above them (the buttons are tall there and would push it two screens down). The text is written once, in
+     #whatsnew, and the strip is made from it by the script at the bottom. Rewrite it at every release. */
+  .wn { margin: 18px 0 6px; }
+  .wn-card { background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--amber); border-radius: 10px; padding: 16px 18px; }
+  .wn-head { margin: 0; font-family: var(--font-cond); font-weight: 700; font-size: 20px; color: var(--paper); }
+  .wn-date { color: var(--text-dim); font-size: 13px; font-weight: 400; margin-left: 8px; }
+  .wn-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 26px; margin-top: 8px; }
+  .wn-cols h4 { margin: 0; color: var(--text-dim); font-family: var(--font-label); font-weight: 600; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+  .wn ul { margin: 6px 0 0; padding: 0; list-style: none; }
+  .wn li { padding: 5px 0; line-height: 1.45; color: var(--text); }
+  .wn .tg { display: inline-block; font-family: var(--font-label); font-weight: 700; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; border-radius: 3px; padding: 2px 7px; margin-right: 8px; vertical-align: 1px; }
+  .wn .tg-new { background: var(--amber); color: var(--ink); }
+  .wn .tg-fix { background: #2f4a2a; color: #b9e2a8; }
+  .wn-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 12px; flex-wrap: wrap; }
+  .wn-who { flex: 1; min-width: 240px; padding: 9px 12px; border: 1px dashed var(--amber-dim); border-radius: 8px; color: var(--text); font-size: 14px; line-height: 1.5; }
+  .wn-who b { color: var(--amber); }
+  .wn-more { color: var(--amber); font-size: 13.5px; text-decoration: none; white-space: nowrap; }
+  .wn-m { display: none; }
+  .dl-tabs { display: none; }
+  @media (max-width: 640px) {
+    .wn-d { display: none; }
+    .wn-m { display: block; margin: 0 0 14px; }
+    .wn-strip { background: var(--panel); border: 1px solid var(--amber-dim); border-left: 3px solid var(--amber); border-radius: 10px; }
+    .wn-strip summary { display: flex; align-items: center; gap: 10px; padding: 11px 12px; cursor: pointer; list-style: none; font-size: 14.5px; }
+    .wn-strip summary::-webkit-details-marker { display: none; }
+    .wn-strip summary::after { content: "▾"; margin-left: auto; color: var(--amber); font-size: 18px; }
+    .wn-strip[open] summary::after { content: "▴"; }
+    .wn-strip summary .tg { margin: 0; }
+    .wn-strip .wn-body { padding: 2px 14px 12px; border-top: 1px solid var(--line); }
+    .wn-strip .wn-cols { grid-template-columns: 1fr; gap: 10px; }
+    .wn-strip li { font-size: 14.5px; }
+    /* Downloads on a phone: two tabs, and every file a thin row instead of a tall card. */
+    .dl-tabs { display: flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; margin: 14px 0 8px; }
+    .dl-tabs button { flex: 1; font-family: var(--font-label); font-weight: 700; font-size: 14px; letter-spacing: .06em; text-transform: uppercase; color: var(--text-dim); background: transparent; border: 0; padding: 10px 0; cursor: pointer; }
+    .dl-tabs button.on { background: var(--amber); color: var(--ink); }
+    .dl { display: flex; flex-direction: column; gap: 8px; margin: 0 0 14px; }
+    .dl[data-tab="phone"] a:not([data-file="apk"]):not([data-file="ipa"]) { display: none; }
+    .dl[data-tab="pc"] a[data-file="apk"], .dl[data-tab="pc"] a[data-file="ipa"] { display: none; }
+    .dl a { padding: 12px 14px; gap: 0; }
+    .dl .os { font-size: 20px; line-height: 1.2; }
+    .dl .os::before { font-size: 15px; }
+    .dl .for { font-size: 13.5px; }
+    .dl .file { display: none; }
+  }
   .banner-link { flex: none; }
   .banner { display: block; }
   /* Thank-you block: live. Each tester's callsign lights up, a line draws to R2FEL and a spark runs along it
@@ -636,6 +681,11 @@
     </div>
     </div>
 
+    <div class="wn wn-m" id="wn-m"></div>
+    <div class="dl-tabs" id="dl-tabs" role="tablist">
+      <button type="button" data-tab="phone" role="tab"><span class="en">Phone</span><span class="ru">Телефон</span></button>
+      <button type="button" data-tab="pc" role="tab"><span class="en">Computer</span><span class="ru">Компьютер</span></button>
+    </div>
     <div class="dl" id="downloads">
       <a class="primary" data-file="mac" href="https://r2fel.com/download/"><span class="os">macOS</span><span class="for"><span class="en">Apple Silicon (M1 and newer)</span><span class="ru">Apple Silicon (M1 и новее)</span></span><span class="file"></span></a>
       <a data-file="macintel" href="https://r2fel.com/download/"><span class="os">macOS</span><span class="for"><span class="en">Intel Mac</span><span class="ru">Mac с процессором Intel</span></span><span class="file"></span></a>
@@ -645,9 +695,34 @@
       <a data-file="ipa" href="https://r2fel.com/download/"><span class="os">iPhone · iPad</span><span class="for"><span class="en">iOS 15 and newer — steps below</span><span class="ru">iOS 15 и новее — шаги ниже</span></span><span class="file"></span></a>
     </div>
     <p class="dl-meta">
-      <span class="en">Version</span><span class="ru">Версия</span> <span class="ver" id="ver">1.0.105</span> ·
+      <span class="en">Version</span><span class="ru">Версия</span> <span class="ver" id="ver">1.0.106</span> ·
       <a href="https://github.com/r2fel/hamlog/releases"><span class="en">all versions on GitHub</span><span class="ru">все версии на GitHub</span></a>
     </p>
+    <div class="wn wn-d" id="whatsnew">
+      <div class="wn-card">
+        <h3 class="wn-head"><span class="en">What's new in version </span><span class="ru">Что нового в версии </span><span data-wn-ver>1.0.106</span><span class="wn-date"><span class="en">11 November 2026</span><span class="ru">11 ноября 2026</span></span></h3>
+        <div class="wn-body">
+          <div class="wn-cols">
+            <div><h4><span class="en">Added</span><span class="ru">Добавлено</span></h4><ul>
+              <li><span class="tg tg-new"><span class="en">new</span><span class="ru">новое</span></span><span class="en">Transceiver over USB: FT-710 and FT-891 recording with CAT on, JTDX sets the digital mode itself (FT8 → DATA-U)</span><span class="ru">Трансивер по USB: запись эфира с FT-710 при включённом CAT; JTDX сам ставит цифровой режим (FT8 → DATA-U)</span></li>
+              <li><span class="tg tg-new"><span class="en">new</span><span class="ru">новое</span></span><span class="en">CAT: an "RTS line" option for radios that stay silent without it (FT-891 with CAT RTS = ENABLE)</span><span class="ru">CAT: пункт «Линия RTS» для радио, которые без неё молчат (FT-891 при CAT RTS = ENABLE)</span></li>
+              <li><span class="tg tg-new"><span class="en">new</span><span class="ru">новое</span></span><span class="en">LoTW without TQSL: a .p12 certificate file is enough (trial)</span><span class="ru">LoTW без TQSL: достаточно файла сертификата .p12 (пробно)</span></li>
+              <li><span class="tg tg-new"><span class="en">new</span><span class="ru">новое</span></span><span class="en">CW decoder: "text only", "+ callsigns", "+ meanings"</span><span class="ru">Декодер телеграфа: «только текст», «+ позывные», «+ значения»</span></li>
+              <li><span class="tg tg-new"><span class="en">new</span><span class="ru">новое</span></span><span class="en">Icom (CI-V) and Yaesu FT-1000MP over CAT — trial, feedback welcome</span><span class="ru">Icom (CI-V) и Yaesu FT-1000MP по CAT — пробно, нужны отзывы</span></li></ul></div>
+            <div><h4><span class="en">Fixed</span><span class="ru">Исправлено</span></h4><ul>
+              <li><span class="tg tg-fix"><span class="en">fixed</span><span class="ru">исправлено</span></span><span class="en">Yaesu: digital mode was sent as RTTY-U and DATA-U was not read back</span><span class="ru">Yaesu: цифровой режим уходил как RTTY-U, а DATA-U не читался</span></li>
+              <li><span class="tg tg-fix"><span class="en">fixed</span><span class="ru">исправлено</span></span><span class="en">Cyrillic names no longer turn into "&amp;#1040;…" in files for QRZ.com</span><span class="ru">Имена кириллицей больше не превращаются в «&amp;#1040;…» в файлах для QRZ.com</span></li>
+              <li><span class="tg tg-fix"><span class="en">fixed</span><span class="ru">исправлено</span></span><span class="en">Clear port error messages on Russian Windows</span><span class="ru">Понятные сообщения об ошибках порта на русской Windows</span></li>
+              <li><span class="tg tg-fix"><span class="en">fixed</span><span class="ru">исправлено</span></span><span class="en">The offline globe looks round when zoomed in</span><span class="ru">Офлайн-глобус вблизи выглядит объёмным</span></li>
+              <li><span class="tg tg-fix"><span class="en">fixed</span><span class="ru">исправлено</span></span><span class="en">The TX-500 is now named correctly (ID 500)</span><span class="ru">TX-500 теперь опознаётся и подписывается верно (ID 500)</span></li></ul></div>
+          </div>
+          <div class="wn-foot">
+            <div class="wn-who"><b><span class="en">Worth updating</span><span class="ru">Стоит обновиться</span></b><span class="en"> if you have a transceiver on USB or send to LoTW. Everyone else — whenever you like.</span><span class="ru">, если у вас трансивер по USB или вы отправляете в LoTW. Остальным — по желанию.</span></div>
+            <a class="wn-more" href="https://github.com/r2fel/hamlog/releases"><span class="en">All versions and details ›</span><span class="ru">Все версии и подробности ›</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
     <p class="dl-meta">
       <span class="en">First launch only: macOS or Windows may say the program can't be verified (no paid certificate). Mac: System Settings → Privacy &amp; Security → Open Anyway. Windows: More info → Run anyway.</span>
       <span class="ru">Только при первом запуске: macOS или Windows могут написать, что не могут проверить программу (нет платного сертификата). Mac: Системные настройки → Конфиденциальность и безопасность → «Всё равно открыть». Windows: «Подробнее» → «Выполнить в любом случае».</span>
@@ -987,7 +1062,7 @@
         links[i].querySelector('.file').textContent = name;
       }
     }
-    var builtIn = '1.0.105';
+    var builtIn = '1.0.106';
     setVersion(builtIn);
     // Only ever forward: the service keeps its answer for an hour, and
     // right after a release it still names the one before — taking that would
@@ -1025,6 +1100,35 @@
       if (!own) return;
       var all = document.querySelectorAll('[data-file]');
       for (var i = 0; i < all.length; i++) all[i].classList.toggle('primary', all[i].getAttribute('data-file') === own);
+    })();
+
+    // Phone: the two tabs choose which downloads are shown (CSS does the hiding, at 640 px and narrower),
+    // and the strip "what's new" is made from the card under the buttons — one text, written once.
+    (function () {
+      var dl = document.getElementById('downloads'), tabs = document.getElementById('dl-tabs');
+      if (dl && tabs) {
+        var set = function (t) {
+          dl.setAttribute('data-tab', t);
+          Array.prototype.forEach.call(tabs.querySelectorAll('button'), function (b) {
+            var on = b.getAttribute('data-tab') === t;
+            b.classList.toggle('on', on);
+            b.setAttribute('aria-selected', String(on));
+          });
+        };
+        var own = ownSystem();
+        set(own === 'apk' || own === 'ipa' ? 'phone' : 'pc');
+        tabs.addEventListener('click', function (e) {
+          var b = e.target.closest ? e.target.closest('button[data-tab]') : null;
+          if (b) set(b.getAttribute('data-tab'));
+        });
+      }
+      var src = document.querySelector('#whatsnew .wn-body'), mob = document.getElementById('wn-m');
+      if (src && mob) {
+        var ver = document.querySelector('#whatsnew [data-wn-ver]');
+        mob.innerHTML = '<details class="wn-strip"><summary><span class="tg tg-new">' + (ver ? ver.textContent : '') + '</span>' +
+          '<span class="en">What\'s new in this version</span><span class="ru">Что нового в этой версии</span></summary>' +
+          '<div class="wn-body">' + src.innerHTML + '</div></details>';
+      }
     })();
 
     // Отметка о посещении: день, страна (её знает сеть), одно слово о том,
