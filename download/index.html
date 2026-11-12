@@ -1,0 +1,33 @@
+<!doctype html>
+<!-- The old download page from the Beget days (until 30.10.2026). Downloads now live on the main page,
+     so this one only sends the visitor there: Russian browsers to /ru/, the rest to the English page. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>R2FEL HamLog — downloads</title>
+<link rel="canonical" href="https://r2fel.com/">
+<meta http-equiv="refresh" content="0; url=/#downloads">
+<script>
+  (function () {
+    var lang = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+    var saved = '';
+    try { saved = localStorage.getItem('lang') || ''; } catch (e) {}
+    var ru = saved ? saved === 'ru' : /^(ru|be|kk)\b/i.test(lang);
+    location.replace(ru ? '/ru/#downloads' : '/#downloads');
+  })();
+</script>
+<style>
+  html, body { margin: 0; background: #1c1b19; color: #ece7d8; font: 16px/1.5 -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 520px; margin: 18vh auto 0; padding: 0 16px; text-align: center; }
+  a { color: #e8a23d; }
+</style>
+</head>
+<body>
+<main>
+  <p>Downloads have moved to the main page · Загрузки теперь на главной странице</p>
+  <p><a href="/#downloads">r2fel.com — English</a> &nbsp;·&nbsp; <a href="/ru/#downloads">r2fel.com/ru — Русский</a></p>
+</main>
+</body>
+</html>
