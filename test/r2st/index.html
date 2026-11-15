@@ -1,0 +1,51 @@
+<!doctype html>
+<!-- A private test page for one tester (R2ST): the "frequency jumps by ten" hunt. Not linked, noindex. -->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>R2FEL HamLog — тестовая версия для R2ST</title>
+<style>
+  :root { --chassis:#1c1b19; --panel:#26241f; --line:#443f37; --amber:#e8a23d; --text:#ece7d8; --dim:#9c9587; --ink:#14130f; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--chassis); color: var(--text); font: 16px/1.55 -apple-system, "Segoe UI", Arial, sans-serif; }
+  main { max-width: 680px; margin: 0 auto; padding: 28px 16px 60px; }
+  .tag { display: inline-block; background: var(--amber); color: var(--ink); font: 700 12px/1 monospace; letter-spacing: .12em; padding: 5px 10px; border-radius: 99px; }
+  h1 { font-size: 26px; margin: 14px 0 6px; }
+  .sub { color: var(--dim); margin: 0 0 22px; }
+  .dl { display: block; background: var(--amber); color: var(--ink); text-decoration: none; font-weight: 700; text-align: center; padding: 15px 18px; border-radius: 10px; margin: 0 0 6px; word-break: break-all; }
+  .meta { color: var(--dim); font-size: 13px; text-align: center; margin-bottom: 26px; }
+  ol { padding-left: 22px; } li { margin: 0 0 12px; }
+  .box { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin: 18px 0; }
+  .box b { color: var(--amber); }
+  code { background: #14130f; padding: 2px 6px; border-radius: 4px; font-size: 14px; word-break: break-all; }
+  a { color: var(--amber); }
+</style>
+</head>
+<body>
+<main>
+  <span class="tag">ТЕСТ</span>
+  <h1>Тестовая версия для R2ST</h1>
+  <p class="sub">Проверка частоты: ищем, почему она иногда делится на 10</p>
+
+  <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.108-r2st.1/R2FEL-LOG-Setup-1.0.108-r2st.1.exe">Скачать R2FEL-LOG-Setup-1.0.108-r2st.1.exe</a>
+  <div class="meta">Пробная сборка для Windows 10 и 11 (64 бита). Ставится поверх обычной, журнал и настройки остаются на месте.</div>
+
+  <div class="box"><b>Что в ней сделано:</b> 1) короткие, обрезанные ответы трансивера больше не принимаются за частоту — а именно из-за них частота могла стать в 10 раз меньше; 2) после перестройки программа проверяет, что радио действительно встало на нужную частоту, и при расхождении повторяет команду; 3) программа пишет отдельный файл <code>cat-diag.log</code> — кто, что и когда послал в трансивер.</div>
+
+  <ol>
+    <li>Поставьте файл выше. Windows может написать «Система защитила ваш компьютер» — «Подробнее» → «Выполнить в любом случае» (программа не подписана платным сертификатом).</li>
+    <li>Работайте как обычно, с JTDX и журналом. Ничего специально делать не нужно.</li>
+    <li><b>Если частота снова уйдёт</b> — запишите время (МСК) и пришлите файл:<br>
+      <code>%APPDATA%\R2FEL-LOG\data\cat-diag.log</code><br>
+      Вставьте этот путь в адресную строку «Проводника». Файл можно скопировать в любое время, программу закрывать не нужно.</li>
+    <li><b>Если не уйдёт за день-два</b> — тоже напишите, это будет значить, что причина была именно в обрезанном ответе.</li>
+  </ol>
+
+  <div class="box">Пришлите вместе с файлом время и что было на дисплее трансивера в этот момент. Если программа в этот момент уже перезапускалась — тоже скажите: файл не стирается при перезапуске, но время поможет.</div>
+
+  <p class="sub">Спасибо за терпение! — Алексей, R2FEL</p>
+</main>
+</body>
+</html>
