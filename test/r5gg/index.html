@@ -1,17 +1,17 @@
 <!doctype html>
-<!-- A private test page for one tester (R5GG, Xiegu G90): the radio by CI-V and
-     recording the air with no CAT at all. Not linked from anywhere, noindex. -->
+<!-- A private test page for one tester (R5GG, Xiegu G90S): CI-V by one question
+     at a time and the real CI-V address. Not linked from anywhere, noindex. -->
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>R2FEL HamLog — тестовая версия для R5GG</title>
+<title>R2FEL HamLog — тестовая версия для R5GG (r5gg.2)</title>
 <style>
   :root { --chassis:#1c1b19; --panel:#26241f; --line:#443f37; --amber:#e8a23d; --text:#ece7d8; --dim:#9c9587; --ink:#14130f; }
   * { box-sizing: border-box; }
   html, body { margin: 0; background: var(--chassis); color: var(--text); font: 16px/1.55 -apple-system, "Segoe UI", Arial, sans-serif; }
-  main { max-width: 680px; margin: 0 auto; padding: 28px 16px 60px; }
+  main { max-width: 700px; margin: 0 auto; padding: 28px 16px 60px; }
   .tag { display: inline-block; background: var(--amber); color: var(--ink); font: 700 12px/1 monospace; letter-spacing: .12em; padding: 5px 10px; border-radius: 99px; }
   h1 { font-size: 26px; margin: 14px 0 6px; }
   .sub { color: var(--dim); margin: 0 0 22px; }
@@ -27,29 +27,36 @@
 </head>
 <body>
 <main>
-  <span class="tag">ТЕСТ</span>
+  <span class="tag">ТЕСТ r5gg.2</span>
   <h1>Тестовая версия для R5GG</h1>
-  <p class="sub">Xiegu G90 по CI-V — без FLrig. И запись эфира, даже если CAT не подключён.</p>
+  <p class="sub">Xiegu G90S по CI-V: настоящий адрес и по одному вопросу за раз</p>
 
-  <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.109-r5gg.1/R2FEL-LOG-Setup-1.0.109-r5gg.1.exe">R2FEL-LOG-Setup-1.0.109-r5gg.1.exe<br><span style="font-weight:400;font-size:14px">Windows 10 и 11, 64 бита</span></a>
-  <p class="alt">Windows 7, 8, 8.1 — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.109-r5gg.1/R2FEL-LOG-Setup-1.0.109-r5gg.1-Windows7-8.exe">тот же установщик для старых Windows</a><br>
-  Mac (Apple M1–M4) — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.109-r5gg.1/R2FEL-LOG-1.0.109-r5gg.1-arm64.dmg">dmg для Apple Silicon</a><br>
-  Mac (Intel) — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.109-r5gg.1/R2FEL-LOG-1.0.109-r5gg.1-x64.dmg">dmg для Intel</a></p>
-  <div class="meta">Пробная сборка. Обычная программа и её настройки не затрагиваются: журнал остаётся на месте.</div>
+  <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.109-r5gg.2/R2FEL-LOG-Setup-1.0.109-r5gg.2.exe">R2FEL-LOG-Setup-1.0.109-r5gg.2.exe<br><span style="font-weight:400;font-size:14px">Windows 10 и 11, 64 бита</span></a>
+  <p class="alt">Для Windows 7, 8, 8.1 — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.109-r5gg.2/R2FEL-LOG-Setup-1.0.109-r5gg.2-Windows7-8.exe">тот же установщик для старых Windows</a><br>
+  Mac — скажите, соберу отдельно.</p>
+  <div class="meta">Ставится поверх, настройки и журнал остаются на месте.</div>
 
-  <div class="box"><b>Что нового в этой сборке:</b> 1) программа теперь <b>спрашивает у трансивера, кто он</b>, и для G90 пишет в заголовке «Xiegu G90» вместо «Icom (адрес CI-V 88)»; 2) кнопка <b>«Найти трансивер»</b> умеет опрашивать G90 двух прошивок — раньше на новых он мог не найтись; 3) кнопка <b>«● ЗАПИСЬ»</b> в заголовке видна и без CAT, а звук выбирается прямо в окне записи.</div>
+  <div class="box"><b>Что исправлено по вашему отчёту:</b>
+    <ol>
+      <li><b>Адрес CI-V.</b> Раньше программа брала адрес из ответа «кто здесь?», а ваш G90S отвечает с нулевого адреса — и опрос уходил в пустоту. Теперь адрес проверяется прямым вопросом, а если не отвечает — пробуются 70 и 88. Ваш аппарат, по отчёту, отвечает на <b>70</b>.</li>
+      <li><b>По одному вопросу.</b> На пакет из трёх команд G90S молчит; теперь для Xiegu программа спрашивает по одному: частота, вид, S-метр — по очереди.</li>
+      <li><b>Терпеливее порт.</b> У вас открытие COM5 иногда занимало 10 секунд, а программа сдавалась раньше и перезапускала служебную часть по кругу. Теперь ждёт дольше и не убивает её с первого раза.</li>
+      <li><b>Название.</b> Аппарат определится как <b>Xiegu G90S</b> (по его ID 00 90), а не «Icom».</li>
+      <li>Ещё в этой сборке: район <b>RDA берётся из профиля QRZ.RU</b> (у вас KA-05 вместо посчитанного по локатору), а если района нет — поле стоит пунктиром, чтобы это было видно.</li>
+    </ol>
+  </div>
 
   <ol>
-    <li><b>Закройте FLrig</b> — и всё, что может держать COM-порт (HDSDR, JTDX, WSJT-X). Порт у компьютера один: кто открыл первым, того и порт.</li>
-    <li>Запустите программу и нажмите <b>⚙ → Трансивер (CAT) → «Найти трансивер»</b>. Если найдёт — в заголовке появится <b>Xiegu G90</b>, частота и S-метр.</li>
-    <li>Если не нашёл — заполните вручную: <b>Марка</b> = «Icom (CI-V)», ваш <b>COM-порт</b>, скорость <b>19200</b> (у G90 других нет), <b>Адрес CI-V</b> = <code>88</code>. Не отвечает — попробуйте <code>70</code>, на части аппаратов он отвечает по нему.</li>
-    <li>Проверьте по порядку и отметьте, что получилось: частота в заголовке, перестройка из программы (введите частоту и Enter), смена вида, S-метр, передача (кнопка PTT — только если подключена антенна или эквивалент нагрузки).</li>
-    <li>Отдельно проверьте <b>запись</b>: нажмите <b>«● ЗАПИСЬ»</b> — должно открыться окно со списком входов, выберите вход вашего G90 (в названии обычно USB Audio), запись пойдёт сразу. Даже без подключённого CAT.</li>
+    <li><b>Закройте JTDX</b> (в отчёте видно, что он держал COM5). Порт один: кто первый открыл, того и порт.</li>
+    <li>Запустите программу: ⚙ → Трансивер (CAT). Марка <b>Icom (CI-V)</b>, порт <b>COM5</b>, скорость <b>19200</b>, <b>Адрес CI-V 70</b>.</li>
+    <li><b>«Найти трансивер» не нажимайте</b> — он перебирает всё подряд и на медленном открытии сбивает сам себя. Просто закройте настройки и посмотрите на заголовок: должны появиться частота и S-метр, а в статусе — <b>Xiegu G90S</b>.</li>
+    <li>Если частота есть — попробуйте перестройку (введите частоту, Enter), смену вида и передачу.</li>
+    <li>Потом включите JTDX: в нём <b>Hamlib NET rigctl</b>, адрес <code>127.0.0.1:4532</code>, а в журнале ⚙ → Трансивер → «Отдавать частоту JTDX и WSJT-X». Так порт остаётся у журнала, и JTDX не ссорится с ним за него.</li>
   </ol>
 
-  <div class="box"><b>Если что-то не так</b> — не разбирайтесь сами, просто пришлите журнал: <b>⚙ → «Журнал отладки» → «Отправить разработчику»</b> → коротко напишите, что случилось (пример: «порт открылся, а частоты нет») → <b>ОТПРАВИТЬ</b>. Уйдёт сам, вместе с версией. И напишите, какой у вас порт (COM-номер) и что показывает G90.</div>
+  <div class="box"><b>Если что-то не так</b> — ⚙ → «Журнал отладки» → «Отправить разработчику» → коротко, что случилось → ОТПРАВИТЬ. Если программа скажет, что отправить не удалось, нажмите рядом <b>«Сохранить копию»</b> и приложите файл к письму.</div>
 
-  <p class="sub">У меня G90 нет, проверял на имитаторе — поэтому важен именно ваш отзыв. Спасибо! — Алексей, R2FEL</p>
+  <p class="sub">Спасибо за подробный отчёт — по нему и нашлись эти три ошибки. — Алексей, R2FEL</p>
 </main>
 </body>
 </html>
