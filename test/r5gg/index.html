@@ -1,0 +1,55 @@
+<!doctype html>
+<!-- A private test page for one tester (R5GG, Xiegu G90): the radio by CI-V and
+     recording the air with no CAT at all. Not linked from anywhere, noindex. -->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>R2FEL HamLog — тестовая версия для R5GG</title>
+<style>
+  :root { --chassis:#1c1b19; --panel:#26241f; --line:#443f37; --amber:#e8a23d; --text:#ece7d8; --dim:#9c9587; --ink:#14130f; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--chassis); color: var(--text); font: 16px/1.55 -apple-system, "Segoe UI", Arial, sans-serif; }
+  main { max-width: 680px; margin: 0 auto; padding: 28px 16px 60px; }
+  .tag { display: inline-block; background: var(--amber); color: var(--ink); font: 700 12px/1 monospace; letter-spacing: .12em; padding: 5px 10px; border-radius: 99px; }
+  h1 { font-size: 26px; margin: 14px 0 6px; }
+  .sub { color: var(--dim); margin: 0 0 22px; }
+  .dl { display: block; background: var(--amber); color: var(--ink); text-decoration: none; font-weight: 700; text-align: center; padding: 13px 16px; border-radius: 10px; margin: 0 0 6px; word-break: break-all; }
+  .meta { color: var(--dim); font-size: 13px; text-align: center; margin-bottom: 22px; }
+  ol { padding-left: 22px; } li { margin: 0 0 12px; }
+  .box { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin: 18px 0; }
+  .box b { color: var(--amber); }
+  code { background: #14130f; padding: 2px 6px; border-radius: 4px; font-size: 14px; word-break: break-all; }
+  a { color: var(--amber); }
+  .alt { font-size: 13.5px; color: var(--dim); text-align: center; margin: 0 0 18px; }
+</style>
+</head>
+<body>
+<main>
+  <span class="tag">ТЕСТ</span>
+  <h1>Тестовая версия для R5GG</h1>
+  <p class="sub">Xiegu G90 по CI-V — без FLrig. И запись эфира, даже если CAT не подключён.</p>
+
+  <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.109-r5gg.1/R2FEL-LOG-Setup-1.0.109-r5gg.1.exe">R2FEL-LOG-Setup-1.0.109-r5gg.1.exe<br><span style="font-weight:400;font-size:14px">Windows 10 и 11, 64 бита</span></a>
+  <p class="alt">Windows 7, 8, 8.1 — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.109-r5gg.1/R2FEL-LOG-Setup-1.0.109-r5gg.1-Windows7-8.exe">тот же установщик для старых Windows</a><br>
+  Mac (Apple M1–M4) — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.109-r5gg.1/R2FEL-LOG-1.0.109-r5gg.1-arm64.dmg">dmg для Apple Silicon</a><br>
+  Mac (Intel) — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.109-r5gg.1/R2FEL-LOG-1.0.109-r5gg.1-x64.dmg">dmg для Intel</a></p>
+  <div class="meta">Пробная сборка. Обычная программа и её настройки не затрагиваются: журнал остаётся на месте.</div>
+
+  <div class="box"><b>Что нового в этой сборке:</b> 1) программа теперь <b>спрашивает у трансивера, кто он</b>, и для G90 пишет в заголовке «Xiegu G90» вместо «Icom (адрес CI-V 88)»; 2) кнопка <b>«Найти трансивер»</b> умеет опрашивать G90 двух прошивок — раньше на новых он мог не найтись; 3) кнопка <b>«● ЗАПИСЬ»</b> в заголовке видна и без CAT, а звук выбирается прямо в окне записи.</div>
+
+  <ol>
+    <li><b>Закройте FLrig</b> — и всё, что может держать COM-порт (HDSDR, JTDX, WSJT-X). Порт у компьютера один: кто открыл первым, того и порт.</li>
+    <li>Запустите программу и нажмите <b>⚙ → Трансивер (CAT) → «Найти трансивер»</b>. Если найдёт — в заголовке появится <b>Xiegu G90</b>, частота и S-метр.</li>
+    <li>Если не нашёл — заполните вручную: <b>Марка</b> = «Icom (CI-V)», ваш <b>COM-порт</b>, скорость <b>19200</b> (у G90 других нет), <b>Адрес CI-V</b> = <code>88</code>. Не отвечает — попробуйте <code>70</code>, на части аппаратов он отвечает по нему.</li>
+    <li>Проверьте по порядку и отметьте, что получилось: частота в заголовке, перестройка из программы (введите частоту и Enter), смена вида, S-метр, передача (кнопка PTT — только если подключена антенна или эквивалент нагрузки).</li>
+    <li>Отдельно проверьте <b>запись</b>: нажмите <b>«● ЗАПИСЬ»</b> — должно открыться окно со списком входов, выберите вход вашего G90 (в названии обычно USB Audio), запись пойдёт сразу. Даже без подключённого CAT.</li>
+  </ol>
+
+  <div class="box"><b>Если что-то не так</b> — не разбирайтесь сами, просто пришлите журнал: <b>⚙ → «Журнал отладки» → «Отправить разработчику»</b> → коротко напишите, что случилось (пример: «порт открылся, а частоты нет») → <b>ОТПРАВИТЬ</b>. Уйдёт сам, вместе с версией. И напишите, какой у вас порт (COM-номер) и что показывает G90.</div>
+
+  <p class="sub">У меня G90 нет, проверял на имитаторе — поэтому важен именно ваш отзыв. Спасибо! — Алексей, R2FEL</p>
+</main>
+</body>
+</html>
