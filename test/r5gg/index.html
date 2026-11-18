@@ -1,28 +1,61 @@
 <!doctype html>
+<!-- A private test page for one tester (R5GG): the LoTW report by year, the DX
+     window following the text size, and the log going by mail. Noindex. -->
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>R2FEL HamLog — сборка для R5GG снята</title>
+<title>R2FEL HamLog — сборка для R5GG (r5gg.2)</title>
 <style>
   :root { --chassis:#1c1b19; --panel:#26241f; --line:#443f37; --amber:#e8a23d; --text:#ece7d8; --dim:#9c9587; --ink:#14130f; }
   * { box-sizing: border-box; }
   html, body { margin: 0; background: var(--chassis); color: var(--text); font: 16px/1.55 -apple-system, "Segoe UI", Arial, sans-serif; }
-  main { max-width: 660px; margin: 0 auto; padding: 40px 16px 60px; }
-  h1 { font-size: 26px; margin: 0 0 10px; }
+  main { max-width: 700px; margin: 0 auto; padding: 28px 16px 60px; }
+  .tag { display: inline-block; background: var(--amber); color: var(--ink); font: 700 12px/1 monospace; letter-spacing: .12em; padding: 5px 10px; border-radius: 99px; }
+  h1 { font-size: 26px; margin: 14px 0 6px; }
   .sub { color: var(--dim); margin: 0 0 22px; }
+  .dl { display: block; background: var(--amber); color: var(--ink); text-decoration: none; font-weight: 700; text-align: center; padding: 13px 16px; border-radius: 10px; margin: 0 0 6px; word-break: break-all; }
+  .meta { color: var(--dim); font-size: 13px; text-align: center; margin-bottom: 22px; }
+  ol { padding-left: 22px; } li { margin: 0 0 12px; }
   .box { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin: 18px 0; }
   .box b { color: var(--amber); }
+  code { background: #14130f; padding: 2px 6px; border-radius: 4px; font-size: 14px; }
   a { color: var(--amber); }
+  .alt { font-size: 13.5px; color: var(--dim); text-align: center; margin: 0 0 18px; }
 </style>
 </head>
 <body>
 <main>
-  <h1>Пробная сборка снята</h1>
-  <p class="sub">Эта страница была для одной пробной версии (1.0.110-r5gg.1). Её больше нет: сборка своё дело сделала, ошибки по ней найдены и исправлены.</p>
-  <div class="box"><b>Что делать.</b> Ничего ставить не нужно: выпуск для всех — <a href="https://r2fel.com/">на главной странице сайта</a>. Следующий выпуск программа предложит сама, когда он выйдет.</div>
-  <p class="sub">Спасибо за проверку — по отчёту нашлись три ошибки в CI-V и в проверке LoTW. — Алексей, R2FEL</p>
+  <span class="tag">ТЕСТ r5gg.2</span>
+  <h1>Тестовая версия для R5GG</h1>
+  <p class="sub">LoTW: отчёт по годам вместо одного огромного запроса</p>
+
+  <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.110-r5gg.2/R2FEL-LOG-Setup-1.0.110-r5gg.2.exe">R2FEL-LOG-Setup-1.0.110-r5gg.2.exe<br><span style="font-weight:400;font-size:14px">Windows 10 и 11, 64 бита</span></a>
+  <p class="alt">Для Windows 7, 8, 8.1 — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.110-r5gg.2/R2FEL-LOG-Setup-1.0.110-r5gg.2-Windows7-8.exe">тот же установщик для старых Windows</a></p>
+  <div class="meta">Ставится поверх, журнал и настройки остаются на месте.</div>
+
+  <div class="box"><b>Что исправлено:</b>
+    <ol>
+      <li><b>LoTW — главное.</b> Раньше программа просила отчёт «за всё время с 1900 года» одним запросом: на ваших 45 000 связей ARRL отвечал <code>HTTP 503</code>. Теперь отчёт спрашивается <b>по годам</b>, каждый ответ маленький; если ARRL всё равно отвечает «занято», программа сама подождёт и повторит.</li>
+      <li><b>Счётчик и отмена на странице LoTW</b> — теперь и там, а не только на странице «Отправить и проверить».</li>
+      <li><b>Если отчёт придёт по другому позывному</b>, чем журнал, программа скажет это прямым текстом.</li>
+      <li><b>DX-кластер</b> уменьшается вместе с размером текста.</li>
+      <li><b>Отчёт разработчику</b>: если приёмник недоступен, журнал уходит письмом с вашего ящика (⚙ → «QSL по e-mail» → «Почта для отправки»).</li>
+      <li>Ещё: размер текста до 80 %, крестик над увеличенным фото, удаление отмеченных по числу, выбор кодировки ADIF (Windows-1251 для LOGHX), логины в копии настроек под паролем.</li>
+    </ol>
+  </div>
+
+  <ol>
+    <li>Поставьте сборку поверх.</li>
+    <li>⚙ → LoTW: впишите логин и пароль <b>того позывного, которым работаете сейчас</b>.</li>
+    <li>Нажмите «Проверить подтверждения» <b>один раз</b> и подождите — пойдёт счётчик времени. Не жмите подряд: ARRL не любит частых запросов.</li>
+    <li>Если снова «занято» — подождите час.</li>
+  </ol>
+
+  <div class="box"><b>Если что-то не так</b> — ⚙ → «Журнал отладки» → «Сохранить копию» и приложите файл к письму: в нём теперь видно, какой год спрошен и сколько записей пришло.</div>
+
+  <p class="sub">Спасибо за терпение — по вашим отчётам нашлись три ошибки в CI-V и эта в LoTW. — Алексей, R2FEL</p>
 </main>
 </body>
 </html>
