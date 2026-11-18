@@ -1,71 +1,28 @@
 <!doctype html>
-<!-- A private test page for one tester (R5GG). Not linked from anywhere, noindex. -->
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>R2FEL HamLog — тестовая версия для R5GG (r5gg.3)</title>
+<title>R2FEL HamLog — сборка для R5GG снята</title>
 <style>
   :root { --chassis:#1c1b19; --panel:#26241f; --line:#443f37; --amber:#e8a23d; --text:#ece7d8; --dim:#9c9587; --ink:#14130f; }
   * { box-sizing: border-box; }
   html, body { margin: 0; background: var(--chassis); color: var(--text); font: 16px/1.55 -apple-system, "Segoe UI", Arial, sans-serif; }
-  main { max-width: 700px; margin: 0 auto; padding: 28px 16px 60px; }
-  .tag { display: inline-block; background: var(--amber); color: var(--ink); font: 700 12px/1 monospace; letter-spacing: .12em; padding: 5px 10px; border-radius: 99px; }
-  h1 { font-size: 26px; margin: 14px 0 6px; }
+  main { max-width: 660px; margin: 0 auto; padding: 40px 16px 60px; }
+  h1 { font-size: 26px; margin: 0 0 10px; }
   .sub { color: var(--dim); margin: 0 0 22px; }
-  .dl { display: block; background: var(--amber); color: var(--ink); text-decoration: none; font-weight: 700; text-align: center; padding: 13px 16px; border-radius: 10px; margin: 0 0 6px; word-break: break-all; }
-  .meta { color: var(--dim); font-size: 13px; text-align: center; margin-bottom: 22px; }
-  ol { padding-left: 22px; } li { margin: 0 0 12px; }
   .box { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin: 18px 0; }
   .box b { color: var(--amber); }
-  code { background: #14130f; padding: 2px 6px; border-radius: 4px; font-size: 14px; word-break: break-all; }
   a { color: var(--amber); }
-  .alt { font-size: 13.5px; color: var(--dim); text-align: center; margin: 0 0 18px; }
-  img { display: block; width: 100%; max-width: 620px; border: 1px solid var(--line); border-radius: 8px; margin: 6px auto 4px; }
-  .cap { color: var(--dim); font-size: 12.5px; text-align: center; margin: 0 0 12px; }
 </style>
 </head>
 <body>
 <main>
-  <span class="tag">ТЕСТ r5gg.3</span>
-  <h1>Тестовая версия для R5GG</h1>
-  <p class="sub">Проверка подтверждений LoTW: ожидание со счётчиком, отмена, понятный ответ при 503</p>
-
-  <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.110-r5gg.1/R2FEL-LOG-Setup-1.0.110-r5gg.1.exe">R2FEL-LOG-Setup-1.0.110-r5gg.1.exe<br><span style="font-weight:400;font-size:14px">Windows 10 и 11, 64 бита</span></a>
-  <p class="alt">Для Windows 7, 8, 8.1 — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.110-r5gg.1/R2FEL-LOG-Setup-1.0.110-r5gg.1-Windows7-8.exe">тот же установщик для старых Windows</a><br>
-  Mac — скажите, соберу отдельно.</p>
-  <div class="meta">Ставится поверх, настройки и журнал остаются на месте.</div>
-
-  <div class="box"><b>Что нового:</b>
-    <ol>
-      <li><b>Проверка LoTW больше не выглядит зависшей.</b> Под кнопкой «ПРОВЕРИТЬ ПОДТВЕРЖДЕНИЯ» появляется блок: какая служба отвечает, сколько уже ждём, подсказка «обычно 5–20 секунд, при большом журнале — до 10 минут» и кнопка «ОТМЕНИТЬ» — она обрывает саму загрузку, а не только счётчик.</li>
-      <li><b>Ответ 503 — по-человечески.</b> Вместо «непонятный ответ LoTW»: «LoTW сейчас не отдаёт отчёт — это на их стороне, не в логине и не в TQSL, загляните через час» и кнопка «ПОПРОБОВАТЬ СНОВА».</li>
-      <li><b>В журнал отладки</b> теперь попадает начало запроса, его длительность и первая строка ответа ARRL — в следующий раз будет видно, что именно ответил LoTW.</li>
-      <li><b>Размер текста до 80 %</b> — вы спрашивали, ниже 90 % не опускался.</li>
-      <li><b>Кодировка при выгрузке ADIF</b> — UTF-8 или Windows-1251, для LOGHX.</li>
-      <li><b>Крестик на увеличенном фото</b> корреспондента (и Esc).</li>
-    </ol>
-  </div>
-
-  <div class="box"><b>Что прошу проверить (это главное):</b>
-    <ol>
-      <li>⚙ → «Отправить и проверить» → <b>ПРОВЕРИТЬ ПОДТВЕРЖДЕНИЯ</b>. Появился ли блок со счётчиком и идёт ли время. Если LoTW думает долго — нажмите <b>ОТМЕНИТЬ</b>: программа должна сразу сказать «Проверка отменена — ничего не изменилось», а не висеть.</li>
-      <li>Если LoTW снова ответит отказом — пришлите, что написано на экране (там теперь будет причина).</li>
-      <li><b>Логин LoTW.</b> В отчёте видно, что сохранялись два разных: <code>r5gg</code> и <code>uz9rr</code>. Под каким вы на самом деле входите на <a href="https://lotw.arrl.org">lotw.arrl.org</a> в браузере? У LoTW логин — часто старый позывной, и сайт и TQSL — разные вещи.</li>
-      <li>Проверку не жмите подряд: 17 ноября было 7 раз за 9 минут и ещё 4 подряд, а ARRL ограничивает частоту.</li>
-    </ol>
-  </div>
-
-  <p class="sub" style="margin-top:26px">Так это выглядит (снимок из самой программы, окно как у вас):</p>
-  <img src="/test/r5gg/wait.png" alt="Блок ожидания проверки LoTW со счётчиком и кнопкой «отменить»">
-  <p class="cap">Ожидание: счётчик, подсказка и «ОТМЕНИТЬ»</p>
-  <img src="/test/r5gg/503.png" alt="Страница результата при отказе 503">
-  <p class="cap">Если LoTW ответил 503 — что теперь написано</p>
-
-  <div class="box"><b>Если что-то не так</b> — ⚙ → «Журнал отладки» → «Отправить разработчику» → коротко, что случилось → ОТПРАВИТЬ. Если программа скажет, что отправить не удалось, нажмите рядом <b>«Сохранить копию»</b> и приложите файл к письму.</div>
-
-  <p class="sub">Проверено на заглушке (искусственный 503, зависший ответ) и в живой странице, но не на настоящем LoTW с его 503 и не на настоящем десятиминутном отчёте — поэтому и прошу проверить. — Алексей, R2FEL</p>
+  <h1>Пробная сборка снята</h1>
+  <p class="sub">Эта страница была для одной пробной версии (1.0.110-r5gg.1). Её больше нет: сборка своё дело сделала, ошибки по ней найдены и исправлены.</p>
+  <div class="box"><b>Что делать.</b> Ничего ставить не нужно: выпуск для всех — <a href="https://r2fel.com/">на главной странице сайта</a>. Следующий выпуск программа предложит сама, когда он выйдет.</div>
+  <p class="sub">Спасибо за проверку — по отчёту нашлись три ошибки в CI-V и в проверке LoTW. — Алексей, R2FEL</p>
 </main>
 </body>
 </html>
