@@ -27,14 +27,15 @@
 </head>
 <body>
 <main>
-  <span class="tag">ТЕСТ r5gg.3</span>
+  <span class="tag">ТЕСТ r5gg.4</span>
   <h1>Тестовая версия для R5GG</h1>
-  <p class="sub">LoTW: отчёт по нужному позывному — лог R5GG внутри аккаунта uz9rr</p>
+  <p class="sub">Исправлена ошибка прошлой сборки; LoTW — отчёт по нужному позывному</p>
 
-  <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.110-r5gg.3/R2FEL-LOG-Setup-1.0.110-r5gg.3.exe">R2FEL-LOG-Setup-1.0.110-r5gg.3.exe<br><span style="font-weight:400;font-size:14px">Windows 10 и 11, 64 бита</span></a>
-  <p class="alt">Для Windows 7, 8, 8.1 — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.110-r5gg.3/R2FEL-LOG-Setup-1.0.110-r5gg.3-Windows7-8.exe">тот же установщик для старых Windows</a></p>
+  <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.110-r5gg.4/R2FEL-LOG-Setup-1.0.110-r5gg.4.exe">R2FEL-LOG-Setup-1.0.110-r5gg.4.exe<br><span style="font-weight:400;font-size:14px">Windows 10 и 11, 64 бита</span></a>
+  <p class="alt">Для Windows 7, 8, 8.1 — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.110-r5gg.4/R2FEL-LOG-Setup-1.0.110-r5gg.4-Windows7-8.exe">тот же установщик для старых Windows</a></p>
   <div class="meta">Ставится поверх, журнал и настройки остаются на месте.</div>
 
+  <div class="box"><b>Исправлено в этой сборке:</b> в r5gg.3 при непустом журнале таблица связей пустела, а настройки становились неактивны — моя ошибка, исправлена и проверена на журнале со связями.</div>
   <div class="box"><b>Что исправлено:</b>
     <ol>
       <li><b>LoTW — главное.</b> Отчёт теперь спрашивается <b>по нужному позывному</b> (<code>qso_owncall</code>): у вас вход по <code>uz9rr</code>, а лог R5GG добавлен к аккаунту — без этого его связи в отчёт не попадали. Плюс отчёт скачивается <b>один раз вместо двух</b> (подтверждения берутся из того же файла), между годами пауза — LoTW разрешает один запрос за раз.</li>
