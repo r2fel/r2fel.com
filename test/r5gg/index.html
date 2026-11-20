@@ -1,0 +1,68 @@
+<!doctype html>
+<!-- A private test page for one tester (R5GG): Club Log from a chosen date and a
+     repeated upload. Noindex; the page and the build go away once tested. -->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>R2FEL HamLog — сборка для R5GG (1.0.113)</title>
+<style>
+  :root { --chassis:#1c1b19; --panel:#26241f; --line:#443f37; --amber:#e8a23d; --text:#ece7d8; --dim:#9c9587; --ink:#14130f; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--chassis); color: var(--text); font: 16px/1.55 -apple-system, "Segoe UI", Arial, sans-serif; }
+  main { max-width: 700px; margin: 0 auto; padding: 28px 16px 60px; }
+  .tag { display: inline-block; background: var(--amber); color: var(--ink); font: 700 12px/1 monospace; letter-spacing: .12em; padding: 5px 10px; border-radius: 6px; }
+  h1 { font-size: 26px; margin: 14px 0 6px; }
+  .sub { color: var(--dim); margin: 0 0 22px; }
+  .dl { display: block; background: var(--amber); color: var(--ink); text-decoration: none; font-weight: 700; text-align: center; padding: 13px 16px; border-radius: 10px; }
+  .meta { color: var(--dim); font-size: 13px; text-align: center; margin-bottom: 22px; }
+  ol { padding-left: 22px; } li { margin: 0 0 12px; }
+  .box { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin: 18px 0; }
+  .box b { color: var(--amber); }
+  code { background: #14130f; padding: 2px 6px; border-radius: 4px; font-size: 14px; }
+  a { color: var(--amber); }
+  .alt { font-size: 13.5px; color: var(--dim); text-align: center; margin: 0 0 18px; }
+</style>
+</head>
+<body>
+<main>
+  <span class="tag">ТЕСТ 1.0.113</span>
+  <h1>Сборка для R5GG</h1>
+  <p class="sub">Индивидуальная: после проверки удалю её, а исправления войдут в основную версию на сайте</p>
+
+  <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.113-r5gg.1/R2FEL-LOG-Setup-1.0.113-r5gg.1.exe">R2FEL-LOG-Setup-1.0.113-r5gg.1.exe</a>
+  <p class="alt">Для Windows 7, 8, 8.1 — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.113-r5gg.1/R2FEL-LOG-Setup-1.0.113-r5gg.1-Windows7-8.exe">другой установщик, для старой Windows</a></p>
+  <div class="meta">Ставится поверх, журнал и настройки остаются на месте.</div>
+
+  <div class="box"><b>Что исправлено и что нового:</b>
+    <ol>
+      <li><b>Club Log — отправка с даты.</b> В настройках Club Log появилось поле «Отправлять связи
+      с этой даты». Пусто — весь журнал, как раньше. Если указать дату, уйдёт только то, что
+      после неё: файл меньше и уходит быстрее.</li>
+      <li><b>Club Log — повтор при обрыве.</b> Ваша ошибка <code>read ECONNRESET</code> означала,
+      что соединение оборвалось посреди загрузки (это делает провайдер или их защита). Теперь
+      программа в таком случае отправляет файл заново, до трёх попыток.</li>
+      <li><b>HRDLog вернулся</b>, на страницах служб появились подсказки, где взять токен или код,
+      а в поле пароля вместо точек — подпись «сохранён».</li>
+    </ol>
+  </div>
+
+  <ol>
+    <li>Поставьте сборку поверх.</li>
+    <li>⚙ → Club Log. Токен остаётся ваш. Внизу появилось поле <b>«Отправлять связи с этой даты»</b>:
+    поставьте, например, 01.11.2026 — и нажмите отправить. Должно уйти меньше связей.</li>
+    <li>Если снова оборвётся — попробуйте ещё раз: программа повторит отправку сама.</li>
+    <li>Если опять не примет — пришлите отчёт: ⚙ → «Журнал отладки» → «Сохранить копию».</li>
+  </ol>
+
+  <div class="box"><b>Про fldigi.</b> Своих декодеров PSK и RTTY у нас нет, поэтому fldigi для
+  работы — правильный выбор. Живую связку сделать можно, но fldigi сам связи не отдаёт: у него
+  есть XML-RPC на порту 7362, и логгер должен его опрашивать. Пока что его лог
+  (<code>log.adif</code>) можно импортировать: ⚙ → Импорт ADIF → «Другой файл…». Если связка
+  нужна — скажите, сделаю макет.</div>
+
+  <p class="sub">Спасибо за отчёты — по ним нашлись и лимит, и обрыв.</p>
+</main>
+</body>
+</html>
