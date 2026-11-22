@@ -1,11 +1,11 @@
 <!doctype html>
-<!-- A private test page for one tester (R5GG): the radio's data mode (L-D / U-D). Noindex. -->
+<!-- A private test page for one tester (R5GG): the CAT frame log. Noindex. -->
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>R2FEL HamLog — сборка для R5GG (1.0.113-r5gg.8)</title>
+<title>R2FEL HamLog — сборка для R5GG (1.0.113-r5gg.9)</title>
 <style>
   :root { --chassis:#1c1b19; --panel:#26241f; --line:#443f37; --amber:#e8a23d; --text:#ece7d8; --dim:#9c9587; --ink:#14130f; }
   * { box-sizing: border-box; }
@@ -19,41 +19,40 @@
   ol { padding-left: 22px; } li { margin: 0 0 12px; }
   .box { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin: 18px 0; }
   .box b { color: var(--amber); }
-  code { background: #14130f; padding: 2px 6px; border-radius: 4px; font-size: 14px; }
+  code { background: #14130f; padding: 2px 6px; border-radius: 4px; font-size: 13.5px; }
   a { color: var(--amber); }
   .alt { font-size: 13.5px; color: var(--dim); text-align: center; margin: 0 0 18px; }
 </style>
 </head>
 <body>
 <main>
-  <span class="tag">ТЕСТ r5gg.8</span>
+  <span class="tag">ТЕСТ r5gg.9</span>
   <h1>Сборка для R5GG</h1>
   <p class="sub">Индивидуальная: после проверки удалю её, а правки войдут в следующую общую версию</p>
 
-  <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.113-r5gg.8/R2FEL-LOG-Setup-1.0.113-r5gg.8.exe">R2FEL-LOG-Setup-1.0.113-r5gg.8.exe</a>
-  <p class="alt">Для Windows 7, 8, 8.1 — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.113-r5gg.8/R2FEL-LOG-Setup-1.0.113-r5gg.8-Windows7-8.exe">другой установщик, для старой Windows</a></p>
+  <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.113-r5gg.9/R2FEL-LOG-Setup-1.0.113-r5gg.9.exe">R2FEL-LOG-Setup-1.0.113-r5gg.9.exe</a>
+  <p class="alt">Для Windows 7, 8, 8.1 — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.113-r5gg.9/R2FEL-LOG-Setup-1.0.113-r5gg.9-Windows7-8.exe">другой установщик, для старой Windows</a></p>
   <div class="meta">Ставится поверх, журнал и настройки остаются на месте.</div>
 
   <div class="box"><b>Что нового:</b>
     <ol>
-      <li><b>Режим данных L-D / U-D.</b> У Icom и Xiegu цифровой режим включается отдельной
-      командой (CI-V <code>0x25</code>), а не сменой вида. Мы её не посылали — трансивер оставался
-      в том режиме, что был: после FT8 не возвращался на обычный LSB, и SSB звучал глухо.
-      Теперь FT8, FT4, PSK31 и «Data/Pkt» от JTDX дают <b>U-D</b> (с нижней боковой — <b>L-D</b>),
-      а SSB, CW, AM, FM — обычные режимы.</li>
-      <li><b>Пауза для Xiegu.</b> Он отвечает примерно через четверть секунды, а команды ближе
-      считает «пакетом» и молчит: команда режима данных терялась. Теперь между командами 280 мс.</li>
+      <li><b>В журнал пишется каждый кадр.</b> Строка <code>SEND FEFE70E00601FD -&gt; FEFE70E0FBFD</code> —
+      что ушло в трансивер и что он ответил. В строке <code>TUNE</code> видно, какой код вида
+      и с каким режимом данных отправлен. Это отличает «мы не послали» от «трансивер не принял».</li>
+      <li>По-прежнему посылается команда режима данных (CI-V <code>0x25</code>) — она включает
+      <b>U-D</b> для FT8 и <b>L-D</b> для нижней боковой, и выключает данные для SSB, CW, AM, FM.</li>
     </ol>
   </div>
 
   <ol>
     <li>Поставьте сборку поверх.</li>
-    <li>Запустите WSJT-X — на дисплее трансивера должен появиться <b>U-D</b> (на 7 МГц тоже).</li>
-    <li>Закройте WSJT-X — должен вернуться обычный <b>LSB</b>, и SSB должен звучать как раньше.</li>
-    <li>Если что-то не так — ⚙ → «Журнал отладки» → «Сохранить копию».</li>
+    <li>Запустите WSJT-X и закройте его.</li>
+    <li>Переключите пару диапазонов (20 м ↔ 40 м), не открывая цифровых программ.</li>
+    <li>⚙ → «Журнал отладки» → «Сохранить копию» и пришлите файл.</li>
   </ol>
 
-  <p class="sub">Спасибо за выписку из прошивки — по ней и нашлось.</p>
+  <p class="sub">Спасибо за выписку из прошивки — по ней и нашлось про L-D и U-D. Теперь проверяем,
+  доходит ли команда до трансивера.</p>
 </main>
 </body>
 </html>
