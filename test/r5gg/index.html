@@ -1,11 +1,11 @@
 <!doctype html>
-<!-- A private test page for one tester (R5GG): mode via CI-V 0x26. Noindex. -->
+<!-- A private test page for one tester (R5GG): mode orders as Hamlib sends them. Noindex. -->
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>R2FEL HamLog — сборка для R5GG (1.0.113-r5gg.10)</title>
+<title>R2FEL HamLog — сборка для R5GG (1.0.113-r5gg.11)</title>
 <style>
   :root { --chassis:#1c1b19; --panel:#26241f; --line:#443f37; --amber:#e8a23d; --text:#ece7d8; --dim:#9c9587; --ink:#14130f; }
   * { box-sizing: border-box; }
@@ -19,29 +19,26 @@
   ol { padding-left: 22px; } li { margin: 0 0 12px; }
   .box { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin: 18px 0; }
   .box b { color: var(--amber); }
-  code { background: #14130f; padding: 2px 6px; border-radius: 4px; font-size: 13.5px; }
   a { color: var(--amber); }
   .alt { font-size: 13.5px; color: var(--dim); text-align: center; margin: 0 0 18px; }
 </style>
 </head>
 <body>
 <main>
-  <span class="tag">ТЕСТ r5gg.10</span>
+  <span class="tag">ТЕСТ r5gg.11</span>
   <h1>Сборка для R5GG</h1>
   <p class="sub">Индивидуальная: после проверки удалю её, а правки войдут в следующую общую версию</p>
 
-  <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.113-r5gg.10/R2FEL-LOG-Setup-1.0.113-r5gg.10.exe">R2FEL-LOG-Setup-1.0.113-r5gg.10.exe</a>
-  <p class="alt">Для Windows 7, 8, 8.1 — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.113-r5gg.10/R2FEL-LOG-Setup-1.0.113-r5gg.10-Windows7-8.exe">другой установщик, для старой Windows</a></p>
+  <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.113-r5gg.11/R2FEL-LOG-Setup-1.0.113-r5gg.11.exe">R2FEL-LOG-Setup-1.0.113-r5gg.11.exe</a>
+  <p class="alt">Для Windows 7, 8, 8.1 — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.113-r5gg.11/R2FEL-LOG-Setup-1.0.113-r5gg.11-Windows7-8.exe">другой установщик, для старой Windows</a></p>
   <div class="meta">Ставится поверх, журнал и настройки остаются на месте.</div>
 
   <div class="box"><b>Что нового:</b>
     <ol>
-      <li><b>Вид ставится кадром <code>26</code></b> — тем, что добавили в прошивку G90S для JTDX.
-      Он несёт сразу вид, режим данных и фильтр: FT8 → <code>26 01 01 01</code> (это <b>U-D</b>),
-      SSB на 7 МГц → <code>26 00 00 01</code> (обычный <b>LSB</b>).
-      Прежний кадр <code>06</code> оставлен запасным путём.</li>
-      <li><b>Исправлен второй запуск JTDX.</b> Раньше программа помнила, что вид уже переключён,
-      и на повторный запуск не реагировала — теперь реагирует.</li>
+      <li><b>Команды смены вида собраны заново.</b> Трансивер отвечал «не принято» на упрощённую
+      команду, поэтому вид не менялся. Теперь команда идёт с байтом фильтра, как у Hamlib.</li>
+      <li><b>После смены вида программа спрашивает трансивер, что у него получилось</b>, и пишет
+      ответ в журнал.</li>
     </ol>
   </div>
 
@@ -49,12 +46,8 @@
     <li>Поставьте сборку поверх.</li>
     <li>Запустите JTDX — на дисплее должен появиться <b>U-D</b>.</li>
     <li>Закройте JTDX — должен вернуться <b>LSB</b>.</li>
-    <li>Запустите JTDX снова — снова <b>U-D</b>.</li>
     <li>Если что-то не так — ⚙ → «Журнал отладки» → «Сохранить копию».</li>
   </ol>
-
-  <p class="sub">В журнале теперь видно каждую команду и ответ трансивера: <code>FB</code> — принято,
-  <code>FA</code> — отказ.</p>
 </main>
 </body>
 </html>
