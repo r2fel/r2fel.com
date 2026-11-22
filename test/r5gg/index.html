@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>R2FEL HamLog — сборка для R5GG (1.0.113-r5gg.11)</title>
+<title>R2FEL HamLog — сборка для R5GG (1.0.113-r5gg.12)</title>
 <style>
   :root { --chassis:#1c1b19; --panel:#26241f; --line:#443f37; --amber:#e8a23d; --text:#ece7d8; --dim:#9c9587; --ink:#14130f; }
   * { box-sizing: border-box; }
@@ -25,27 +25,27 @@
 </head>
 <body>
 <main>
-  <span class="tag">ТЕСТ r5gg.11</span>
+  <span class="tag">ТЕСТ r5gg.12</span>
   <h1>Сборка для R5GG</h1>
   <p class="sub">Индивидуальная: после проверки удалю её, а правки войдут в следующую общую версию</p>
 
-  <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.113-r5gg.11/R2FEL-LOG-Setup-1.0.113-r5gg.11.exe">R2FEL-LOG-Setup-1.0.113-r5gg.11.exe</a>
-  <p class="alt">Для Windows 7, 8, 8.1 — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.113-r5gg.11/R2FEL-LOG-Setup-1.0.113-r5gg.11-Windows7-8.exe">другой установщик, для старой Windows</a></p>
+  <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.113-r5gg.12/R2FEL-LOG-Setup-1.0.113-r5gg.12.exe">R2FEL-LOG-Setup-1.0.113-r5gg.12.exe</a>
+  <p class="alt">Для Windows 7, 8, 8.1 — <a href="https://github.com/r2fel/hamlog/releases/download/v1.0.113-r5gg.12/R2FEL-LOG-Setup-1.0.113-r5gg.12-Windows7-8.exe">другой установщик, для старой Windows</a></p>
   <div class="meta">Ставится поверх, журнал и настройки остаются на месте.</div>
 
   <div class="box"><b>Что нового:</b>
     <ol>
-      <li><b>Команды смены вида собраны заново.</b> Трансивер отвечал «не принято» на упрощённую
-      команду, поэтому вид не менялся. Теперь команда идёт с байтом фильтра, как у Hamlib.</li>
-      <li><b>После смены вида программа спрашивает трансивер, что у него получилось</b>, и пишет
-      ответ в журнал.</li>
+      <li><b>Возврат SSB после закрытия JTDX.</b> При закрытии JTDX успевает отправить ещё один последний пакет,
+      и программа принимала его за новый запуск и снова ставила FT8: трансивер переходил на SSB, а в журнал
+      тут же возвращалось FT8. Теперь последний режим закрывшейся программы забывается, а пакеты в первые
+      10 секунд после закрытия не принимаются.</li>
     </ol>
   </div>
 
   <ol>
     <li>Поставьте сборку поверх.</li>
     <li>Запустите JTDX — на дисплее должен появиться <b>U-D</b>.</li>
-    <li>Закройте JTDX — должен вернуться <b>LSB</b>.</li>
+    <li>Закройте JTDX — должен вернуться <b>LSB</b> (на 7 МГц) или USB (выше 10 МГц), и в журнале должно остаться <b>SSB</b>.</li>
     <li>Если что-то не так — ⚙ → «Журнал отладки» → «Сохранить копию».</li>
   </ol>
 </main>
