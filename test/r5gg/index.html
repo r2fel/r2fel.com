@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>R2FEL HamLog 1.0.123 — тест для R5GG</title>
+<style>
+  body { margin: 0; background: #1c1b19; color: #e8e4dc; font: 16px/1.55 -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 720px; margin: 0 auto; padding: 40px 22px 70px; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .sub { color: #a09a8e; margin: 0 0 26px; font-size: 14px; }
+  .card { background: #23211e; border: 1px solid #35322c; border-radius: 12px; padding: 18px 20px; margin: 0 0 18px; }
+  h2 { font-size: 17px; margin: 0 0 10px; color: #d9b25a; }
+  a.dl { display: block; background: #d9b25a; color: #1c1b19; text-decoration: none; font-weight: 700;
+    padding: 13px 16px; border-radius: 9px; margin: 8px 0; }
+  a.dl span { display: block; font-weight: 400; font-size: 13px; opacity: .8; }
+  code { background: #2c2925; padding: 1px 6px; border-radius: 4px; font-size: 14px; }
+  ol, ul { margin: 8px 0 0; padding-left: 22px; }
+  li { margin: 5px 0; }
+  .warn { border-color: #6b5a2a; }
+  .foot { color: #8c877c; font-size: 13px; margin-top: 26px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>1.0.123 — сборка для проверки</h1>
+  <p class="sub">Юрий, R5GG · 23.11.2026 · страница нигде не ссылается и не индексируется</p>
+
+  <div class="card">
+    <h2>Скачать</h2>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.123-r5gg.13/R2FEL-LOG-Setup-1.0.123.exe">
+      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.123.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.123-r5gg.13/R2FEL-LOG-Setup-1.0.123-Windows7-8.exe">
+      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.123-Windows7-8.exe</span></a>
+  </div>
+
+  <div class="card warn">
+    <h2>Что исправлено с прошлой сборки</h2>
+    <ul>
+      <li><b>FLdigi: частота мышкой.</b> Hamlib на Windows с русской локалью присылает частоту
+        с запятой — <code>F 7175000,000000</code>. Программа её не понимала и отвечала отказом,
+        поэтому частота «прыгала и возвращалась». Теперь принимается и точка, и запятая.</li>
+      <li><b>Фото в журнале:</b> значок камеры у связи, у которой фото уже скачано; нажатие
+        открывает фото. Заглушки справочника (чёрный прямоугольник) больше не считаются фото.</li>
+      <li><b>Дипломы:</b> рядом с подтверждённым числом — «сработано».</li>
+      <li><b>Заметки</b> в карточке связи подставляются из прошлой связи с этим позывным.</li>
+      <li><b>Страна</b> для дробных позывных (<code>VP8/G</code>, <code>3Y0</code>) — верная.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Что проверить</h2>
+    <ol>
+      <li><b>FLdigi и частота.</b> Настройки FLdigi → Rig control → Hamlib: галочка
+        <i>Use Hamlib</i>, Rig — <code>Hamlib NET rigctl (Stable)</code>, Device —
+        <code>127.0.0.1:4532</code>. В Rig control нажмите на частоту и покрутите колесо или
+        введите число — трансивер должен перестроиться и остаться на новой частоте.</li>
+      <li><b>Вид излучения</b> из FLdigi — переключается (это работало и раньше).</li>
+      <li><b>PTT</b> из FLdigi.</li>
+      <li><b>Фото:</b> в журнале появился значок камеры — нажмите, фото должно открыться.</li>
+    </ol>
+    <p>Если что-то не так — пришлите отладочный журнал: <b>⚙ → внизу «Журнал отладки» → отправить</b>.
+      По нему видно каждую команду и ответ.</p>
+  </div>
+
+  <p class="foot">Эта сборка — только для проверки. Когда всё заработает, правки войдут в общий выпуск,
+    и обновляться можно будет кнопкой в программе.</p>
+</main>
+</body>
+</html>
