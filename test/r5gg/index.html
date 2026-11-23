@@ -24,20 +24,23 @@
 </head>
 <body>
 <main>
-  <h1>1.0.123 — сборка для проверки</h1>
+  <h1>1.0.124 — сборка для проверки</h1>
   <p class="sub">Юрий, R5GG · 23.11.2026 · страница нигде не ссылается и не индексируется</p>
 
   <div class="card">
     <h2>Скачать</h2>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.123-r5gg.13/R2FEL-LOG-Setup-1.0.123.exe">
-      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.123.exe</span></a>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.123-r5gg.13/R2FEL-LOG-Setup-1.0.123-Windows7-8.exe">
-      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.123-Windows7-8.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.124-r5gg.14/R2FEL-LOG-Setup-1.0.124.exe">
+      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.124.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.124-r5gg.14/R2FEL-LOG-Setup-1.0.124-Windows7-8.exe">
+      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.124-Windows7-8.exe</span></a>
   </div>
 
   <div class="card warn">
     <h2>Что исправлено с прошлой сборки</h2>
     <ul>
+      <li><b>Сохранение связи быстрее.</b> После записи журнал перерисовывался дважды — второй
+        раз через 1,4 секунды ради подсветки новой строки. Теперь подсветка снимается точечно.
+        В отладочном журнале появился замер: <code>[qso] save took N ms, drawing M ms</code>.</li>
       <li><b>FLdigi: частота мышкой.</b> Hamlib на Windows с русской локалью присылает частоту
         с запятой — <code>F 7175000,000000</code>. Программа её не понимала и отвечала отказом,
         поэтому частота «прыгала и возвращалась». Теперь принимается и точка, и запятая.</li>
