@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>R2FEL HamLog 1.0.125 — тест для R7TW</title>
+<style>
+  body { margin: 0; background: #1c1b19; color: #e8e4dc; font: 16px/1.55 -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 720px; margin: 0 auto; padding: 40px 22px 70px; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .sub { color: #a09a8e; margin: 0 0 26px; font-size: 14px; }
+  .card { background: #23211e; border: 1px solid #35322c; border-radius: 12px; padding: 18px 20px; margin: 0 0 18px; }
+  h2 { font-size: 17px; margin: 0 0 10px; color: #d9b25a; }
+  a.dl { display: block; background: #d9b25a; color: #1c1b19; text-decoration: none; font-weight: 700;
+    padding: 13px 16px; border-radius: 9px; margin: 8px 0; }
+  a.dl span { display: block; font-weight: 400; font-size: 13px; opacity: .8; }
+  code { background: #2c2925; padding: 1px 6px; border-radius: 4px; font-size: 14px; }
+  ol, ul { margin: 8px 0 0; padding-left: 22px; }
+  li { margin: 5px 0; }
+  .warn { border-color: #6b5a2a; }
+  .foot { color: #8c877c; font-size: 13px; margin-top: 26px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>1.0.125 — сборка для проверки</h1>
+  <p class="sub">Виктор, R7TW · FTdx3000 · 23.11.2026 · страница нигде не ссылается</p>
+
+  <div class="card">
+    <h2>Скачать</h2>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.125-r7tw.1/R2FEL-LOG-Setup-1.0.125.exe">
+      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.125.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.125-r7tw.1/R2FEL-LOG-Setup-1.0.125-Windows7-8.exe">
+      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.125-Windows7-8.exe</span></a>
+  </div>
+
+  <div class="card warn">
+    <h2>Что исправлено</h2>
+    <p><b>Частота.</b> Ваш FTdx3000 отвечает на запрос частоты <b>восемью цифрами</b> — например
+      <code>FA14039910;</code>. Программа ждала девять или одиннадцать и выбрасывала ответ: вид и
+      S-метр работали, а частоты не было. Теперь принимаются 7–11 цифр.</p>
+    <p>В вашем журнале это было видно прямо: <code>POLL: FA frame rejected "FA14039910;" (8 digits)</code>.</p>
+  </div>
+
+  <div class="card">
+    <h2>Что проверить</h2>
+    <ol>
+      <li><b>Частота появится</b> сразу после подключения — вверху программы и в карточке.</li>
+      <li><b>Смена диапазона</b> из программы — трансивер должен перестроиться.</li>
+      <li><b>Перестройка на трансивере</b> — программа должна это увидеть.</li>
+    </ol>
+    <p>Если что-то не так — пришлите отладочный журнал (⚙ → «Журнал отладки» → отправить).</p>
+  </div>
+
+  <p class="foot">Эта сборка только для проверки. Когда подтвердите — правка войдёт в общий выпуск.</p>
+</main>
+</body>
+</html>
