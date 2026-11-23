@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>R2FEL HamLog 1.0.124 — тест для R5GG</title>
+<title>R2FEL HamLog 1.0.126 — тест для R5GG</title>
 <style>
   body { margin: 0; background: #1c1b19; color: #e8e4dc; font: 16px/1.55 -apple-system, "Segoe UI", Roboto, sans-serif; }
   main { max-width: 720px; margin: 0 auto; padding: 40px 22px 70px; }
@@ -24,20 +24,23 @@
 </head>
 <body>
 <main>
-  <h1>1.0.124 — сборка для проверки</h1>
+  <h1>1.0.126 — сборка для проверки</h1>
   <p class="sub">Юрий, R5GG · 23.11.2026 · страница нигде не ссылается и не индексируется</p>
 
   <div class="card">
     <h2>Скачать</h2>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.124-r5gg.14/R2FEL-LOG-Setup-1.0.124.exe">
-      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.124.exe</span></a>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.124-r5gg.14/R2FEL-LOG-Setup-1.0.124-Windows7-8.exe">
-      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.124-Windows7-8.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.126-r5gg.15/R2FEL-LOG-Setup-1.0.126.exe">
+      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.126.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.126-r5gg.15/R2FEL-LOG-Setup-1.0.126-Windows7-8.exe">
+      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.126-Windows7-8.exe</span></a>
   </div>
 
   <div class="card warn">
     <h2>Что исправлено с прошлой сборки</h2>
     <ul>
+      <li><b>FLdigi не закрывается.</b> Блок «что слышит FLdigi» опрашивал его девять раз
+        каждые 1,5 секунды — FLdigi такого темпа не держал. Теперь четыре вопроса раз в 3 секунды,
+        текст и поля лога — раз в 5 секунд, после отказа — пауза минута.</li>
       <li><b>Сохранение связи быстрее.</b> После записи журнал перерисовывался дважды — второй
         раз через 1,4 секунды ради подсветки новой строки. Теперь подсветка снимается точечно.
         В отладочном журнале появился замер: <code>[qso] save took N ms, drawing M ms</code>.</li>
