@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>R2FEL HamLog 1.0.120-t1 — тест для R3HL</title>
+<title>R2FEL HamLog 1.0.120-t8 — тест для R3HL</title>
 <style>
   body { margin: 0; background: #1c1b19; color: #e8e4dc; font: 16px/1.55 -apple-system, "Segoe UI", Roboto, sans-serif; }
   main { max-width: 720px; margin: 0 auto; padding: 40px 22px 70px; }
@@ -24,15 +24,15 @@
 </head>
 <body>
 <main>
-  <h1>1.0.120-t1 — сборка для проверки</h1>
-  <p class="sub">Александр, R3HL · Windows 7 · FT-1000MP · 24.11.2026 · страница нигде не ссылается</p>
+  <h1>1.0.120-t8 — сборка для проверки</h1>
+  <p class="sub">Александр, R3HL · Windows 7 · FT-1000MP · 25.11.2026 · страница нигде не ссылается</p>
 
   <div class="card">
     <h2>Скачать</h2>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t1/R2FEL-LOG-Setup-1.0.120-t1.exe">
-      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.120-t1.exe</span></a>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t1/R2FEL-LOG-Setup-1.0.120-t1-Windows7-8.exe">
-      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.120-t1-Windows7-8.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t8/R2FEL-LOG-Setup-1.0.120-t8.exe">
+      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.120-t8.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t8/R2FEL-LOG-Setup-1.0.120-t8-Windows7-8.exe">
+      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.120-t8-Windows7-8.exe</span></a>
   </div>
 
   <div class="card warn">
@@ -46,6 +46,19 @@
       программа не знала такого диапазона и не принимала частоты выше 500 МГц.</p>
     <p>Ваш FT-1000MP на COM3 при этом работает как раньше — в журнале видно нормальное опознание
       и частоту.</p>
+  </div>
+
+  <div class="card warn">
+    <h2>Что нового в этой сборке</h2>
+    <ul>
+      <li><b>Версия видна в заголовке окна</b> — сразу понятно, какая сборка установлена. Об этом
+        просил ваш одноклубник Николай R3DAJ.</li>
+      <li><b>Два новых столбца: «№» и «КМ»</b> (расстояние до корреспондента). По умолчанию
+        выключены, включаются в «КОЛОНКИ ▾».</li>
+      <li><b>Рапорт после записи связи</b> возвращается к привычному (59/599), выключатель в настройках.</li>
+      <li><b>Текст из FLdigi</b> снова виден в блоке над журналом, чтение безопасное.</li>
+      <li>Исправлено чтение ответов Icom — это для других трансиверов, вашего FT-1000MP не касается.</li>
+    </ul>
   </div>
 
   <div class="card">
