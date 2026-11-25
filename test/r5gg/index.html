@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>R2FEL HamLog 1.0.120-t4 — тест для R5GG</title>
+<title>R2FEL HamLog 1.0.120-t7 — тест для R5GG</title>
 <style>
   body { margin: 0; background: #1c1b19; color: #e8e4dc; font: 16px/1.55 -apple-system, "Segoe UI", Roboto, sans-serif; }
   main { max-width: 720px; margin: 0 auto; padding: 40px 22px 70px; }
@@ -24,19 +24,34 @@
 </head>
 <body>
 <main>
-  <h1>1.0.120-t4 — сборка для проверки</h1>
-  <p class="sub">Юрий, R5GG · 24.11.2026 · страница нигде не ссылается и не индексируется</p>
+  <h1>1.0.120-t7 — сборка для проверки</h1>
+  <p class="sub">Юрий, R5GG · 25.11.2026 · страница нигде не ссылается и не индексируется</p>
 
   <div class="card">
     <h2>Скачать</h2>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t4/R2FEL-LOG-Setup-1.0.120-t4.exe">
-      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.120-t4.exe</span></a>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t4/R2FEL-LOG-Setup-1.0.120-t4-Windows7-8.exe">
-      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.120-t4-Windows7-8.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t7/R2FEL-LOG-Setup-1.0.120-t7.exe">
+      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.120-t7.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t7/R2FEL-LOG-Setup-1.0.120-t7-Windows7-8.exe">
+      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.120-t7-Windows7-8.exe</span></a>
   </div>
 
   <div class="card warn">
-    <h2>Что исправлено с t3</h2>
+    <h2>Главное: передача при открытом журнале</h2>
+    <p>По вашему журналу видно, что FLrig 20 раз просил программу отпустить передачу — и каждый раз
+       получал отказ <code>RPRT -8</code>, а команды «нажать» не было ни одной. Причина наша:
+       программа читала ответ трансивера и обрывала чтение раньше, чем ответ доходил целиком
+       (у вашего G90S он приходит кусками с паузой больше 25 мс). Из-за этого трансивер считался
+       «не на связи», и передача не включалась.</p>
+    <ul>
+      <li><b>Теперь чтение ждёт ответ до конца.</b></li>
+      <li><b>Передача больше не зависит от того, удался ли последний опрос:</b> достаточно открытого
+        порта.</li>
+      <li>Ожидание ответа на передачу для Icom увеличено до 400 мс.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Что исправлено с t4</h2>
     <ul>
       <li><b>Пустая полоса внизу окна.</b> При размере текста меньше 100 % (у вас 80) окно
         рисовалось во всю ширину, но на 80 % высоты — внизу оставалось около 200 точек пустого
