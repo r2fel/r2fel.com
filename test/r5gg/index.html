@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>R2FEL HamLog 1.0.120-t8 — тест для R5GG</title>
+<title>R2FEL HamLog 1.0.120-t9 — тест для R5GG</title>
 <style>
   body { margin: 0; background: #1c1b19; color: #e8e4dc; font: 16px/1.55 -apple-system, "Segoe UI", Roboto, sans-serif; }
   main { max-width: 720px; margin: 0 auto; padding: 40px 22px 70px; }
@@ -24,19 +24,28 @@
 </head>
 <body>
 <main>
-  <h1>1.0.120-t8 — сборка для проверки</h1>
+  <h1>1.0.120-t9 — сборка для проверки</h1>
   <p class="sub">Юрий, R5GG · Xiegu G90S · 25.11.2026 · страница нигде не ссылается</p>
 
   <div class="card">
     <h2>Скачать</h2>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t8/R2FEL-LOG-Setup-1.0.120-t8.exe">
-      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.120-t8.exe</span></a>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t8/R2FEL-LOG-Setup-1.0.120-t8-Windows7-8.exe">
-      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.120-t8-Windows7-8.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t9/R2FEL-LOG-Setup-1.0.120-t9.exe">
+      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.120-t9.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t9/R2FEL-LOG-Setup-1.0.120-t9-Windows7-8.exe">
+      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.120-t9-Windows7-8.exe</span></a>
   </div>
 
   <div class="card warn">
-    <h2>Главное: рапорт после связи и передача при открытом журнале</h2>
+    <h2>Исправление: CAT снова находит трансивер</h2>
+    <p>В сборке t7 (и t8, где эта же правка) была моя ошибка: я изменил служебную часть программы,
+       которая читает ответы трансивера, и на Windows она стала обрываться — журнал перестал
+       находить COM5. В t9 эта правка откачена целиком: порт и опрос работают как раньше.</p>
+    <p>Полезное из тех сборок при этом осталось: передача больше не зависит от того, удался ли
+       последний опрос, — достаточно открытого порта.</p>
+  </div>
+
+  <div class="card">
+    <h2>Что в этой сборке ещё</h2>
     <ul>
       <li><b>Рапорт возвращается к привычному после каждой записанной связи</b> — 59 в телефоне,
         599 в телеграфе. Если так не нужно, выключите «Рапорт после связи» в настройках: останется
