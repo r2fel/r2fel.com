@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>R2FEL HamLog 1.0.120-t12 — тест для R5GG</title>
+<title>R2FEL HamLog 1.0.120-t14 — тест для R5GG</title>
 <style>
   body { margin: 0; background: #1c1b19; color: #e8e4dc; font: 16px/1.55 -apple-system, "Segoe UI", Roboto, sans-serif; }
   main { max-width: 720px; margin: 0 auto; padding: 40px 22px 70px; }
@@ -24,19 +24,30 @@
 </head>
 <body>
 <main>
-  <h1>1.0.120-t12 — сборка для проверки</h1>
+  <h1>1.0.120-t14 — сборка для проверки</h1>
   <p class="sub">Юрий, R5GG · Xiegu G90S · 25.11.2026 · страница нигде не ссылается</p>
 
   <div class="card">
     <h2>Скачать</h2>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t12/R2FEL-LOG-Setup-1.0.120-t12.exe">
-      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.120-t12.exe</span></a>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t12/R2FEL-LOG-Setup-1.0.120-t12-Windows7-8.exe">
-      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.120-t12-Windows7-8.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t14/R2FEL-LOG-Setup-1.0.120-t14.exe">
+      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.120-t14.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t14/R2FEL-LOG-Setup-1.0.120-t14-Windows7-8.exe">
+      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.120-t14-Windows7-8.exe</span></a>
   </div>
 
   <div class="card warn">
-    <h2>Новое: связи из FLdigi попадают в журнал сами</h2>
+    <h2>Исправлено: задержка позывного из FLdigi</h2>
+    <p>Медленные ответы FLdigi (текст приёма и последняя сохранённая связь) больше не ждутся в общем
+       опросе — они читаются в фоне. Позывной, вид, частота и приём-передача приходят сразу:
+       проверено, ответ занимает 2–20 мс вместо секунд.</p>
+    <p>И связи из FLdigi: проверил на настоящем FLdigi — сохранил две связи, обе появились в
+       журнале, повторов нет. Если у вас снова не появится, в журнале программы будет строка
+       <code>[fldigi] last saved contact: …</code> или <code>[fldigi] logbook.last_record did not
+       answer: …</code> — по ней видно, что ответил FLdigi.</p>
+  </div>
+
+  <div class="card">
+    <h2>Связи из FLdigi (было в t12)</h2>
     <p>В ⚙ → «Трансивер (CAT)» появилась строка <b>«Забирать связи, сохранённые в FLdigi»</b>
        (по умолчанию выключена). Включите — и связь, сохранённая в самом FLdigi (кнопка Save или
        макрос <code>&lt;LOG&gt;</code>), сама появится в журнале: вид, рапорты, имя и частота из
@@ -59,7 +70,7 @@
     <h2>Что было в t9</h2>
     <p>В сборке t7 (и t8, где эта же правка) была моя ошибка: я изменил служебную часть программы,
        которая читает ответы трансивера, и на Windows она стала обрываться — журнал перестал
-       находить COM5. В t12 эта правка откачена целиком: порт и опрос работают как раньше.</p>
+       находить COM5. В t14 эта правка откачена целиком: порт и опрос работают как раньше.</p>
     <p>Полезное из тех сборок при этом осталось: передача больше не зависит от того, удался ли
        последний опрос, — достаточно открытого порта.</p>
   </div>
