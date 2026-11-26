@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>R2FEL HamLog 1.0.120-t29 — тест для R5GG</title>
+<title>R2FEL HamLog 1.0.120-t30 — тест для R5GG</title>
 <style>
   body { margin: 0; background: #1c1b19; color: #e8e4dc; font: 16px/1.55 -apple-system, "Segoe UI", Roboto, sans-serif; }
   main { max-width: 720px; margin: 0 auto; padding: 40px 22px 70px; }
@@ -24,15 +24,33 @@
 </head>
 <body>
 <main>
-  <h1>1.0.120-t29 — сборка для проверки</h1>
+  <h1>1.0.120-t30 — сборка для проверки</h1>
   <p class="sub">Юрий, R5GG · Xiegu G90S · 26.11.2026 · страница нигде не ссылается</p>
 
   <div class="card">
     <h2>Скачать</h2>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t29/R2FEL-LOG-Setup-1.0.120-t29.exe">
-      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.120-t29.exe</span></a>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t29/R2FEL-LOG-Setup-1.0.120-t29-Windows7-8.exe">
-      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.120-t29-Windows7-8.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t30/R2FEL-LOG-Setup-1.0.120-t30.exe">
+      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.120-t30.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t30/R2FEL-LOG-Setup-1.0.120-t30-Windows7-8.exe">
+      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.120-t30-Windows7-8.exe</span></a>
+  </div>
+
+  <div class="card warn">
+    <h2>Новое в t30: запись связи больше не тормозит</h2>
+    <p>В вашем отчёте после каждой связи видно: <code>drawing 1940 ms</code> (журнал перерисовывался
+       почти две секунды) и <code>the mirror of 49147 contact(s) took 7825 ms</code> (копия журнала
+       собиралась 7–10 секунд одним куском, окно в это время не отвечало). Я повторил это на такой же
+       базе — 49 000 связей — и исправил.</p>
+    <ul>
+      <li><b>Перерисовка:</b> было 1,3–1,9 с, стало около 20 мс.</li>
+      <li><b>Копия журнала</b> теперь собирается частями, окно не замирает.</li>
+      <li><b>Вид из FLdigi</b> (PSK31, RTTY…) берётся из его модема и при слежении за трансивером — раньше
+        связь по PSK записывалась как SSB.</li>
+      <li><b>Позывной из поля FLdigi</b> попадает в карточку, когда перестал меняться, а не на каждой промежуточной букве
+        (раньше шли <code>T6FPU</code>, <code>P6FPU6FPU</code>… и на каждую — поиск в справочнике).</li>
+      <li><b>Неверный ключ QRZ.com:</b> автоотправка останавливается и подсказывает, где взять новый ключ.</li>
+      <li><b>Строка FLdigi в настройках:</b> «Трансивер (CAT) и FLdigi», внутри — заголовок FLDIGI и кнопка «СПРОСИТЬ FLDIGI».</li>
+    </ul>
   </div>
 
   <div class="card warn">
