@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>R2FEL HamLog 1.0.120-t30 — тест для R5GG</title>
+<title>R2FEL HamLog 1.0.120-t31 — тест для R5GG</title>
 <style>
   body { margin: 0; background: #1c1b19; color: #e8e4dc; font: 16px/1.55 -apple-system, "Segoe UI", Roboto, sans-serif; }
   main { max-width: 720px; margin: 0 auto; padding: 40px 22px 70px; }
@@ -24,15 +24,37 @@
 </head>
 <body>
 <main>
-  <h1>1.0.120-t30 — сборка для проверки</h1>
+  <h1>1.0.120-t31 — сборка для проверки</h1>
   <p class="sub">Юрий, R5GG · Xiegu G90S · 26.11.2026 · страница нигде не ссылается</p>
 
   <div class="card">
     <h2>Скачать</h2>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t30/R2FEL-LOG-Setup-1.0.120-t30.exe">
-      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.120-t30.exe</span></a>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t30/R2FEL-LOG-Setup-1.0.120-t30-Windows7-8.exe">
-      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.120-t30-Windows7-8.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t31/R2FEL-LOG-Setup-1.0.120-t31.exe">
+      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.120-t31.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.120-t31/R2FEL-LOG-Setup-1.0.120-t31-Windows7-8.exe">
+      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.120-t31-Windows7-8.exe</span></a>
+  </div>
+
+  <div class="card warn">
+    <h2>Что сделать (один раз)</h2>
+    <ol>
+      <li>В настройках, строка «Трансивер (CAT) и FLdigi»: включите «Забирать связи, сохранённые в FLdigi».</li>
+      <li>Сохраните связь в FLdigi, как всегда.</li>
+      <li>Подождите 10–15 секунд: связь появится в журнале сама, с видом PSK31 и диапазоном.</li>
+      <li>Если не появилась, нажмите «СПРОСИТЬ FLDIGI» и пришлите отчёт.</li>
+    </ol>
+  </div>
+
+  <div class="card warn">
+    <h2>Новое в t31: связи из FLdigi</h2>
+    <p>В прошлых отчётах FLdigi на каждый вопрос отвечал одной и той же старой связью (<code>IW2ICC/QRP</code> за 25.11).
+       Причина: FLdigi отдаёт «последнюю» запись из своего списка в том порядке, как отсортировано окно журнала, а не самую
+       свежую по времени. Теперь программа читает весь журнал FLdigi и берёт те записи, которых раньше там не было. Порядок
+       сортировки значения не имеет.</p>
+    <ul>
+      <li>Связи, которые уже были в FLdigi до включения переключателя, не забираются.</li>
+      <li>Кнопка «СПРОСИТЬ FLDIGI» теперь показывает, сколько связей в журнале FLdigi и какие самые свежие.</li>
+    </ul>
   </div>
 
   <div class="card warn">
