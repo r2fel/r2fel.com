@@ -35,10 +35,6 @@
   input:focus-visible, button:focus-visible, .file:focus-within { outline: 2px solid var(--amber); outline-offset: 2px; }
   .row { display: flex; gap: 12px; flex-wrap: wrap; }
   /* The AI block is one line of fields, not a form of stacked labels. */
-  #ai-box .row { align-items: center; margin: 0 0 10px; }
-  #ai-box label { display: inline-flex; gap: 6px; align-items: center; margin: 0 14px 0 0; color: var(--text); }
-  #ai-box input[type=text] { width: auto; min-width: 60px; }
-  #ai-box h2 { margin-bottom: 10px; }
   .row > div { flex: 1 1 140px; }
   button { font: 600 16px var(--font-text); border-radius: 8px; border: 1px solid var(--line); background: var(--raised); color: var(--text); padding: 12px 18px; cursor: pointer; }
   button.go { background: var(--amber); color: var(--ink); border-color: var(--amber); }
@@ -71,9 +67,6 @@
   .row a { color: var(--amber); }
   [hidden] { display: none !important; }
   #stats-frame { width:100%; min-height:760px; border:1px solid var(--line); border-radius:8px; background:var(--panel); }
-  #ai-box .row { align-items:center; margin:0 0 10px; }
-  #ai-box label { display:inline-flex; gap:6px; align-items:center; margin:0 14px 0 0; color:var(--text); }
-  #ai-box input[type=text] { width:auto; min-width:60px; }
   pre.json { background:var(--raised); border:1px solid var(--line); border-radius:8px; padding:12px; overflow:auto;
     font:13px/1.5 ui-monospace, Menlo, monospace; color:var(--text); max-height:520px; }
 </style>
@@ -83,7 +76,6 @@
   <div class="mark"><b>R2FEL</b><span>HamLog</span></div>
   <div class="tabs" role="tablist">
     <button type="button" role="tab" id="tab-btn-stats" aria-selected="true">Статистика</button>
-    <button type="button" role="tab" id="tab-btn-ai" aria-selected="false">ИИ</button>
     <button type="button" role="tab" id="tab-btn-ads" aria-selected="false">Реклама</button>
   </div>
 
@@ -107,26 +99,6 @@
       <p class="dim" style="margin-top:10px">Сводка открывается прямо со службы — без сервера-посредника,
         поэтому работает и на GitHub Pages, и без VPN.</p>
     </div>
-  </div>
-
-  <div id="tab-ai" hidden>
-    <h1>Помощник ИИ</h1>
-    <p class="dim">Управление службой, которая отвечает на вопросы пользователей. Рубильник действует при
-      следующем вопросе, перезапуск программы не нужен.</p>
-    <section id="ai-box">
-      <p class="dim" id="ai-state">Загружаю…</p>
-      <div class="row">
-        <label><input type="checkbox" id="ai-enabled"> включён для всех</label>
-        <label>модель <input id="ai-model" type="text" size="14" spellcheck="false"></label>
-        <label>вопросов в день на компьютер <input id="ai-per" type="text" size="4"></label>
-        <label>токенов в день всего <input id="ai-tokens" type="text" size="9"></label>
-        <button id="ai-save" type="button">Сохранить</button>
-      </div>
-      <p class="dim" id="ai-msg" hidden></p>
-      <table id="ai-table" style="width:100%;margin-top:10px;border-collapse:collapse"></table>
-      <h2 style="margin-top:18px">Кто больше всех спросил сегодня</h2>
-      <table id="ai-top" style="width:100%;border-collapse:collapse"></table>
-    </section>
   </div>
 
   <div id="tab-ads" hidden>
@@ -167,17 +139,15 @@
 
   // ---- tabs
   function showTab(name) {
-    ['stats', 'ai', 'ads'].forEach(function (k) {
+    ['stats', 'ads'].forEach(function (k) {
       $('tab-' + k).hidden = k !== name;
       $('tab-btn-' + k).setAttribute('aria-selected', k === name);
     });
     try { localStorage.setItem('r2fel-admin-tab', name); } catch (e) {}
-    if (name === 'ai') aiLoad();
     if (name === 'ads') adsLoad();
     if (name === 'stats') statsStart();
   }
   $('tab-btn-stats').onclick = function () { showTab('stats'); };
-  $('tab-btn-ai').onclick = function () { showTab('ai'); };
   $('tab-btn-ads').onclick = function () { showTab('ads'); };
 
   // ---- the summary: the service's own page, straight in the frame
@@ -187,7 +157,6 @@
     $('stats-ask').hidden = ok; $('stats-view').hidden = !ok;
     if (ok) {
       $('stats-open').href = u;
-      if (base && aiWanted()) aiLoad();
       if ($('stats-frame').getAttribute('src') !== u) $('stats-frame').setAttribute('src', u);
     }
   }
@@ -214,66 +183,7 @@
   };
   $('stats-reload').onclick = function () {
     var u = ''; try { u = localStorage.getItem(KEY) || ''; } catch (e) {}
-    if (good(u)) { $('stats-frame').setAttribute('src', u); if (aiWanted()) aiLoad(); }
-  };
-  function aiWanted() { return true; }
-
-  // ---- the AI switches, straight to the service
-  function aiUrl(path) {
-    var u = ''; try { u = localStorage.getItem(KEY) || ''; } catch (e) {}
-    return good(u) ? u.replace(/\/$/, '') + path : '';
-  }
-  function aiPaint(d) {
-    if (!d || !d.config) return;
-    var c = d.config, t = d.today || {};
-    $('ai-enabled').checked = !!c.enabled;
-    $('ai-model').value = c.model || '';
-    $('ai-per').value = c.dayPerDevice || 0;
-    $('ai-tokens').value = c.dayTokens || 0;
-    $('ai-state').textContent = (c.enabled ? 'Сейчас включён для всех' : 'Сейчас выключен для всех') +
-      ' · сегодня вопросов ' + num(t.req) + ', токенов ' + (Number(t.tin || 0) + Number(t.tout || 0)) +
-      (d.hasKey ? '' : ' · КЛЮЧА НЕТ на службе (секрет AI_KEY не задан)');
-    $('ai-state').className = d.hasKey ? 'dim' : 'dim';
-    var rows = '<tr><td>день</td><td style="text-align:right">вопросов</td><td style="text-align:right">отправлено</td><td style="text-align:right">ответов</td></tr>';
-    (d.recent || []).forEach(function (r) {
-      rows += '<tr><td>' + r.day + '</td><td style="text-align:right">' + num(r.req) + '</td><td style="text-align:right">' +
-        num(r.tin) + '</td><td style="text-align:right">' + num(r.tout) + '</td></tr>';
-    });
-    $('ai-table').innerHTML = rows;
-    var top = '<tr><td>установка</td><td style="text-align:right">вопросов</td><td style="text-align:right">токенов</td></tr>';
-    (d.top || []).forEach(function (r) {
-      top += '<tr><td>' + String(r.id || '').slice(0, 10) + '…</td><td style="text-align:right">' + num(r.req) +
-        '</td><td style="text-align:right">' + num((Number(r.tin) || 0) + (Number(r.tout) || 0)) + '</td></tr>';
-    });
-    $('ai-top').innerHTML = top;
-  }
-  function aiLoad() {
-    var u = aiUrl('/ai.json');
-    if (!u) { $('ai-state').textContent = 'Сначала укажите ссылку на сводку (вкладка «Статистика»).'; return; }
-    $('ai-state').textContent = 'Спрашиваю службу…';
-    fetch(u, { cache: 'no-store' }).then(function (r) {
-      if (r.status === 404) throw new Error('404');
-      if (!r.ok) throw new Error(String(r.status));
-      return r.json();
-    }).then(function (d) { aiPaint(d); say('ai-msg', ''); })
-      .catch(function (e) {
-        var why = String(e && e.message || e);
-        $('ai-state').textContent = why === '404'
-          ? 'Служба не приняла ссылку (404): в браузере сохранена старая. На вкладке «Статистика» нажмите «Сменить ссылку» и вставьте новую.'
-          : 'Служба не ответила (' + why + '). Проверьте, что ссылка скопирована целиком и есть интернет.';
-      });
-  }
-  $('ai-save').onclick = function () {
-    var u = aiUrl('/ai');
-    if (!u) { say('ai-msg', 'Нет ссылки на сводку.', true); return; }
-    $('ai-save').disabled = true;
-    fetch(u, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ enabled: $('ai-enabled').checked, model: $('ai-model').value.trim(),
-        dayPerDevice: parseInt($('ai-per').value, 10) || 0, dayTokens: parseInt($('ai-tokens').value, 10) || 0 }) })
-      .then(function (r) { return r.json(); })
-      .then(function (d) { aiPaint(d); say('ai-msg', 'Сохранено. Программа увидит при следующем вопросе.'); })
-      .catch(function () { say('ai-msg', 'Не сохранилось: служба не ответила.', true); })
-      .then(function () { $('ai-save').disabled = false; });
+    if (good(u)) { $('stats-frame').setAttribute('src', u); }
   };
 
   // ---- the banner: read-only, from the repository
@@ -288,7 +198,7 @@
   var last = 'stats'; try { last = localStorage.getItem('r2fel-admin-tab') || 'stats'; } catch (e) {}
   var saved = ''; try { saved = localStorage.getItem(KEY) || ''; } catch (e) {}
   if (saved) $('stats-url').value = saved;
-  showTab(['stats', 'ai', 'ads'].indexOf(last) >= 0 ? last : 'stats');
+  showTab(['stats', 'ads'].indexOf(last) >= 0 ? last : 'stats');
 })();
 </script>
 </body>
