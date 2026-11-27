@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>R2FEL HamLog 1.0.121-t33 — тест для R7TW</title>
+<style>
+  body { margin:0; background:#1c1b19; color:#e8e4dc; font:16px/1.6 -apple-system,"Segoe UI",Roboto,sans-serif; }
+  main { max-width:720px; margin:0 auto; padding:36px 20px 70px; }
+  h1 { font-size:26px; margin:0 0 6px; }
+  .sub { color:#9c9587; margin:0 0 24px; }
+  h2 { font-size:15px; letter-spacing:.06em; text-transform:uppercase; color:#9c9587; margin:26px 0 10px; }
+  .card { background:#26241f; border:1px solid #443f37; border-radius:12px; padding:18px; margin:0 0 16px; }
+  a.dl { display:block; background:#e8a23d; color:#14130f; text-decoration:none; font-weight:700;
+    border-radius:10px; padding:14px 16px; margin:0 0 10px; }
+  a.dl span { display:block; font-weight:400; font-size:13px; color:#3a2f1c; margin-top:3px; }
+  ol li, ul li { margin:8px 0; }
+  code { background:#14130f; border:1px solid #443f37; border-radius:5px; padding:1px 5px; font-size:14px; }
+  .note { color:#9c9587; font-size:14px; }
+  .warn { border-color:#6b3b2c; }
+</style>
+</head>
+<body>
+<main>
+  <h1>1.0.121-t33 — сборка для проверки</h1>
+  <p class="sub">Виктор, R7TW · FTdx3000 · 27.11.2026 · страница нигде не ссылается</p>
+
+  <div class="card">
+    <h2>Скачать</h2>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.121-t33/R2FEL-LOG-Setup-1.0.121-t33.exe">
+      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.121-t33.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.121-t33/R2FEL-LOG-Setup-1.0.121-t33-Windows7-8.exe">
+      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.121-t33-Windows7-8.exe</span></a>
+    <p class="note">Ставится поверх прежней версии, журнал и настройки сохраняются.</p>
+  </div>
+
+  <div class="card warn">
+    <h2>Что нового: телеграф кнопкой</h2>
+    <p>В этой сборке программа передаёт телеграф тем отдельным проводом, о котором мы говорили,
+       — линией RTS или DTR. Теперь кнопка ПЕРЕДАТЬ работает и на FTdx3000.</p>
+  </div>
+
+  <div class="card">
+    <h2>Что сделать по порядку</h2>
+    <ol>
+      <li><b>В трансивере.</b> Меню <code>065</code> «PC KEYING» → поставить <b>RTS</b> (сейчас OFF). Выйти из меню.</li>
+      <li><b>В программе.</b> Вверху шестерёнка <code>⚙</code> → строка «Трансивер (CAT) и FLdigi».</li>
+      <li>Прокрутить вниз до надписи <b>«ПЕРЕДАЧА ТЕЛЕГРАФОМ»</b>.</li>
+      <li>Включить переключатель <b>«Передавать телеграф линией DTR/RTS»</b>.</li>
+      <li>Появятся три строки: линия — <b>RTS</b>; скорость — <b>20</b>; порт для телеграфа — <b>COM-5</b>.</li>
+      <li>Нажать <b>«ПРОВЕРИТЬ: VVV»</b>. Трансивер должен передавать VVV.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>Если не передаёт</h2>
+    <ul>
+      <li>Нажмите «ПРОВЕРИТЬ: VVV» ещё раз через пару секунд.</li>
+      <li>В «Порт для телеграфа» выберите <b>COM-4</b> и проверьте снова.</li>
+      <li>В меню 065 поставьте <b>DTR</b>, в программе нажмите DTR и проверьте.</li>
+    </ul>
+    <p class="note">Под кнопкой появляется строка — например, «VVV передано линией RTS на порту COM-5».
+       Пришлите её мне, по ней сразу видно, где заминка.</p>
+  </div>
+</main>
+</body>
+</html>
