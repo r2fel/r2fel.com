@@ -15,7 +15,7 @@ header('Cache-Control: no-store, max-age=0');
 $HOST = 'r2fel-hamlog-updates.r2fel.workers.dev';
 $u = isset($_GET['u']) ? trim($_GET['u']) : '';
 
-$pattern = '#^https://' . preg_quote($HOST, '#') . '/s/[A-Za-z0-9_-]+$#';
+$pattern = '#^https://' . preg_quote($HOST, '#') . '/s/[A-Za-z0-9_-]+(/(ai|ai\.json))?$#';
 if (!preg_match($pattern, $u)) {
     http_response_code(400);
     header('Content-Type: text/html; charset=utf-8');
@@ -26,6 +26,20 @@ if (!preg_match($pattern, $u)) {
 }
 
 $ch = curl_init($u);
+// The AI switches are set from this page: the same proxy forwards the owner's POST to the service.
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!preg_match('#/s/[A-Za-z0-9_-]+/ai$#', $u)) {
+        http_response_code(400);
+        header('Content-Type: text/plain; charset=utf-8');
+        echo 'POST allowed only to /s/…/ai';
+        exit;
+    }
+    $body = file_get_contents('php://input');
+    if (strlen($body) > 4000) { http_response_code(413); echo 'too big'; exit; }
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+}
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 8);
 curl_setopt($ch, CURLOPT_TIMEOUT, 20);

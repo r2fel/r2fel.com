@@ -91,6 +91,22 @@
         <button id="stats-change" type="button">Сменить ссылку</button>
       </div>
       <iframe id="stats-frame" title="Статистика R2FEL HamLog"></iframe>
+
+      <!-- The AI answering service: the same switch the worker's own page has, here, so the
+           whole program is managed from one place. Saved through the site's proxy. -->
+      <section id="ai-box" style="margin-top:14px">
+        <h2 style="font:700 15px/1.2 var(--font-label);letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px">Помощник ИИ</h2>
+        <p class="dim" id="ai-state">Загружаю…</p>
+        <div class="row" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <label><input type="checkbox" id="ai-enabled"> включён для всех</label>
+          <label>модель <input id="ai-model" type="text" size="18" spellcheck="false"></label>
+          <label>вопросов в день на компьютер <input id="ai-per" type="text" size="5"></label>
+          <label>токенов в день всего <input id="ai-tokens" type="text" size="10"></label>
+          <button id="ai-save" type="button">Сохранить</button>
+        </div>
+        <p class="dim" id="ai-msg" hidden></p>
+        <table id="ai-table" style="width:100%;margin-top:10px;border-collapse:collapse"></table>
+      </section>
       <p class="dim" style="margin-top:10px">Сводка идёт через сервер сайта (прокси), поэтому открывается и без VPN. Если окно пустое — нажмите «Обновить».</p>
     </div>
   </div>
@@ -319,8 +335,58 @@
     var u = ''; try { u = localStorage.getItem(STATS_KEY) || ''; } catch (e) {}
     var ok = goodStats(u);
     $('stats-ask').hidden = ok; $('stats-view').hidden = !ok;
-    if (ok) { $('stats-open').href = u; var p = 'stats-proxy.php?u=' + encodeURIComponent(u); if ($('stats-frame').getAttribute('src') !== p) $('stats-frame').src = p; }
+    if (ok) { aiLoad(); $('stats-open').href = u; var p = 'stats-proxy.php?u=' + encodeURIComponent(u); if ($('stats-frame').getAttribute('src') !== p) $('stats-frame').src = p; }
   }
+  // ---- the AI switches (through the same proxy, the link is the same)
+  function aiUrl(path) {
+    var u = ''; try { u = localStorage.getItem(STATS_KEY) || ''; } catch (e) {}
+    return goodStats(u) ? 'stats-proxy.php?u=' + encodeURIComponent(u + path) : '';
+  }
+  function aiSay(text, bad) {
+    var m = $('ai-msg'); m.hidden = !text; m.textContent = text || '';
+    m.style.color = bad ? 'var(--red)' : 'var(--green)';
+  }
+  function aiPaint(d) {
+    if (!d || !d.config) return;
+    var c = d.config, t = d.today || {};
+    $('ai-enabled').checked = !!c.enabled;
+    $('ai-model').value = c.model || '';
+    $('ai-per').value = c.dayPerDevice || 0;
+    $('ai-tokens').value = c.dayTokens || 0;
+    var tokens = (Number(t.tin) || 0) + (Number(t.tout) || 0);
+    var state = document.getElementById('ai-state');
+    state.textContent = (c.enabled ? 'Сейчас включён' : 'Сейчас выключен') +
+      ' · сегодня вопросов ' + (Number(t.req) || 0) + ', токенов ' + tokens +
+      (d.hasKey ? '' : ' · КЛЮЧА НЕТ на службе: секрет AI_KEY не задан');
+    var rows = '<tr><td style="text-align:left;padding:3px 6px">день</td>' +
+      '<td style="padding:3px 6px">вопросов</td><td style="padding:3px 6px">отправлено</td>' +
+      '<td style="padding:3px 6px">ответов</td></tr>';
+    (d.recent || []).forEach(function (r) {
+      rows += '<tr><td style="text-align:left;padding:3px 6px">' + r.day + '</td><td style="padding:3px 6px;text-align:right">' +
+        (r.req || 0) + '</td><td style="padding:3px 6px;text-align:right">' + (r.tin || 0) + '</td>' +
+        '<td style="padding:3px 6px;text-align:right">' + (r.tout || 0) + '</td></tr>';
+    });
+    $('ai-table').innerHTML = rows;
+  }
+  function aiLoad() {
+    var u = aiUrl('/ai.json');
+    if (!u) { $('ai-state').textContent = 'Сначала укажите ссылку на сводку.'; return; }
+    fetch(u, { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
+      aiPaint(d); aiSay('');
+    }).catch(function () { $('ai-state').textContent = 'Служба не ответила.'; });
+  }
+  $('ai-save').onclick = function () {
+    var u = aiUrl('/ai');
+    if (!u) { aiSay('Нет ссылки на сводку.', true); return; }
+    var body = { enabled: $('ai-enabled').checked, model: $('ai-model').value.trim(),
+      dayPerDevice: parseInt($('ai-per').value, 10) || 0, dayTokens: parseInt($('ai-tokens').value, 10) || 0 };
+    fetch(u, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json(); })
+      .then(function (d) { aiPaint(d); aiSay('Сохранено. Программа спросит службу в следующий раз — перезапуск не нужен.'); })
+      .catch(function () { aiSay('Не сохранилось: служба не ответила.', true); });
+  };
+  $('stats-reload').addEventListener('click', function () { setTimeout(aiLoad, 300); });
+
   $('tab-btn-stats').onclick = function () { showTab('stats'); };
   $('tab-btn-ads').onclick = function () { showTab('ads'); };
   $('stats-save').onclick = function () {
