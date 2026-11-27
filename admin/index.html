@@ -143,6 +143,18 @@
 (function () {
   var KEY = 'r2fel-stats-url';
   function $(id) { return document.getElementById(id); }
+  // What was pasted may come from a message: with quotes, a trailing space, a newline or a word
+  // before the address. Take the address out of it before asking anything (owner, 27.11.2026: the
+  // wrong link cost a whole round trip because Safari only said "Load failed").
+  function tidyLink(raw) {
+    var t = String(raw || '')
+      .replace(/[\u200b-\u200d\ufeff]/g, '')          // zero-width characters from a copy
+      .replace(/[«»"'`<>]/g, ' ')
+      .trim();
+    var m = t.match(/https?:\/\/[^\s]+/i);
+    if (m) t = m[0];
+    return t.replace(/\/+$/, '').replace(/\/(ai\.json|ai|data\.json|digest)$/i, '').replace(/\/+$/, '');
+  }
   // The service's own address. localhost is allowed too: that is how the page is checked
   // against the laptop copy of the service before anything is deployed.
   function good(u) {
@@ -180,14 +192,14 @@
     }
   }
   $('stats-save').onclick = function () {
-    var u = $('stats-url').value.trim().replace(/\/(ai\.json|ai|data\.json|digest)$/, '');
+    var u = tidyLink($('stats-url').value);
     if (!good(u)) { say('stats-msg', 'Это не похоже на ссылку на сводку.', true); return; }
     try { localStorage.setItem(KEY, u); } catch (e) {}
     say('stats-msg', '');
     statsStart();
   };
   $('stats-test').onclick = function () {
-    var u = $('stats-url').value.trim().replace(/\/(ai\.json|ai|data\.json|digest)$/, '').replace(/\/+$/, '');
+    var u = tidyLink($('stats-url').value);
     if (!good(u)) { say('stats-msg', 'Это не похоже на ссылку на сводку. Нужен адрес …workers.dev/s/…', true); return; }
     say('stats-msg', 'Проверяю…', false);
     fetch(u + '/ai.json', { cache: 'no-store' }).then(function (r) {
