@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>R2FEL HamLog 1.0.121-t35 — тест для R5GG</title>
+<style>
+  body { margin:0; background:#1c1b19; color:#e8e4dc; font:16px/1.6 -apple-system,"Segoe UI",Roboto,sans-serif; }
+  main { max-width:720px; margin:0 auto; padding:36px 20px 70px; }
+  h1 { font-size:26px; margin:0 0 6px; }
+  .sub { color:#9c9587; margin:0 0 24px; }
+  h2 { font-size:15px; letter-spacing:.06em; text-transform:uppercase; color:#9c9587; margin:26px 0 10px; }
+  .card { background:#26241f; border:1px solid #443f37; border-radius:12px; padding:18px; margin:0 0 16px; }
+  a.dl { display:block; background:#e8a23d; color:#14130f; text-decoration:none; font-weight:700;
+    border-radius:10px; padding:14px 16px; margin:0 0 10px; }
+  a.dl span { display:block; font-weight:400; font-size:13px; color:#3a2f1c; margin-top:3px; }
+  ol li { margin:8px 0; }
+  code { background:#14130f; border:1px solid #443f37; border-radius:5px; padding:1px 5px; font-size:14px; }
+  .note { color:#9c9587; font-size:14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>1.0.121-t35 — сборка для проверки</h1>
+  <p class="sub">Юрий, R5GG · 27.11.2026 · страница нигде не ссылается</p>
+
+  <div class="card">
+    <h2>Скачать</h2>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.121-t35/R2FEL-LOG-Setup-1.0.121-t35.exe">
+      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.121-t35.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.121-t35/R2FEL-LOG-Setup-1.0.121-t35-Windows7-8.exe">
+      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.121-t35-Windows7-8.exe</span></a>
+    <p class="note">Ставится поверх прежней версии, журнал и настройки сохраняются.</p>
+  </div>
+
+  <div class="card">
+    <h2>Что нового</h2>
+    <ol>
+      <li><b>Проверка подтверждений с даты.</b> ✈ → «Отправить и проверить» → поле «Проверять подтверждения с даты».
+        Пусто — как раньше, только новое с прошлой проверки. Поставили дату — LoTW, eQSL и HAMLOG спрашиваются заново с неё.
+        Кнопки «СЕГОДНЯ» и «ОЧИСТИТЬ» рядом, под полем видно, когда каждый ресурс проверялся в последний раз.</li>
+      <li><b>Club Log: теперь видно, почему не уходит.</b> В журнал программы пишется всё: есть ли токен, какой позывной выбран,
+        с какой даты, сколько связей ждёт отправки и сколько неотправленных в журнале. Если отправлять нечего — так и скажет,
+        а не промолчит.</li>
+      <li><b>Показания трансивера под S-метром:</b> мощность, КСВ и ALC отдельными строками. Отдельное окно «Пульт» убрано.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>Что проверить и прислать</h2>
+    <ol>
+      <li>✈ → поставить дату (например, 01.11.2026) → «ПРОВЕРИТЬ ПОДТВЕРЖДЕНИЯ». Сказать: быстрее ли стало и не было ли ошибок.</li>
+      <li>Отправить одну связь на Club Log и прислать строку из журнала, которая начинается с <code>[clublog]</code>.</li>
+      <li>Если трансивер подключён — посмотреть, появились ли под S-метром мощность и КСВ.</li>
+    </ol>
+    <p class="note">Журнал отладки: ⚙ → «Обслуживание журнала» → «Сохранить отчёт».</p>
+  </div>
+</main>
+</body>
+</html>
