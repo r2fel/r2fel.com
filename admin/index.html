@@ -93,7 +93,8 @@
       <input id="stats-url" type="text" spellcheck="false" autocomplete="off"
              placeholder="https://r2fel-hamlog-updates.r2fel.workers.dev/s/…">
       <p class="dim" style="margin-top:8px">Адрес сводки — он же пароль. Хранится только в этом браузере.</p>
-      <div class="row" style="margin-top:10px"><button id="stats-save" type="button">Открыть</button></div>
+      <div class="row" style="margin-top:10px"><button id="stats-save" type="button">Открыть</button>
+        <button id="stats-test" type="button">Проверить ссылку</button></div>
       <p class="dim" id="stats-msg" hidden></p>
     </div>
     <div id="stats-view" hidden>
@@ -185,6 +186,16 @@
     say('stats-msg', '');
     statsStart();
   };
+  $('stats-test').onclick = function () {
+    var u = $('stats-url').value.trim().replace(/\/(ai\.json|ai|data\.json|digest)$/, '').replace(/\/+$/, '');
+    if (!good(u)) { say('stats-msg', 'Это не похоже на ссылку на сводку. Нужен адрес …workers.dev/s/…', true); return; }
+    say('stats-msg', 'Проверяю…', false);
+    fetch(u + '/ai.json', { cache: 'no-store' }).then(function (r) {
+      if (r.status === 404) { say('stats-msg', 'Служба не приняла эту ссылку (404). Похоже, она старая — поставьте новую.', true); return; }
+      if (!r.ok) { say('stats-msg', 'Служба ответила кодом ' + r.status + '.', true); return; }
+      return r.json().then(function () { say('stats-msg', 'Ссылка рабочая: служба ответила, данные пришли.', false); });
+    }).catch(function (e) { say('stats-msg', 'Нет связи со службой (' + (e && e.message || e) + ').', true); });
+  };
   $('stats-change').onclick = function () {
     var u = ''; try { u = localStorage.getItem(KEY) || ''; } catch (e) {}
     $('stats-url').value = u; $('stats-ask').hidden = false; $('stats-view').hidden = true;
@@ -227,9 +238,18 @@
   function aiLoad() {
     var u = aiUrl('/ai.json');
     if (!u) { $('ai-state').textContent = 'Сначала укажите ссылку на сводку (вкладка «Статистика»).'; return; }
-    fetch(u, { cache: 'no-store' }).then(function (r) { return r.json(); })
-      .then(function (d) { aiPaint(d); say('ai-msg', ''); })
-      .catch(function () { $('ai-state').textContent = 'Служба не ответила.'; });
+    $('ai-state').textContent = 'Спрашиваю службу…';
+    fetch(u, { cache: 'no-store' }).then(function (r) {
+      if (r.status === 404) throw new Error('404');
+      if (!r.ok) throw new Error(String(r.status));
+      return r.json();
+    }).then(function (d) { aiPaint(d); say('ai-msg', ''); })
+      .catch(function (e) {
+        var why = String(e && e.message || e);
+        $('ai-state').textContent = why === '404'
+          ? 'Служба не приняла ссылку (404): в браузере сохранена старая. На вкладке «Статистика» нажмите «Сменить ссылку» и вставьте новую.'
+          : 'Служба не ответила (' + why + '). Проверьте, что ссылка скопирована целиком и есть интернет.';
+      });
   }
   $('ai-save').onclick = function () {
     var u = aiUrl('/ai');
