@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>R2FEL HamLog 1.0.121-t56 — тест для R7TW</title>
+<title>R2FEL HamLog 1.0.121-t57 — тест для R7TW</title>
 <style>
   body { margin:0; background:#1c1b19; color:#e8e4dc; font:16px/1.6 -apple-system,"Segoe UI",Roboto,sans-serif; }
   main { max-width:720px; margin:0 auto; padding:36px 20px 70px; }
@@ -24,15 +24,15 @@
 </head>
 <body>
 <main>
-  <h1>1.0.121-t56 — сборка для проверки</h1>
+  <h1>1.0.121-t57 — сборка для проверки</h1>
   <p class="sub">Виктор, R7TW · FTdx3000 · 28.11.2026 · страница нигде не ссылается</p>
 
   <div class="card">
     <h2>Скачать</h2>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.121-t56/R2FEL-LOG-Setup-1.0.121-t56.exe">
-      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.121-t56.exe</span></a>
-    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.121-t56/R2FEL-LOG-Setup-1.0.121-t56-Windows7-8.exe">
-      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.121-t56-Windows7-8.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.121-t57/R2FEL-LOG-Setup-1.0.121-t57.exe">
+      Windows 10 и 11 <span>R2FEL-LOG-Setup-1.0.121-t57.exe</span></a>
+    <a class="dl" href="https://github.com/r2fel/hamlog/releases/download/v1.0.121-t57/R2FEL-LOG-Setup-1.0.121-t57-Windows7-8.exe">
+      Windows 7 и 8 <span>R2FEL-LOG-Setup-1.0.121-t57-Windows7-8.exe</span></a>
     <p class="note">Ставится поверх прежней версии, журнал и настройки сохраняются.</p>
   </div>
 
@@ -54,6 +54,16 @@
        <code>RM5000</code> вперемешку.</p>
     <p><b>Что изменилось:</b> показывается наибольшее значение за последние секунды и только
        потом стрелка плавно падает — как на самом трансивере.</p>
+  </div>
+
+  <div class="card ok">
+    <h2>Шкала КСВ</h2>
+    <p>При КСВ 1.1 стрелка стояла у самого нуля: шкала была ровная, 1.0…5.0. Теперь она как на
+       трансивере — до 2.0 растянута на 70 % длины, дальше 2.0…5.0 сжата, с рисками
+       1.0 / 1.5 / 2.0 / 5 и цветом по зонам: зелёный до 1.5, жёлтый до 2.0, красный дальше.</p>
+    <p class="note">Это не только для вашего аппарата — шкала общая для всех, у кого трансивер
+       отдаёт КСВ. Строки, которых аппарат не отдаёт (например у TX-500 нет мощности и КСВ),
+       не показываются вовсе: остаётся один S-метр.</p>
   </div>
 
   <div class="card ok">
@@ -80,7 +90,7 @@
     <h2>Если что-то не так</h2>
     <ul>
       <li>Показаний нет совсем — вверху шестерёнка <code>⚙</code>, строка «Трансивер (CAT)»: переключатель «Показания трансивера» должен быть включён.</li>
-      <li>КСВ показывает <b>1.1</b> — это хорошая антенна, так и должно быть; вопрос отдельный: делать ли шкалу КСВ растянутой, чтобы стрелка двигалась заметнее. Покажите, как удобнее.</li>
+      <li>КСВ показывает <b>1.1</b> и зелёную полоску — это хорошая антенна, так и должно быть: стрелка теперь стоит не у нуля, а на седьмой части шкалы.</li>
       <li>Что-то ещё — напишите, что именно, и приложите журнал.</li>
     </ul>
   </div>
